@@ -1,0 +1,14 @@
+{
+    "URIS":{
+        "BASE":{
+            "express": "http://127.0.0.1:3000"
+        }
+    },
+    "USER_PROFILE":{
+        "userName": "",
+        "userID": "",
+        "userEmail": "",
+        "userRole": "Public",
+        "userRoleID": 2
+    }
+}
