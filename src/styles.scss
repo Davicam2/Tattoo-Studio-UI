@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face{
+    font-family: 'Otra';
+    src:  url('/assets/fonts/OtraMasstf.eot');
+    src: url('/assets/fonts/OtraMasstf.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/OtraMasstf.woff2') format('woff2'),
+        url('/assets/fonts/OtraMasstf.woff') format('woff'),
+        url('/assets/fonts/OtraMasstf.ttf') format('truetype'),
+        url('/assets/fonts/OtraMasstf.svg#svgFontName') format('svg');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+}
+
+body{
+    margin:0;
+}
+
+.dot{
+    background-color: black;
+    border-radius: 50%;
+
+    &.small{
+        height: 20px;
+        width: 20px;
+    }
+    &.medium{
+        height:40px;
+        width: 40px;
+    }
+    &.large{
+        height:80px;
+        width: 80px;
+    }
+    
+}
+.page-title{
+    font-size: 70px;
+    margin: 0;
+    font-family: Otra;
+}
+
+
+

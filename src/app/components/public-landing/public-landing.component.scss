@@ -1,0 +1,59 @@
+.comp-container{
+    height: 100%;
+    width: 100%;
+    background-color: #4b3970;
+    
+
+    .header{
+        height: 10%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        
+    }
+    .logo{
+        height:80%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &-logo{
+            height: 90%;
+            width: 100%;
+            background-image: url("/assets/images/saray-logo.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position-x: center;
+        }
+        &-controls{
+            height: 10%;
+            width: 100%;
+            max-width: 820px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            button{
+                background-color: transparent;
+                border: none;
+                color: black;
+                text-align: center;
+                text-decoration: none;
+                font-size: 22px;
+                cursor: pointer;
+
+                font-family: Otra;
+                &:hover{
+                    font-size: 35px;
+                    color: #007c1c;
+                }
+            }
+        }
+    }
+    .footer{
+        height: 10%;
+        width: 100%;
+    }
+}
