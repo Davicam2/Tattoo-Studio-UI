@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PublicLandingComponent,  BookingTableComponent, AdminLandingComponent} from './index';
+import { 
+  BookingFormComponent, 
+  PublicLandingComponent,  
+  BookingTableComponent, 
+  AdminLandingComponent
+} from './index';
+
+import {  } from './booking-form/booking-form.component';
 
 
 
 
 @NgModule({
-  declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent],
+  declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent, BookingFormComponent],
   imports: [
     CommonModule
     
@@ -14,7 +21,8 @@ import { PublicLandingComponent,  BookingTableComponent, AdminLandingComponent} 
   exports:[
     PublicLandingComponent,
     BookingTableComponent,
-    AdminLandingComponent
+    AdminLandingComponent,
+    BookingFormComponent
   ]
 })
 export class AppComponentsModule { }

@@ -10,7 +10,10 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        
+        align-items: center;
+        div{
+            height: fit-content;
+        }
     }
     .logo{
         height:80%;
@@ -41,12 +44,12 @@
                 color: black;
                 text-align: center;
                 text-decoration: none;
-                font-size: 22px;
+                font-size: 42px;
                 cursor: pointer;
 
                 font-family: Otra;
                 &:hover{
-                    font-size: 35px;
+                    font-size: 60px;
                     color: #007c1c;
                 }
             }

@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   
   ngOnInit(){
-
+   
     if(this.appConfig.getConfig().USER_PROFILE.userRoleID == 1){
       this._router.navigate(['admin'])
     } else {
