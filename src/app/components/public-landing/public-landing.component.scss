@@ -1,7 +1,7 @@
 .comp-container{
     height: 100%;
     width: 100%;
-    background-color: var(--joker-purple);
+    
     
 
     .header{
@@ -46,9 +46,12 @@
                 text-decoration: none;
                 font-size: 42px;
                 cursor: pointer;
-
+                transition: font-size .5s ease-in-out;
                 font-family: Otra;
                 &:hover{
+                    //animation-name: grow;
+                    //animation-duration: .6s;
+                    //animation-fill-mode: forwards;
                     font-size: 60px;
                     color: var(--joker-green);
                 }
@@ -59,4 +62,9 @@
         height: 10%;
         width: 100%;
     }
+}
+
+@keyframes grow{
+    from{font-size:42px}
+    to{font-size: 60px}
 }
