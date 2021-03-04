@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+
 @font-face{
     font-family: 'Otra';
     src:  url('/assets/fonts/OtraMasstf.eot');
@@ -12,8 +15,16 @@
         font-display: swap;
 }
 
+:root{
+    --joker-purple:#4b3970;
+    --joker-green:#007c1c;
+}
+
+
 body{
     margin:0;
+    background-color: var(--joker-purple);
+    
 }
 
 .dot{
@@ -41,5 +52,31 @@ body{
     padding-top: 20px;
 }
 
+mat-form-field{
+    border-radius: 20px;
+
+    mat-label{
+        color:black;
+    } 
+    .mat-form-field-underline{
+        background-color: black !important;
+    }
+}
+.form-field{
+    &-fourth{
+        width:23%;
+    }
+    &-third{
+        width:31%;
+    }
+    &-half{
+        width:48%;
+    }
+    &-full{
+        width: 99%;
+    }
+}
 
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

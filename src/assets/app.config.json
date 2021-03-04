@@ -9,6 +9,14 @@
         "userID": "",
         "userEmail": "",
         "userRole": "Public",
-        "userRoleID": 2
+        "userRoleID": 2,
+        "isSignedIn": false
+    },
+    "TOOLTIPS":{
+        "BOOKING":{
+            "tattooDesc": "Brief description of your proposed tattoo",
+            "tattooPlacement": "Describe the exact placement for your proposed tattoo",
+            "ageCheck": "Please confirm you are 18 years or older. (I WILL NOT tattoo minors under any circumstance)"
+        }
     }
 }

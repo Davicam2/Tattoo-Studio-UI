@@ -4,25 +4,26 @@ import {
   BookingFormComponent, 
   PublicLandingComponent,  
   BookingTableComponent, 
-  AdminLandingComponent
+  AdminLandingComponent,
+  ImageUploadComponent
 } from './index';
-
-import {  } from './booking-form/booking-form.component';
-
-
-
+import { AngularMaterialModule } from '../material.module';
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
-  declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent, BookingFormComponent],
+  declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent, BookingFormComponent, ImageUploadComponent],
   imports: [
-    CommonModule
-    
+    CommonModule,
+    AngularMaterialModule,
+    ReactiveFormsModule
   ],
   exports:[
     PublicLandingComponent,
     BookingTableComponent,
     AdminLandingComponent,
-    BookingFormComponent
+    BookingFormComponent,
+    ImageUploadComponent,
+    
   ]
 })
 export class AppComponentsModule { }

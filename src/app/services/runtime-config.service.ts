@@ -20,7 +20,7 @@ export class RuntimeConfigService {
       })
   }
 
-  getConfig() {
+  getConfig(): appConfig {
     return this.conf;
   }
 }

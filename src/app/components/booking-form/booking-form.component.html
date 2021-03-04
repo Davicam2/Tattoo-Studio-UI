@@ -1,5 +1,76 @@
 <div class="form-container">
-    <form>
+    <form [formGroup]="bookingForm" (submit)="onSubmit()">
+        <div formGroupName="guestInfo" *ngIf="!user.isSignedIn">
+            <section>
+                <mat-form-field apperance="fill" class="form-field-half">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="nameFirst">
+                </mat-form-field>
+                <mat-form-field apperance="fill" class="form-field-half">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="nameLast">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field class="form-field-full">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field class="form-field-full">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phoneNumber">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-checkbox 
+                matTooltip="{{tooltips.BOOKING.ageCheck}}" 
+                [matTooltipPosition]="'above'" 
+                class="form-field-full" 
+                 ngDefaultControl 
+                 [color]="'primary'" 
+                 formControlName="ageCheck" >I am 18 years or older</mat-checkbox>
+            </section>
+        </div>
 
+        <div formGroupName="tattoo">
+            <section>
+                <mat-form-field 
+                matTooltip="{{tooltips.BOOKING.tattooDesc}}"
+                [matTooltipPosition]="'above'"
+                class="form-field-full"
+            > 
+                <mat-label>Tattoo Description</mat-label>
+                <textarea matInput formControlName="tattooDesc"></textarea>
+            </mat-form-field>
+            </section>
+            
+            <section>
+                <mat-form-field 
+                matTooltip="{{tooltips.BOOKING.tattooPlacement}}"
+                [matTooltipPosition]="'above'"
+                class="form-field-full"
+                >
+                <mat-label>Exact Tattoo Placement</mat-label>
+                <input matInput formControlName="tattooPlacement">
+            </mat-form-field>
+            </section>
+            <section >
+                <mat-form-field class="form-field-full">
+                    <mat-label>Select Available Date</mat-label>
+                    <input matInput 
+                    [matDatepicker]="bookingPicker"
+                    formControlName="bookingDate"
+                    [min]="bookingDates.closestDate"
+                    [matDatepickerFilter]="bookingDateFilter"
+                    >
+                    <mat-datepicker-toggle matSuffix [for]="bookingPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #bookingPicker></mat-datepicker>
+                </mat-form-field>
+            </section>
+           
+        </div>
+        <button mat-button type="submit" >Submit</button>
     </form>
 </div>

@@ -1,7 +1,7 @@
 .comp-container{
     height: 100%;
     width: 100%;
-    background-color: #4b3970;
+    background-color: var(--joker-purple);
     
 
     .header{
@@ -50,7 +50,7 @@
                 font-family: Otra;
                 &:hover{
                     font-size: 60px;
-                    color: #007c1c;
+                    color: var(--joker-green);
                 }
             }
         }

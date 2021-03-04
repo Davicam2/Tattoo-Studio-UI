@@ -1,0 +1,32 @@
+.form-container{
+    height:fit-content;
+    max-height: 800px;
+    width: 90%;
+    max-width: 900px;
+    min-width: 600px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#758f7e;
+    box-shadow: 3px 2px 7px 1px;
+
+    form{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        width: 90%;
+        section{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        button{
+            background-color: var(--joker-green);
+            color: white;
+        }
+    }
+}

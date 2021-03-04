@@ -9,6 +9,14 @@ export interface appConfig{
         userID: string,
         userEmail: string,
         userRole: string,
-        userRoleID: number
+        userRoleID: number,
+        isSignedIn: boolean
+    },
+    TOOLTIPS:{
+        BOOKING:{
+            tattooDesc: string,
+            tattooPlacement: string
+        }
     }
+
 }

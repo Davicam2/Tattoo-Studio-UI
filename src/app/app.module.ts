@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms'
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
@@ -9,14 +8,11 @@ import { AppComponent } from './app.component';
 import { RuntimeConfigService } from './services/runtime-config.service';
 
 
-
 const appInitializerFn = (appConfig: RuntimeConfigService) => {
   return () => {
     return appConfig.loadAppConfig();
   };
 };
-
-
 
 @NgModule({
   declarations: [
@@ -26,8 +22,7 @@ const appInitializerFn = (appConfig: RuntimeConfigService) => {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    ReactiveFormsModule
+    HttpClientModule
   ],
   providers: [
     RuntimeConfigService,
@@ -39,6 +34,7 @@ const appInitializerFn = (appConfig: RuntimeConfigService) => {
     }
 
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
