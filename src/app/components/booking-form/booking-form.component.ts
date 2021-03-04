@@ -27,11 +27,11 @@ export class BookingFormComponent implements OnInit {
     console.log(this.bookingDates.closestDate);
     this.bookingForm = this.fb.group({
       guestInfo: this.fb.group({
-        nameFirst: '',
-        nameLast: '',
-        email: '',
-        phoneNumber: '',
-        ageCheck: [false]
+        nameFirst: [this.user.fName],
+        nameLast: [this.user.lName],
+        email: [this.user.email],
+        phoneNumber: [this.user.phoneNum],
+        ageCheck: [this.user.isSignedIn ? true : false]
       }),
       tattoo: this.fb.group({
         tattooDesc: ['', Validators.required],
@@ -46,13 +46,11 @@ export class BookingFormComponent implements OnInit {
       this.bookingForm.get('guestInfo.phoneNumber').setValidators(Validators.required);
       this.bookingForm.get('guestInfo.ageCheck').setValidators(Validators.requiredTrue);
     }
-
-    
   }
 
   onSubmit(){
     console.log(this.bookingForm.valid);
-    console.warn(this.bookingForm.value);
+    console.warn(this.bookingForm.getRawValue());
   }
 
   onReset(){

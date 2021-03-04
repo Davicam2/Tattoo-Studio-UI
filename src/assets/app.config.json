@@ -5,11 +5,13 @@
         }
     },
     "USER_PROFILE":{
-        "userName": "",
-        "userID": "",
-        "userEmail": "",
-        "userRole": "Public",
-        "userRoleID": 2,
+        "fName": "",
+        "lName": "",
+        "ID": "",
+        "email": "",
+        "phoneNum": "",
+        "role": "Public",
+        "roleID": 2,
         "isSignedIn": false
     },
     "TOOLTIPS":{

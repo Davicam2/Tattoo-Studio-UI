@@ -5,11 +5,13 @@ export interface appConfig{
         }
     },
     USER_PROFILE:{
-        userName: string,
-        userID: string,
-        userEmail: string,
-        userRole: string,
-        userRoleID: number,
+        fName: string,
+        lName: string
+        ID: string,
+        email: string,
+        phoneNum: string,
+        role: string,
+        roleID: number,
         isSignedIn: boolean
     },
     TOOLTIPS:{
