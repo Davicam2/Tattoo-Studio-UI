@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {AdminRoutingModule} from './admin-entry-routing.module';
 
 import { MainPageComponent } from './main-page/main-page.component';
+import { AppComponentsModule } from '../../components/components.module';
 
 
 
@@ -10,7 +11,8 @@ import { MainPageComponent } from './main-page/main-page.component';
   declarations: [MainPageComponent],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    AppComponentsModule
   ]
 })
 export class AdminEntryModule { }

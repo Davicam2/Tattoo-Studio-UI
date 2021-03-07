@@ -1,0 +1,25 @@
+.table-container{
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    .controls{
+        display: flex;
+        width:96%;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    table{
+        width: 96%;
+        border-collapse: collapse;
+
+    }
+    tbody tr:nth-child(odd){
+        background-color: #443a3a;
+    }
+}

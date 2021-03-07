@@ -11,7 +11,7 @@
         "email": "",
         "phoneNum": "",
         "role": "Public",
-        "roleID": 2,
+        "roleID": 1,
         "isSignedIn": false
     },
     "TOOLTIPS":{
@@ -20,5 +20,18 @@
             "tattooPlacement": "Describe the exact placement for your proposed tattoo",
             "ageCheck": "Please confirm you are 18 years or older. (I WILL NOT tattoo minors under any circumstance)"
         }
+    },
+    "BOOKINGTABLE":{
+        "headers":[
+            {"key":"none","value":"Book?" },
+            {"key":"name", "value": "Name"},
+            {"key":"desc","value": "Description"},
+            {"key":"refPhotos","value": "Reference Photos"},
+            {"key":"placement","value": "Placement"},
+            {"key":"bodyPhotos","value":"Body Photos"},
+            {"key":"email","value":"Email"},
+            {"key":"phoneNum", "value": "Phone"},
+            {"key":"subDate","value": "Submission Date"}
+        ]
     }
 }

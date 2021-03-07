@@ -17,8 +17,12 @@ export interface appConfig{
     TOOLTIPS:{
         BOOKING:{
             tattooDesc: string,
-            tattooPlacement: string
+            tattooPlacement: string,
+            ageCheck: string
         }
+    },
+    BOOKINGTABLE:{
+        headers:[{key:string,value:string}]
     }
 
 }

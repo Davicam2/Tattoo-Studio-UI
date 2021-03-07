@@ -1,1 +1,41 @@
-<p>booking-table works!</p>
+<div class="table-container">
+    
+    <section class="controls">
+        <div>Controls go here</div>
+        <div>
+            <select>
+                <option>Pending</option>
+                <option>Accepted</option>
+                <option>Rejected</option>
+            </select>
+        </div>
+    </section>
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let header of tableHeaders; let i = index">
+                    {{header.value}}
+                </th>
+            </tr>
+        </thead>
+       
+        
+        
+        <tbody>
+            <tr *ngFor="let row of fauxTableData; let i = index">
+                <td>
+                    <button>Yes</button>
+                    <button>No</button>
+                </td> <!--admin accept button-->
+                <td>{{row[tableHeaders[1].key]}}</td>
+                <td>{{row[tableHeaders[2].key]}}</td>
+                <td>{{row[tableHeaders[3].key]}}</td>
+                <td>{{row[tableHeaders[4].key]}}</td>
+                <td>{{row[tableHeaders[5].key]}}</td>
+                <td>{{row[tableHeaders[6].key]}}</td>
+                <td>{{row[tableHeaders[7].key]}}</td>
+                <td>{{row[tableHeaders[8].key] | date}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
