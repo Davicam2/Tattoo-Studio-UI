@@ -9,8 +9,14 @@
         background-color: #ccc;
         }
         &-table{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             height: fit-content;
             width: 100%;
+            .table-container{
+                width: fit-content;
+            }
         }
     }
 

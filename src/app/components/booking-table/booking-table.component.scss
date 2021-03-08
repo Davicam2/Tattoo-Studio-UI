@@ -6,20 +6,28 @@
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding:15px;
+
     .controls{
         display: flex;
-        width:96%;
+        
         flex-direction: row;
         justify-content: space-between;
+        width: 100%;
     }
     table{
-        width: 96%;
+        
         border-collapse: collapse;
 
     }
     tbody tr:nth-child(odd){
         background-color: #443a3a;
+    }
+    tbody tr:hover {
+        background-color: #437556;
+    }
+    app-pagination{
+        width: 100%;
+        height:fit-content;
     }
 }

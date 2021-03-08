@@ -9,13 +9,15 @@ import {
 } from './index';
 import { AngularMaterialModule } from '../material.module';
 import { ReactiveFormsModule } from '@angular/forms'
+import { UtilModule } from '../util/util.module';
 
 @NgModule({
   declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent, BookingFormComponent, ImageUploadComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UtilModule
   ],
   exports:[
     PublicLandingComponent,

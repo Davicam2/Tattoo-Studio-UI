@@ -1,0 +1,28 @@
+<div class="pag-container">
+    <div class="pag-left">
+        
+    </div>
+    <div id="navigation" class="pag-right">
+        <div class="overview">
+            <div>Showing {{beginningRowNum}} - {{endingRowNum}} of {{totalRowNum}}</div>
+        </div>
+        <div class="navigation">
+            <div class="prev">
+                <button (click)="goToFirst()">|&lt;</button>
+                <button (click)="goToPrev()">&lt;</button>
+            </div>
+            <div class="page-select">
+                <input 
+                type="number" 
+                (keyup.enter)="goToPage($event.target.value)"
+                [value]="currentPageNumber"
+                >
+            </div>
+            <div class="next">
+                <button (click)="goToNext()">&gt;</button>
+                <button (click)="goToLast()">&gt;|</button>
+            </div>
+        </div>
+    </div>
+    
+</div>

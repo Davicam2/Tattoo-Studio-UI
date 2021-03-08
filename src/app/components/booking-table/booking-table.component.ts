@@ -9,14 +9,27 @@ import { BookingTableService } from 'src/app/services/booking-table.service';
 })
 export class BookingTableComponent implements OnInit {
   tableHeaders;
- 
-
+  pageToDisplay: any[];
   constructor(private tblService: BookingTableService) { }
 
   ngOnInit(): void {
     this.tableHeaders = this.tblService.getTableHeaders();
     console.log(this.fauxTableData);
-    console.log(this.tableHeaders)
+    console.log(this.tableHeaders);
+  
+
+  }
+  setPage(page:any[]){
+    //changes data after initial page render
+    setTimeout(() => {
+      this.pageToDisplay = page;
+    })
+  }
+
+  acceptBooking(){
+
+  }
+  declineBooking(){
     
   }
 
@@ -50,7 +63,38 @@ export class BookingTableComponent implements OnInit {
       email: "thridcustomer@tc.com",
       phoneNum:"0987654321",
       subDate: new Date('4/25/2021')
+    },
+    {
+      name:"Third Customer",
+      desc:"full body yakuza",
+      refPhotos: [1,2,3,4,5,6],
+      placement:"errywherrrr",
+      bodyPhotos: [1,2],
+      email: "thridcustomer@tc.com",
+      phoneNum:"0987654321",
+      subDate: new Date('4/25/2021')
+    },
+    {
+      name:"Third Customer",
+      desc:"full body yakuza",
+      refPhotos: [1,2,3,4,5,6],
+      placement:"errywherrrr",
+      bodyPhotos: [1,2],
+      email: "thridcustomer@tc.com",
+      phoneNum:"0987654321",
+      subDate: new Date('4/25/2021')
+    },
+    {
+      name:"Third Customer",
+      desc:"full body yakuza",
+      refPhotos: [1,2,3,4,5,6],
+      placement:"errywherrrr",
+      bodyPhotos: [1,2],
+      email: "thridcustomer@tc.com",
+      phoneNum:"0987654321",
+      subDate: new Date('4/25/2021')
     }
   ]
+  
 
 }

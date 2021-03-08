@@ -22,10 +22,10 @@
         
         
         <tbody>
-            <tr *ngFor="let row of fauxTableData; let i = index">
+            <tr *ngFor="let row of pageToDisplay; let i = index">
                 <td>
-                    <button>Yes</button>
-                    <button>No</button>
+                    <button (click)="acceptBooking()">Yes</button>
+                    <button (click)="declineBooking()">No</button>
                 </td> <!--admin accept button-->
                 <td>{{row[tableHeaders[1].key]}}</td>
                 <td>{{row[tableHeaders[2].key]}}</td>
@@ -38,4 +38,5 @@
             </tr>
         </tbody>
     </table>
+    <app-pagination  [tableData]="fauxTableData" (displayPage)="setPage($event)"></app-pagination>
 </div>
