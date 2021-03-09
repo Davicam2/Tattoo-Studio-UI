@@ -1,0 +1,54 @@
+.drop-component{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+
+    .drop-container{
+        border-radius: 10px;
+        border: 3px dotted black;
+        padding:5px;
+        margin:10px;
+        background-color: white;
+        position: relative;
+        min-width: 150px;
+        .drop-area{
+            background: none;
+            text-align: center;
+            background-color: #b5b5b5;
+            color: grey;
+            padding: 5px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            input{
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                opacity: 0;
+
+                button{
+                    background: none;
+                    border-radius: 15px;
+                    border:1px grey;
+                    cursor: pointer;
+                    z-index: 10;
+                }
+            }
+        }
+    }
+    .thumbnail-display{
+        overflow-x: scroll;
+        white-space: nowrap;
+        margin-top: 10px;
+        img{
+            height: 120px;
+            object-fit: contain;
+            margin-right: 5px;
+        
+        }
+    }
+}

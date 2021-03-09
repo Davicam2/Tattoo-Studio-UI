@@ -10,9 +10,14 @@ import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 })
 export class BookingFormComponent implements OnInit {
   bookingForm: FormGroup;
+  refPhotos: any[] = [];
+  bodyPhotos: any[] = [];
+
+
   user = this.appConfig.getConfig().USER_PROFILE;
   tooltips = this.appConfig.getConfig().TOOLTIPS;
   
+
   bookingDates = {
     closestDate: new Date('7/15/2021'),
     bookedDates: [new Date('7/18/2021'), new Date('7/20/2021')]
@@ -65,6 +70,13 @@ export class BookingFormComponent implements OnInit {
     return !this.bookingDates.bookedDates.find(x => x.getTime() == date.getTime())
   }
 
+  referencePhotos(uploadedPhotos){
+    this.referencePhotos = uploadedPhotos;
+  }
+
+  bodyPositionPhotos(uploadedPhotos){
+    this.bodyPhotos = uploadedPhotos;
+  }
 
   
 }

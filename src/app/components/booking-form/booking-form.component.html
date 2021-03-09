@@ -64,10 +64,23 @@
                     formControlName="bookingDate"
                     [min]="bookingDates.closestDate"
                     [matDatepickerFilter]="bookingDateFilter"
+                    (focus)="bookingPicker.open()"
                     >
                     <mat-datepicker-toggle matSuffix [for]="bookingPicker"></mat-datepicker-toggle>
                     <mat-datepicker #bookingPicker></mat-datepicker>
                 </mat-form-field>
+            </section>
+            <section>
+                <div class="drag-drop-section">
+                    Reference Photos
+                    <app-drag-drop (loadedImages)="referencePhotos($event)"></app-drag-drop>    
+                </div>
+            </section>
+            <section>
+                <div class="drag-drop-section">
+                    Body Location Photos
+                    <app-drag-drop (loadedImages)="bodyPositionPhotos($event)"></app-drag-drop>
+                </div>
             </section>
            
         </div>

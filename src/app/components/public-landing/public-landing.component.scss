@@ -38,6 +38,9 @@
             flex-direction: row;
             justify-content: space-evenly;
             align-items: center;
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+
             button{
                 background-color: transparent;
                 border: none;
@@ -48,6 +51,7 @@
                 cursor: pointer;
                 transition: font-size .5s ease-in-out;
                 font-family: Otra;
+                white-space: nowrap;
                 &:hover{
                     //animation-name: grow;
                     //animation-duration: .6s;

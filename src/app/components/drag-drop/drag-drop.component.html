@@ -1,0 +1,13 @@
+<div class="drop-component">
+    <div class="drop-container">
+        <div id="drop-area" class="drop-area">
+            <input type="file" #fileControl (change)="onFilesAdded()" multiple accept=".png, .jpeg, .jpg , .gif">
+                <div>Drop Images to upload</div>
+                <div>OR</div>
+                <div>Click Here</div>
+        </div>
+    </div>
+    <div class="thumbnail-display">
+        <img [src]="imageUrl" *ngFor="let imageUrl of uploadedImageThumbnailArray" >
+    </div>
+</div>

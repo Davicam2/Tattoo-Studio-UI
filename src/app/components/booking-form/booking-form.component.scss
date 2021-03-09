@@ -1,6 +1,6 @@
 .form-container{
     height:fit-content;
-    max-height: 800px;
+    
     width: 90%;
     max-width: 900px;
     min-width: 600px;
@@ -23,10 +23,20 @@
             display: flex;
             flex-direction: row;
             justify-content: space-evenly;
+            width: 100%;
         }
         button{
             background-color: var(--joker-green);
             color: white;
         }
+        .drag-drop-section{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            app-drag-drop{
+                width: 100%;
+            }
+        }
     }
 }
+
