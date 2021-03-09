@@ -7,7 +7,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 })
 export class DragDropComponent implements OnInit {
   @ViewChild('fileControl') fileControl;
-  @Output() loadedImages = new EventEmitter<any>();
+  @Output() loadedImages = new EventEmitter<any[]>();
 
   uploadedImageArray: any[] = [];
   uploadedImageThumbnailArray: any[] = [];

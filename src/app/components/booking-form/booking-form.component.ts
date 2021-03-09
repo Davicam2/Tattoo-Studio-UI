@@ -71,7 +71,7 @@ export class BookingFormComponent implements OnInit {
   }
 
   referencePhotos(uploadedPhotos){
-    this.referencePhotos = uploadedPhotos;
+    this.refPhotos = uploadedPhotos;
   }
 
   bodyPositionPhotos(uploadedPhotos){
