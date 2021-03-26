@@ -1,3 +1,5 @@
+@import '/src/assets/master';
+
 .comp-container{
     height: 100%;
     width: 100%;
@@ -10,11 +12,22 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background-image: url("/assets/images/saray-logo.png");
+        
         background-repeat: no-repeat;
         background-size: contain;
         background-position-x: left;
-
+        @media screen and (min-width: $mediaPCWidth ){
+            background-image: url("/assets/images/saray-logo.png");
+            div{
+                
+                font-size: $mediaPCTitleFontSize;
+            }
+        }
+        @media screen and (max-width: $mediaMobileWidth){
+            div{
+                font-size: $mediaMobileTitleFontSize;
+            }
+        }
     }
     .form-container{
         height:90%;
@@ -22,5 +35,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+    app-booking-form{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        
     }
 }

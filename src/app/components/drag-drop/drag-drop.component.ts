@@ -36,10 +36,7 @@ export class DragDropComponent implements OnInit {
       reader.onload = () =>{
         this.uploadedImageThumbnailArray.push(reader.result as string)
       }
-      
     }
-    
-
     this.loadedImages.emit(this.uploadedImageArray);
   }
   

@@ -15,6 +15,8 @@
         font-display: swap;
 }
 
+
+
 :root{
     --joker-purple:#4b3970;
     --joker-green:#007c1c;
@@ -45,11 +47,13 @@ body{
     }
     
 }
+
 .page-title{
-    font-size: 100px;
+    font-size: 8.5vw;
     margin: 0;
     font-family: Otra;
     padding-top: 20px;
+    
 }
 
 mat-form-field{

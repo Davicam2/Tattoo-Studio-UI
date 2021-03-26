@@ -1,9 +1,11 @@
+@import '/src/assets/master';
+
+
+
 .comp-container{
     height: 100%;
     width: 100%;
     
-    
-
     .header{
         height: 10%;
         width: 100%;
@@ -11,6 +13,17 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+
+        @media screen and (min-width: $mediaPCWidth) {
+            div{
+             font-size: $mediaPCTitleFontSize;
+            }
+        }
+        @media screen and (max-width: $mediaMobileWidth){
+            div{
+                font-size: $mediaMobileTitleFontSize;
+            }
+        }
         div{
             height: fit-content;
         }
@@ -29,6 +42,7 @@
             background-repeat: no-repeat;
             background-size: contain;
             background-position-x: center;
+            background-position-y: center;
         }
         &-controls{
             height: 10%;
@@ -41,6 +55,9 @@
             -webkit-transform: translateZ(0);
             backface-visibility: hidden;
 
+            @media screen and (max-width: 800px) {
+                flex-direction: column;
+            }
             button{
                 background-color: transparent;
                 border: none;

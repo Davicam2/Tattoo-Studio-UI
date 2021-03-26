@@ -1,9 +1,9 @@
+@import '/src/assets/master';
+
 .form-container{
     height:fit-content;
-    
-    width: 90%;
+    width: 70%;
     max-width: 900px;
-    min-width: 600px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -11,6 +11,10 @@
     align-items: center;
     background-color:#758f7e;
     box-shadow: 3px 2px 7px 1px;
+    @media screen and (min-width: $mediaPCWidth){
+        max-width: 700px;
+    }
+   
 
     form{
         display: flex;
@@ -24,6 +28,7 @@
             flex-direction: row;
             justify-content: space-evenly;
             width: 100%;
+           
         }
         button{
             background-color: var(--joker-green);

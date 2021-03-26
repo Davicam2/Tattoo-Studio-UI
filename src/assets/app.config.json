@@ -2,6 +2,10 @@
     "URIS":{
         "BASE":{
             "express": "http://127.0.0.1:3000"
+        },
+        "ENDPOINTS":{
+            "getBookedDates": "booking/dates"
+            
         }
     },
     "USER_PROFILE":{

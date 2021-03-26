@@ -12,6 +12,6 @@ export class BookingTableService {
   getTableHeaders(){
     return this.appConfig.getConfig().BOOKINGTABLE.headers;
   }
-
+  
 
 }
