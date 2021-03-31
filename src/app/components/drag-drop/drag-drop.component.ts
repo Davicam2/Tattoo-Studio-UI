@@ -20,8 +20,7 @@ export class DragDropComponent implements OnInit {
 
   onFilesAdded(inputFiles: any = null){
     let filesInControl: any;
-    const reader = new FileReader();
-
+  
     if(!inputFiles){
       filesInControl = this.fileControl.nativeElement.files;
     } else{
@@ -31,8 +30,10 @@ export class DragDropComponent implements OnInit {
     if(filesInControl.length == 0) return;
     
     for(let file of filesInControl){
+      const reader = new FileReader();
       this.uploadedImageArray.push(file);
       reader.readAsDataURL(file);
+      
       reader.onload = () =>{
         this.uploadedImageThumbnailArray.push(reader.result as string)
       }

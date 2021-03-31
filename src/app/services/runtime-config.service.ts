@@ -23,4 +23,12 @@ export class RuntimeConfigService {
   getConfig(): appConfig {
     return this.conf;
   }
+  
+  getServerUrl() {
+    return this.conf.URIS.BASE.express;
+  }
+
+  getEndpoints() {
+    return this.conf.URIS.ENDPOINTS;
+  }
 }

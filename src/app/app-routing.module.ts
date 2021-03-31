@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./views/public-entry/public-entry.module').then(m => m.PublicEntryModule)
   },
   {
-    path:'',
+    path:'**',
     pathMatch:'full',
     redirectTo: ''
   }

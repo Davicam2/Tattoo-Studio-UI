@@ -1,10 +1,11 @@
 {
     "URIS":{
         "BASE":{
-            "express": "http://127.0.0.1:3000"
+            "express": "http://localhost:3000"
         },
         "ENDPOINTS":{
-            "getBookedDates": "booking/dates"
+            "getBookedDates": "booking/dates",
+            "requestBooking": "booking/requestBooking"
             
         }
     },
