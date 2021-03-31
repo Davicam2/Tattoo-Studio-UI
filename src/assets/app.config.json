@@ -4,8 +4,8 @@
             "express": "http://localhost:3000"
         },
         "ENDPOINTS":{
-            "getBookedDates": "booking/dates",
-            "requestBooking": "booking/requestBooking"
+            "getBookedDates": "/booking/dates",
+            "requestBooking": "/booking/requestBooking"
             
         }
     },

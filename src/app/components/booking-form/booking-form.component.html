@@ -62,7 +62,7 @@
                     <input matInput 
                     [matDatepicker]="bookingPicker"
                     formControlName="bookingDate"
-                    [min]="bookingDates.closestDate"
+                    [min]="bookedDates.closest"
                     [matDatepickerFilter]="bookingDateFilter"
                     (focus)="bookingPicker.open()"
                     >

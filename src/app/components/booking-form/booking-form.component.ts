@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { RestService } from 'src/app/services/rest-api.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
-
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.scss']
 })
-export class BookingFormComponent implements OnInit {
+export class BookingFormComponent implements OnInit, OnDestroy {
   bookingForm: FormGroup;
+  subscriptions = new Subscription();
 
   refPhotos: any[] = [];
   bodyPhotos: any[] = [];
@@ -19,16 +20,15 @@ export class BookingFormComponent implements OnInit {
   user = this.appConfig.getConfig().USER_PROFILE;
   tooltips = this.appConfig.getConfig().TOOLTIPS;
 
-  bookingDates = {
-    closestDate: new Date('7/15/2021'),
-    bookedDates: [new Date('7/18/2021'), new Date('7/20/2021')]
+  bookedDates = {
+    closest: new Date(),
+    booked: [new Date('7/18/2021'), new Date('7/20/2021')]
   }
 
   constructor(
     private fb: FormBuilder,
     private appConfig: RuntimeConfigService,
-    private bookingSvc: BookingTableService,
-    private apiSvc: RestService
+    private bookingSvc: BookingTableService
   ) { }
 
   ngOnInit(): void {
@@ -56,24 +56,39 @@ export class BookingFormComponent implements OnInit {
       this.bookingForm.get('guestInfo.ageCheck').setValidators(Validators.requiredTrue);
     }
 
-    console.log(this.appConfig.getServerUrl())
+    // on init api calls
+    this.getBookedDates()
+    
+
+    this.subscriptions.add(
+      this.bookingSvc.bookingReqResp$.subscribe(
+        res => {
+          console.log('booking request response', res);
+        }
+      )
+    ).add(
+      this.bookingSvc.bookedDates$.subscribe(
+        data => {
+          if(!data) return;
+          console.log(data);
+          this.bookedDates = {
+            closest: data.content.sort((d1,d2) => d1 - d2)[0],
+            booked: data.content
+          }
+          console.log(this.bookedDates)
+        }
+      )
+    )
+    
     
   }
 
   onSubmit(form){
-    console.log(this.bookingForm.valid);
-    console.warn(form, this.refPhotos, this.bodyPhotos);
     this.bookingSvc.requestBooking(
       form, 
       this.bodyPhotos, 
       this.refPhotos
-      ).subscribe( 
-        res => {
-          console.log(res);
-        }
-      )
-    
-    //this.bookingSvc.requestBooking(form,this.bodyPhotos, this.refPhotos)
+    )
   }
 
   onReset(){
@@ -84,8 +99,14 @@ export class BookingFormComponent implements OnInit {
 
   }
 
+  getBookedDates(){
+    this.bookingSvc.getBookedDates();
+  }
+
+
   bookingDateFilter = (date: Date) => {
-    return !this.bookingDates.bookedDates.find(x => x.getTime() == date.getTime())
+    //only filters by day, needs more logic to factor in hours
+    return !this.bookedDates.booked.find(x => x.getDate() == date.getDate())
   }
 
   referencePhotos(uploadedPhotos){
@@ -94,5 +115,9 @@ export class BookingFormComponent implements OnInit {
 
   bodyPositionPhotos(uploadedPhotos){
     this.bodyPhotos = uploadedPhotos;
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.unsubscribe();
   }
 }

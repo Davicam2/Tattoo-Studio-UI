@@ -10,9 +10,7 @@ export class RestService {
   constructor( private http: HttpClient) { }
 
   makeGetRequest (url: string, payload: any){
-    debugger;
     return this.http.get<any>(url,payload).pipe(
-      
       map((res: any) => {
         return res;
       }),
@@ -23,7 +21,7 @@ export class RestService {
   }
 
   makePostRequest (url: string, payload: any){
-
+   
     return this.http.post<any>(url,payload).pipe(
       map((res: any) => {
         return res;

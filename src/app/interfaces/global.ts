@@ -5,7 +5,7 @@ export interface appConfig{
         },
         ENDPOINTS:{
             getBookedDates: string,
-            postBooking: string
+            requestBooking: string
         }
     },
     USER_PROFILE:{
