@@ -39,10 +39,15 @@ export class BookingTableService {
       payload
       ).subscribe(
         res => {
-      
-          this.bookingReqResp$.next(res);
+          let response: apiResponse = {
+            type: 'Post Request',
+            origin: 'requestBooking',
+            isError: false,
+            content: res
+          } 
+          this.bookingReqResp$.next(response);
         }, err =>  {
-        
+          
           this.bookingReqResp$.next(err)
         }
       )
@@ -67,7 +72,7 @@ export class BookingTableService {
         this.bookedDates$.next(response);
       }, 
       err => {
-
+        
       }
     )
   }
