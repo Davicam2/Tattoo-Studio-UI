@@ -33,7 +33,8 @@ export class BookingTableService {
       bodyImgs: bodyPics,
       tatImgs: referencePics
     }
-   
+    console.log('post request', formFields)
+
     this.rApi.makePostRequest(
       this.serverUrl + this.uris.requestBooking,
       payload
@@ -60,8 +61,9 @@ export class BookingTableService {
     ).subscribe(
       res => {
         let dates = [];
+        console.log(res);
         res.forEach(date => {
-          dates.push(new Date(date))
+          dates.push(new Date(date ))
         });
         let response: apiResponse = {
           type: 'Get Request',
@@ -75,6 +77,18 @@ export class BookingTableService {
         
       }
     )
+  }
+
+  getPendingRequests(){
+    this.rApi.makeGetRequest(this.serverUrl + this.uris.getPendingBookings,
+      ''
+      ).subscribe(
+        res => {
+          console.log(res);
+        }, err => {
+          console.log(err);
+        }
+      )
   }
 
 }

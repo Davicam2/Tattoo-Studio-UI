@@ -5,7 +5,8 @@
         },
         "ENDPOINTS":{
             "getBookedDates": "/booking/dates",
-            "requestBooking": "/booking/requestBooking"
+            "requestBooking": "/booking/request",
+            "getPendingBookings": "/booking/pending"
             
         }
     },

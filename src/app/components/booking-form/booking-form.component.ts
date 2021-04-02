@@ -71,9 +71,12 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         data => {
           if(!data) return;
           console.log(data);
-          this.bookedDates = {
-            closest: data.content.sort((d1,d2) => d1 - d2)[0],
-            booked: data.content
+          if(data.content.length == 0){
+            this.bookedDates.closest = new Date();
+            this.bookedDates.booked = [new Date()]; 
+          } else {
+            this.bookedDates.closest = data.content.sort((d1,d2) => d1 - d2)[0];
+            this.bookedDates.booked = data.content;
           }
           console.log(this.bookedDates)
         }
@@ -106,6 +109,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   bookingDateFilter = (date: Date) => {
     //only filters by day, needs more logic to factor in hours
+    
     return !this.bookedDates.booked.find(x => x.getDate() == date.getDate())
   }
 

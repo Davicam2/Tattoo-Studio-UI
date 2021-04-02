@@ -5,7 +5,8 @@ export interface appConfig{
         },
         ENDPOINTS:{
             getBookedDates: string,
-            requestBooking: string
+            requestBooking: string,
+            getPendingBookings: string
         }
     },
     USER_PROFILE:{

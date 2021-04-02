@@ -16,7 +16,8 @@ export class BookingTableComponent implements OnInit {
     this.tableHeaders = this.tblService.getTableHeaders();
     console.log(this.fauxTableData);
     console.log(this.tableHeaders);
-  
+    
+    this.tblService.getPendingRequests();
 
   }
   setPage(page:any[]){
