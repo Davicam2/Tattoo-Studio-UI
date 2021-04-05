@@ -6,7 +6,9 @@
         "ENDPOINTS":{
             "getBookedDates": "/booking/dates",
             "requestBooking": "/booking/request",
-            "getPendingBookings": "/booking/pending"
+            "getBookings": "/booking/bookings",
+            "acceptBooking": "/booking/accept",
+            "rejectBooking": "/booking/reject"
             
         }
     },
@@ -17,7 +19,7 @@
         "email": "",
         "phoneNum": "",
         "role": "Public",
-        "roleID": 2,
+        "roleID": 1,
         "isSignedIn": false
     },
     "TOOLTIPS":{
@@ -39,5 +41,9 @@
             {"key":"phoneNum", "value": "Phone"},
             {"key":"subDate","value": "Submission Date"}
         ]
+    },
+    "ENVIRONMENTS": {
+        "dev": true,
+        "prod": false
     }
 }

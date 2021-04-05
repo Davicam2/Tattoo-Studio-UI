@@ -2,13 +2,7 @@
     
     <section class="controls">
         <div>Controls go here</div>
-        <div>
-            <select>
-                <option>Pending</option>
-                <option>Accepted</option>
-                <option>Rejected</option>
-            </select>
-        </div>
+        
     </section>
     <table>
         <thead>
@@ -18,14 +12,12 @@
                 </th>
             </tr>
         </thead>
-       
-        
-        
+
         <tbody>
             <tr *ngFor="let row of pageToDisplay; let i = index">
                 <td>
-                    <button (click)="acceptBooking()">Yes</button>
-                    <button (click)="declineBooking()">No</button>
+                    <button (click)="rowAffirmativeAction(row.id)">Yes</button>
+                    <button (click)="rowNegativeAction(row.id)">No</button>
                 </td> <!--admin accept button-->
                 <td>{{row[tableHeaders[1].key]}}</td>
                 <td>{{row[tableHeaders[2].key]}}</td>
@@ -38,5 +30,5 @@
             </tr>
         </tbody>
     </table>
-    <app-pagination  [tableData]="fauxTableData" (displayPage)="setPage($event)"></app-pagination>
+    <app-pagination  [tableData]="tableData" (displayPage)="setPage($event)"></app-pagination>
 </div>

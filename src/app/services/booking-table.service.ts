@@ -14,8 +14,9 @@ export class BookingTableService {
   private serverUrl = this.appConfig.getServerUrl();
   private uris = this.appConfig.getEndpoints();
 
-  bookingReqResp$: Subject<apiResponse> = new Subject();
+  bookingUpdateResponse$: Subject<apiResponse> = new Subject();
   bookedDates$: BehaviorSubject<apiResponse> = new BehaviorSubject(null)
+  bookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
 
   constructor(
     private appConfig: RuntimeConfigService,
@@ -33,7 +34,6 @@ export class BookingTableService {
       bodyImgs: bodyPics,
       tatImgs: referencePics
     }
-    console.log('post request', formFields)
 
     this.rApi.makePostRequest(
       this.serverUrl + this.uris.requestBooking,
@@ -42,14 +42,14 @@ export class BookingTableService {
         res => {
           let response: apiResponse = {
             type: 'Post Request',
-            origin: 'requestBooking',
+            origin: this.apiOrigins.requestBooking ,
             isError: false,
             content: res
           } 
-          this.bookingReqResp$.next(response);
+          this.bookingUpdateResponse$.next(response);
         }, err =>  {
           
-          this.bookingReqResp$.next(err)
+          this.bookingUpdateResponse$.next(err)
         }
       )
   }
@@ -67,23 +67,34 @@ export class BookingTableService {
         });
         let response: apiResponse = {
           type: 'Get Request',
-          origin: 'getBookedDates',
+          origin: this.apiOrigins.getBookedDates,
           isError: false,
           content: dates
         }
         this.bookedDates$.next(response);
       }, 
       err => {
-        
+        console.log(err);
       }
     )
   }
 
-  getPendingRequests(){
-    this.rApi.makeGetRequest(this.serverUrl + this.uris.getPendingBookings,
-      ''
+  getBookings(type?: string){
+    if(!type){
+      type = 'pending';
+    }
+    this.rApi.makeGetRequest(
+      this.serverUrl + this.uris.getBookings,
+      {type}
       ).subscribe(
         res => {
+          let response: apiResponse = {
+            type: 'Get Request',
+            origin: this.apiOrigins.getBookings,
+            isError: false,
+            content: res
+          }
+          this.bookings$.next(response);
           console.log(res);
         }, err => {
           console.log(err);
@@ -91,4 +102,58 @@ export class BookingTableService {
       )
   }
 
+
+  acceptBooking(id: string){
+    this.rApi.makeUpdatePutRequest(
+      this.serverUrl + this.uris.acceptBooking,
+      {id}
+    ).subscribe(
+      res => {
+        let response: apiResponse = {
+          type: 'Put Request',
+          origin: this.apiOrigins.acceptBooking,
+          isError: false,
+          content: res
+        }
+        console.log(response);
+        this.bookingUpdateResponse$.next(response);
+      }, 
+      err => {
+        console.log(err)
+      }
+    )
+  }
+
+  rejectBooking(id: string){
+    this.rApi.makeDeleteRequest(
+      this.serverUrl + this.uris.rejectBooking,
+      {id}
+    ).subscribe(
+      res => {
+
+        let response: apiResponse = {
+          type: 'Delete Request',
+          origin: this.apiOrigins.rejectBooking,
+          isError: false,
+          content: res
+        }
+        this.bookingUpdateResponse$.next(response);
+        console.log('reject booking res',res)
+      }, 
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  apiOrigins = {
+    acceptBooking: 'acceptBooking',
+    rejectBooking: 'rejectBooking',
+    getBookings: 'getPendingRequests',
+    getBookedDates: 'getBookedDates',
+    requestBooking: 'requestBooking'
+  
+  }
+
 }
+

@@ -9,7 +9,7 @@ import {RuntimeConfigService} from './services/runtime-config.service';
 })
 export class AppComponent implements OnInit {
   title = 'Tattoo-Studio-UI';
-  
+  isDev;
 
   constructor(
     private _router: Router, 
@@ -18,15 +18,22 @@ export class AppComponent implements OnInit {
 
   
   ngOnInit(){
-   
-    if(this.appConfig.getConfig().USER_PROFILE.roleID == 1){
-      this._router.navigate(['admin'])
-    } else {
-      this._router.navigate(['public'])
-    }
+    this.isDev = this.appConfig.getEnvironment().dev;
     
 
+    this.appConfig.activeUser$.subscribe(
+      profile => {
+        if(profile.USER_PROFILE.roleID == 1){
+          this._router.navigate(['admin'])
+        } else {
+          this._router.navigate(['public'])
+        }
+      }
+    )
   }
 
+  switchProfile(){
+    this.appConfig.switchUserProfile();
+  }
 
 }

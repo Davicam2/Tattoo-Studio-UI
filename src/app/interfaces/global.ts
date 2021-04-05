@@ -1,4 +1,4 @@
-export interface appConfig{
+export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment{
     URIS:{
         BASE:{
             express: string;
@@ -6,9 +6,20 @@ export interface appConfig{
         ENDPOINTS:{
             getBookedDates: string,
             requestBooking: string,
-            getPendingBookings: string
+            getBookings: string,
+            acceptBooking: string,
+            rejectBooking: string
         }
     },
+    
+   
+    BOOKINGTABLE:{
+        headers:[{key:string,value:string}]
+    }
+
+}
+
+export interface IUserProfile{
     USER_PROFILE:{
         fName: string;
         lName: string;
@@ -18,16 +29,22 @@ export interface appConfig{
         role: string;
         roleID: number;
         isSignedIn: boolean;
-    },
+    }
+}
+
+export interface ITooltips{
     TOOLTIPS:{
         BOOKING:{
             tattooDesc: string;
             tattooPlacement: string;
             ageCheck: string;
         }
-    },
-    BOOKINGTABLE:{
-        headers:[{key:string,value:string}]
     }
+}
 
+export interface IEnvironment{
+    ENVIRONMENTS:{
+        dev: boolean,
+        prod: boolean
+    }
 }

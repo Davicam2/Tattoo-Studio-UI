@@ -11,8 +11,12 @@
     align-items: center;
     background-color:#758f7e;
     box-shadow: 3px 2px 7px 1px;
+    margin-bottom: 20px;
     @media screen and (min-width: $mediaPCWidth){
         max-width: 700px;
+    }
+    @media screen and (max-width: $mediaMobileWidth) {
+        min-width: 95%;
     }
    
 

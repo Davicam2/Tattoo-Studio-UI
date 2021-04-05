@@ -4,7 +4,21 @@
     </section>
     <section class="admin-body">
         <div class="table-container">
-            <app-booking-table></app-booking-table>
+            <section class="controls">
+            
+                <div>
+                    <select (change)="tableViewChange($event.target.value)">
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+            </section>
+            <app-booking-table
+                [tableHeaders]='tableHeaders'
+                [tableData]='tableData'
+                (rowAction)='bookingAction($event)'
+            ></app-booking-table>
         </div>
         
     </section>

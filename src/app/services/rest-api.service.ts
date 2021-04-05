@@ -10,7 +10,7 @@ export class RestService {
   constructor( private http: HttpClient) { }
 
   makeGetRequest (url: string, payload: any){
-    return this.http.get<any>(url,payload).pipe(
+    return this.http.get<any>(url,{params: payload}).pipe(
       map((res: any) => {
         return res;
       }),
@@ -34,7 +34,7 @@ export class RestService {
   
   makeDeleteRequest (url: string, payload: any){
 
-    return this.http.delete<any>(url,payload).pipe(
+    return this.http.delete<any>(url,{ params: payload}).pipe(
       map((res: any) => {
         return res;
       }),
@@ -44,9 +44,9 @@ export class RestService {
     );
   }
 
-  makeUpdateRequest (url: string, payload: any){
+  makeUpdatePutRequest (url: string, payload: any){
 
-    return this.http.patch<any>(url,payload).pipe(
+    return this.http.put<any>(url,payload).pipe(
       map((res: any) => {
         return res;
       }),

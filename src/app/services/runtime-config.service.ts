@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { appConfig } from '../interfaces/global';
+import { IAppConfig, IUserProfile } from '../interfaces/global';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -8,7 +9,8 @@ import { appConfig } from '../interfaces/global';
 })
 
 export class RuntimeConfigService {
-  private conf: appConfig;
+  private conf: IAppConfig;
+  activeUser$:BehaviorSubject<IUserProfile> = new BehaviorSubject(null)
 
   constructor(private http: HttpClient) { }
 
@@ -16,11 +18,15 @@ export class RuntimeConfigService {
     return this.http.get('/assets/app.config.json')
       .toPromise()
       .then(data => {
-        this.conf = data as appConfig;
+        
+        this.conf = data as IAppConfig;
+        
+        this.activeUser$.next({USER_PROFILE: this.conf.USER_PROFILE})
+        
       })
   }
 
-  getConfig(): appConfig {
+  getConfig(): IAppConfig {
     return this.conf;
   }
   
@@ -31,4 +37,20 @@ export class RuntimeConfigService {
   getEndpoints() {
     return this.conf.URIS.ENDPOINTS;
   }
+  getEnvironment(){
+    return this.conf.ENVIRONMENTS;
+  }
+ 
+  switchUserProfile(){
+    let currentUserProf = this.activeUser$.getValue();
+    if(currentUserProf.USER_PROFILE.roleID == 1){
+      currentUserProf.USER_PROFILE.roleID = 2;
+      this.activeUser$.next(currentUserProf)
+    }else{
+      currentUserProf.USER_PROFILE.roleID = 1;
+      this.activeUser$.next(currentUserProf)
+    }
+  }
+
+  
 }
