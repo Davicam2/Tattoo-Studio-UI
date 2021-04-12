@@ -47,7 +47,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   //OBS:this could lead to confusion. is sending dropdown value
   //all the way to backend, but its just a coincidence that
-  //these values are exactly what is needed. should handle on
+  //these values are an exact match. should handle on
   //backend probably
   tableViewChange(viewValue:string){
     
@@ -96,7 +96,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
               structuredTableRow[value.key] = row.submissionDate;
               break
             }
-            
           }
         }
       )

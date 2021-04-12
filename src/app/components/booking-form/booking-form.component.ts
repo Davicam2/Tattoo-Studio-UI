@@ -22,7 +22,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   bookedDates = {
     closest: new Date(),
-    booked: [new Date('7/18/2021'), new Date('7/20/2021')]
+    booked: []
   }
 
   constructor(
@@ -57,7 +57,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     }
 
     // on init api calls
-    this.getBookedDates()
+    this.getBookedDates();
     
 
     this.subscriptions.add(

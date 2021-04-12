@@ -12,11 +12,9 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment{
         }
     },
     
-   
     BOOKINGTABLE:{
         headers:[{key:string,value:string}]
     }
-
 }
 
 export interface IUserProfile{

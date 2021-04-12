@@ -6,6 +6,7 @@ import { RestService } from './rest-api.service';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,22 +28,49 @@ export class BookingTableService {
     return this.appConfig.getConfig().BOOKINGTABLE.headers;
   }
   
-  requestBooking(formFields, bodyPics:any,referencePics:any): any{
+  requestBooking(formFields, bodyPics:Array<File>,referencePics:Array<File>){
+    const bPics = new FormData();
+    const rPics = new FormData();
+    const submissionForm = new FormData();
+
+
+
+    bodyPics.forEach(image => {
+      submissionForm.append('bodyImgs', image);
+    });
+    referencePics.forEach(image => {
+      submissionForm.append('refImgs', image);
+    })
+
+    // submissionForm.append('guestInfo', formFields.guestInfo);
+    // submissionForm.append('tattooInfo', formFields.tattoo);
+    Object.keys(formFields.guestInfo).forEach(field => {
+      submissionForm.append(field, formFields.guestInfo[field]);
+    })
+
+    Object.keys(formFields.tattoo).forEach(field => {
+      submissionForm.append(field, formFields.tattoo[field]);
+    })
+    
+    
+    // bPics.forEach((value,key) => {
+    //   console.log(key + ' ' + value);
+    // })
 
     const payload = {
       form: formFields,
-      bodyImgs: bodyPics,
-      tatImgs: referencePics
+      bodyImgs: bPics,
+      refImgs: rPics
     }
 
     this.rApi.makePostRequest(
       this.serverUrl + this.uris.requestBooking,
-      payload
+      submissionForm
       ).subscribe(
         res => {
           let response: apiResponse = {
             type: 'Post Request',
-            origin: this.apiOrigins.requestBooking ,
+            origin: this.apiOrigins.requestBooking,
             isError: false,
             content: res
           } 
@@ -130,7 +158,6 @@ export class BookingTableService {
       {id}
     ).subscribe(
       res => {
-
         let response: apiResponse = {
           type: 'Delete Request',
           origin: this.apiOrigins.rejectBooking,
@@ -154,6 +181,4 @@ export class BookingTableService {
     requestBooking: 'requestBooking'
   
   }
-
 }
-
