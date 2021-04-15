@@ -45,11 +45,29 @@
         overflow-x: scroll;
         white-space: nowrap;
         margin-top: 10px;
-        img{
-            height: 120px;
-            object-fit: contain;
-            margin-right: 5px;
-        
+        display:flex;
+        .img-container{
+            position: relative;
+            mat-icon{
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                cursor: pointer;
+                background: var(--joker-green);
+                border-radius: 50%;
+                font-size: 20px;
+                height: 20px;
+                width: 20px;
+                box-shadow: 1px 1px 2px 1px black;
+            }
+
+            img{
+                height: 120px;
+                object-fit: contain;
+                margin: 10px 10px 0px 0px;
+                border-radius: 0px 20px 0px 0px;
+            }
         }
+        
     }
 }

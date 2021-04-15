@@ -8,19 +8,25 @@
                 </mat-form-field>
                 <mat-form-field apperance="fill" class="form-field-half">
                     <mat-label>Last Name</mat-label>
-                    <input matInput formControlName="nameLast">
+                    <input matInput formControlName="nameLast" >
                 </mat-form-field>
             </section>
             <section>
                 <mat-form-field class="form-field-full">
                     <mat-label>Email</mat-label>
-                    <input matInput formControlName="email">
+                    <input 
+                    matInput 
+                    formControlName="email"
+                    >
                 </mat-form-field>
             </section>
             <section>
                 <mat-form-field class="form-field-full">
                     <mat-label>Phone Number</mat-label>
-                    <input matInput formControlName="phoneNumber">
+                    <input 
+                    matInput  
+                    formControlName="phoneNumber"
+                    >
                 </mat-form-field>
             </section>
             <section>
@@ -87,3 +93,4 @@
         <button mat-button type="submit" >Submit</button>
     </form>
 </div>
+<app-notification-modal [modalContent]="'actionSuccess'"></app-notification-modal>

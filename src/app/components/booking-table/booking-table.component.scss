@@ -17,18 +17,43 @@
         justify-content: space-between;
         width: 100%;
     }
+
     table{
         border-collapse: collapse;
 
+        td{
+            padding: 0px 5px;
+        }
+        
+        tbody tr:nth-child(odd){
+            background-color: #443a3a;
+            
+        }
+    
+        tbody tr:hover {
+            background-color: #437556;
+        }
+
+        .tbl-action-button{
+            border: none;
+            background:none;
+            cursor: pointer;
+            box-shadow: none;
+            border-radius: 0;
+
+            transition: box-shadow .5s,  border-radius .5s;
+            &:hover{
+                border-radius: 50%;
+                box-shadow: 1px 1px 2px 1px black;
+            }
+        }
     }
-    tbody tr:nth-child(odd){
-        background-color: #443a3a;
-    }
-    tbody tr:hover {
-        background-color: #437556;
-    }
+
+    
+
     app-pagination{
         width: 100%;
         height:fit-content;
     }
+
 }

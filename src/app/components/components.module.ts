@@ -11,14 +11,17 @@ import {
 import { AngularMaterialModule } from '../material.module';
 import { ReactiveFormsModule } from '@angular/forms'
 import { UtilModule } from '../util/util.module';
+import {AppPipesModule} from 'src/app/pipes/pipes.module';
+import { NotificationModalComponent } from './notification-modal/notification-modal.component';
 
 @NgModule({
-  declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent, BookingFormComponent, ImageUploadComponent, DragDropComponent],
+  declarations: [PublicLandingComponent, BookingTableComponent, AdminLandingComponent, BookingFormComponent, ImageUploadComponent, DragDropComponent, NotificationModalComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,
     ReactiveFormsModule,
-    UtilModule
+    UtilModule,
+    AppPipesModule
   ],
   exports:[
     PublicLandingComponent,

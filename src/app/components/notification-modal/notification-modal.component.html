@@ -1,0 +1,15 @@
+<div class="modal-container">
+    <div class="modal-body">
+        <div class="modal-title"></div>
+        <div class="modal-content">
+            <div *ngIf="modalContent === 'actionSuccess'">
+                <ng-container *ngTemplateOutlet="actionSuccess"></ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #actionSuccess>
+    this is the action success template
+</ng-template>

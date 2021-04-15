@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
 import { BookingTableService } from 'src/app/services/booking-table.service';
-import { RestService } from 'src/app/services/rest-api.service';
+
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
+import { PhoneNumberPipe } from 'src/app/pipes';
+
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -28,7 +30,8 @@ export class BookingFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private appConfig: RuntimeConfigService,
-    private bookingSvc: BookingTableService
+    private bookingSvc: BookingTableService,
+    private phoneNumberPipe: PhoneNumberPipe
   ) { }
 
   ngOnInit(): void {
@@ -42,17 +45,17 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         ageCheck: [this.user.isSignedIn ? true : false]
       }),
       tattoo: this.fb.group({
-        tattooDesc: ['', Validators.required],
-        tattooPlacement: ['', Validators.required],
+        tattooDesc: ['', [Validators.required, Validators.maxLength(300)]],
+        tattooPlacement: ['', [Validators.required, Validators.maxLength(300)]],
         bookingDate: ['', Validators.required]
       })
     })
 
     if(!this.user.isSignedIn){
-      this.bookingForm.get('guestInfo.nameFirst').setValidators(Validators.required);
-      this.bookingForm.get('guestInfo.nameLast').setValidators(Validators.required);
-      this.bookingForm.get('guestInfo.email').setValidators(Validators.required);
-      this.bookingForm.get('guestInfo.phoneNumber').setValidators(Validators.required);
+      this.bookingForm.get('guestInfo.nameFirst').setValidators([Validators.required, Validators.maxLength(50)]);
+      this.bookingForm.get('guestInfo.nameLast').setValidators([Validators.required,Validators.maxLength(50)]);
+      this.bookingForm.get('guestInfo.email').setValidators([Validators.required, Validators.email, Validators.maxLength(100)]);
+      this.bookingForm.get('guestInfo.phoneNumber').setValidators([Validators.required, Validators.minLength(14)]);
       this.bookingForm.get('guestInfo.ageCheck').setValidators(Validators.requiredTrue);
     }
 
@@ -63,6 +66,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.bookingSvc.bookingUpdateResponse$.subscribe(
         res => {
+          
           console.log('booking request response', res);
         }
       )
@@ -84,14 +88,22 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     )
     
     
+    this.onBookingFormChanges();
+
   }
 
   onSubmit(form){
-    this.bookingSvc.requestBooking(
-      form, 
-      this.bodyPhotos, 
-      this.refPhotos
-    )
+
+    if(this.bookingForm.valid){
+      this.bookingSvc.requestBooking(
+        form, 
+        this.bodyPhotos, 
+        this.refPhotos
+      )
+    }else{
+      // display error message
+    }
+    
   }
 
   onReset(){
@@ -119,6 +131,20 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   bodyPositionPhotos(uploadedPhotos){
     this.bodyPhotos = uploadedPhotos;
+  }
+
+  onBookingFormChanges(){
+    this.subscriptions.add(
+      this.bookingForm.get('guestInfo.phoneNumber').valueChanges.subscribe(
+        userInp => {
+          this.bookingForm.patchValue({
+            guestInfo:{
+              phoneNumber:this.phoneNumberPipe.transform(userInp)
+            }
+          }, {emitEvent: false}); 
+        }
+      )
+    )
   }
 
   ngOnDestroy(){

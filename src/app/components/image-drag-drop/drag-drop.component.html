@@ -8,6 +8,9 @@
         </div>
     </div>
     <div class="thumbnail-display">
-        <img [src]="imageUrl" *ngFor="let imageUrl of uploadedImageThumbnailArray" >
+        <div class="img-container" *ngFor="let image of uploadedImageArray; let i = index">
+            <mat-icon (click)="removeImage(i)" class="material-icons-outlined" color="primary">cancel</mat-icon>
+            <img [src]="uploadedImageThumbnailArray[i]"  >
+        </div>
     </div>
 </div>

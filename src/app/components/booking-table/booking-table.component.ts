@@ -17,7 +17,7 @@ export class BookingTableComponent implements OnInit {
 
 
   constructor() { }
-
+ 
   ngOnInit(): void {
 
   }

@@ -39,6 +39,7 @@ export class DragDropComponent implements OnInit {
       }
     }
     this.loadedImages.emit(this.uploadedImageArray);
+    this.fileControl.nativeElement.value = '';
   }
   
   setDragDropArea(){
@@ -62,6 +63,14 @@ export class DragDropComponent implements OnInit {
         this.onFilesAdded(files);
       }
     )
+  }
+
+  removeImage(index){
+    this.uploadedImageThumbnailArray.splice(index, 1);
+    this.uploadedImageArray.splice(index,1);
+
+    console.log(index);
+    this.loadedImages.emit(this.uploadedImageArray);
   }
 
 }

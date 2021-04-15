@@ -8,6 +8,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class PublicLandingComponent implements OnInit {
 
+  pageTitle = 'Andrew Saray Tattoos'
+
   constructor(
     private _router :Router,
     private activatedRoute: ActivatedRoute
