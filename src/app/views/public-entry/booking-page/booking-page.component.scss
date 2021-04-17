@@ -16,6 +16,7 @@
         background-repeat: no-repeat;
         background-size: contain;
         background-position-x: left;
+        
         @media screen and (min-width: $mediaPCWidth ){
             background-image: url("/assets/images/saray-logo.png");
             div{
@@ -31,14 +32,13 @@
     }
     
     .form-container{
-        height:90%;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-top: 20px;
     }
-
+    
     app-booking-form{
         display: flex;
         justify-content: center;
