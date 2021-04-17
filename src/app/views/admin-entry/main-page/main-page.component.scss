@@ -1,13 +1,47 @@
+@import '/src/assets/master';
+
 .main-view{
     height: 100vh;
     width: 100vw;
 
-    .admin{
-        &-header{
-        height:80px;
+    .header{
+            
+        height: 10%;
         width: 100%;
-        background-color: #ccc;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+
+        img{
+            position: absolute;
+            height: 100%;
+            left: 0;
+            top: 0;
+            cursor: pointer;
         }
+       
+
+        @media screen and (min-width: $mediaPCWidth) {
+            
+            div{
+                font-size: $mediaPCTitleFontSize;
+            }
+        }
+        @media screen and (max-width: $mediaMobileWidth){
+            div{
+                font-size: $mediaMobileTitleFontSize;
+            }
+        }
+        div{
+            height: fit-content;
+        }
+        
+    }
+    .admin{
+       
         &-body{
             display: flex;
             flex-direction: column;
@@ -20,5 +54,4 @@
             }
         }
     }
-
 }

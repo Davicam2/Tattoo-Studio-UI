@@ -1,11 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+
 import { BookingTableService } from 'src/app/services/booking-table.service';
 
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 import { PhoneNumberPipe } from 'src/app/pipes';
+import { NotificationModalComponent, modalConfig, modalContent } from 'src/app/components/notification-modal/notification-modal.component'
 
 import { Subscription } from 'rxjs'
+
+
 
 @Component({
   selector: 'app-booking-form',
@@ -31,7 +36,8 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private appConfig: RuntimeConfigService,
     private bookingSvc: BookingTableService,
-    private phoneNumberPipe: PhoneNumberPipe
+    private phoneNumberPipe: PhoneNumberPipe,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +72,16 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.bookingSvc.bookingUpdateResponse$.subscribe(
         res => {
-          
+          if(!res.isError){
+            let dialogRef = this.matDialog.open(NotificationModalComponent);
+            let instance = dialogRef.componentInstance;
+            let modalData: modalConfig = {
+              title: 'Booking Request Success Title',
+              modalSetting: modalContent.bookingSuccess,
+              modalMessage: 'injected message maybe'
+            }
+            instance.configuration = modalData;
+          }
           console.log('booking request response', res);
         }
       )

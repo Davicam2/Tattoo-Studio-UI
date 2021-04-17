@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
@@ -16,9 +17,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   subscriptions = new Subscription();
 
+  viewConfig = {
+    title: 'Andrew Saray Tattoos',
+    parentNav: '/admin'
+  }
+
   constructor(
     private tblService: BookingTableService,
-    private appConfig: RuntimeConfigService
+    private appConfig: RuntimeConfigService,
+    private _router: Router
     ) { }
 
   ngOnInit(): void {
@@ -105,12 +112,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   bookingAction(evt:{action:string,id:string}){
-    debugger
+   
     if(evt.action === 'accept'){
       this.tblService.acceptBooking(evt.id);
     } else if(evt.action === 'reject'){
       this.tblService.rejectBooking(evt.id)
     }
+  }
+
+  navigateHome(){
+    console.log('vanigate')
+    this._router.navigate([this.viewConfig.parentNav]);
   }
 
   ngOnDestroy(){

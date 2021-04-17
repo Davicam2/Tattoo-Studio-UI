@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-notification-modal',
@@ -6,16 +7,29 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./notification-modal.component.scss']
 })
 export class NotificationModalComponent implements OnInit {
-  @Input() modalContent: string;
 
-  constructor() { }
+  @Input() configuration: modalConfig;
+
+  
+  constructor( public dialogRef:MatDialogRef<NotificationModalComponent>) { }
 
   ngOnInit(): void {
   }
 
+
+  close(){
+    this.dialogRef.close();
+  }
+
+}
+
+export interface modalConfig{
+  title: string,
+  modalSetting: string,
+  modalMessage: string
 }
 
 export const modalContent = {
-  actionSuccess: 'actionSuccess',
+  bookingSuccess: 'bookingSuccess',
 
 }
