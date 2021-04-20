@@ -8,7 +8,8 @@
             "requestBooking": "/booking/request",
             "getBookings": "/booking/bookings",
             "acceptBooking": "/booking/accept",
-            "rejectBooking": "/booking/reject"
+            "rejectBooking": "/booking/reject",
+            "checkUserLogin": "/user/verify"
             
         }
     },
@@ -20,6 +21,7 @@
         "phoneNum": "",
         "role": "Public",
         "roleID": 1,
+        "userName": "",
         "isSignedIn": false
     },
     "TOOLTIPS":{

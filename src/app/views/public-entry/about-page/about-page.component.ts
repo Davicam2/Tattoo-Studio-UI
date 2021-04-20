@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutPageComponent implements OnInit {
 
+  viewConfig = {
+    title: 'Andrew Saray Tattoos',
+    parentNav: '/public'
+  }
+
   constructor() { }
 
   ngOnInit(): void {

@@ -1,10 +1,8 @@
 <div class="main-view">
-    <div class="header">
-        <img src="/assets/images/saray-logo.png" (click)="navigateHome()">
-        <div class="page-title">
-            {{viewConfig.title}}
-        </div>
-    </div>
+    <app-view-header 
+    [title]="viewConfig.title"
+    [navUrl]="viewConfig.parentNav"
+    ></app-view-header>
     <section class="admin-body">
         <div class="table-container">
             <section class="controls">
@@ -25,3 +23,4 @@
         
     </section>
 </div>
+ 

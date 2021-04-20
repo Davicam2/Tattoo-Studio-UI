@@ -120,11 +120,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateHome(){
-    console.log('vanigate')
-    this._router.navigate([this.viewConfig.parentNav]);
-  }
-
   ngOnDestroy(){
     this.subscriptions.unsubscribe();
   }

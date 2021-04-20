@@ -5,32 +5,6 @@
     width: 100%;
     
     
-    .profile-header{
-        height:10%;
-        width: 100%;
-        display:flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position-x: left;
-        
-        @media screen and (min-width: $mediaPCWidth ){
-            background-image: url("/assets/images/saray-logo.png");
-            div{
-                
-                font-size: $mediaPCTitleFontSize;
-            }
-        }
-        @media screen and (max-width: $mediaMobileWidth){
-            div{
-                font-size: $mediaMobileTitleFontSize;
-            }
-        }
-    }
-    
     .form-container{
         width: 100%;
         display: flex;

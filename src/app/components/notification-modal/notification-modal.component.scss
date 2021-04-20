@@ -10,9 +10,25 @@
     &-title{
         display: flex;
         justify-content: center;
+        font-size: 22px;
+        height: 24px;
     }
     &-footer{
         display:flex;
         flex-direction: row;
     }
 }
+
+.modal-content-login{
+
+    display: flex;
+    flex-direction: column;
+    label{
+        display: flex;
+        justify-content: space-between;
+        input{
+            width: 80%;
+        }
+    }
+}
+

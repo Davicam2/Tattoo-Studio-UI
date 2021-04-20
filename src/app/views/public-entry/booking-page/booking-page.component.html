@@ -1,10 +1,8 @@
 <div class="comp-container">
-    <div class="profile-header">
-        
-        <div class="business-title page-title">
-            Andrew Saray Tattoos
-        </div>
-    </div>
+    <app-view-header
+        [title]="headerConfig.title"
+        [navUrl]="headerConfig.parentNav"
+    ></app-view-header>
     <div class="form-container">
         <app-booking-form></app-booking-form>
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import {RuntimeConfigService} from './services/runtime-config.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _router: Router, 
-    private appConfig: RuntimeConfigService
+    private appConfig: RuntimeConfigService,
+    private userSvc: UserService
     ){}
 
   
@@ -21,7 +23,7 @@ export class AppComponent implements OnInit {
     this.isDev = this.appConfig.getEnvironment().dev;
     
 
-    this.appConfig.activeUser$.subscribe(
+    this.userSvc.activeUser$.subscribe(
       profile => {
         if(profile.USER_PROFILE.roleID == 1){
           this._router.navigate(['admin'])
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   switchProfile(){
-    this.appConfig.switchUserProfile();
+    this.userSvc.switchUserProfile();
   }
 
 }

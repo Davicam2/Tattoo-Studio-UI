@@ -1,9 +1,8 @@
 <div class="comp-container">
-    <div class="header">
-        <div class="page-title">
-            {{pageTitle}}
-        </div>
-    </div>
+    <app-view-header
+        [title]="headerConfig.title"
+        [navUrl]="headerConfig.parentNav"
+    ></app-view-header>
     
     <div class="logo">
         <div class="logo-logo"></div>
@@ -17,5 +16,10 @@
             <button >After Care</button>
         </div>
     </div>
-    <div class="footer"></div>
+
+    <div class="footer">
+        <div class="login-container">
+            <button (click)="login()">Admin Login</button>
+        </div>
+    </div>
 </div>

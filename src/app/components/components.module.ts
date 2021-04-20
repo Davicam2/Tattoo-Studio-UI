@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import {  RouterModule } from '@angular/router';
 
 import { AngularMaterialModule } from '../material.module';
@@ -16,6 +16,8 @@ import {
   DragDropComponent
 } from './index';
 
+import { ViewHeaderComponent } from './view-header/view-header.component';
+
 @NgModule({
   declarations: [
     PublicLandingComponent, 
@@ -23,7 +25,8 @@ import {
     BookingFormComponent, 
     ImageUploadComponent, 
     DragDropComponent, 
-    NotificationModalComponent
+    NotificationModalComponent, 
+    ViewHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -31,14 +34,15 @@ import {
     ReactiveFormsModule,
     UtilModule,
     AppPipesModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports:[
     PublicLandingComponent,
     BookingTableComponent,
     BookingFormComponent,
     ImageUploadComponent,
-    
+    ViewHeaderComponent
   ]
 })
 export class AppComponentsModule { }

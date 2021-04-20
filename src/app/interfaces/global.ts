@@ -8,7 +8,8 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment{
             requestBooking: string,
             getBookings: string,
             acceptBooking: string,
-            rejectBooking: string
+            rejectBooking: string,
+            checkUserLogin: string
         }
     },
     
@@ -26,6 +27,7 @@ export interface IUserProfile{
         phoneNum: string;
         role: string;
         roleID: number;
+        userName: string;
         isSignedIn: boolean;
     }
 }

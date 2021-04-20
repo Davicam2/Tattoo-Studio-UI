@@ -3,6 +3,10 @@
 <div *ngIf="configuration.modalSetting === 'bookingSuccess'">
     <ng-container *ngTemplateOutlet="bookingSuccess"></ng-container>
 </div>
+
+<div *ngIf="configuration.modalSetting === 'login'">
+    <ng-container *ngTemplateOutlet="login"></ng-container>
+</div>
     
 
 
@@ -10,14 +14,38 @@
 <ng-template #bookingSuccess>
     <div class="modal-container">
         <div class="modal-body">
+            <section class="modal-title">
+                {{configuration.title}}
+            </section>
+            <section class="modal-content">
+                {{configuration.modalMessage}}
+            </section>
+            <section class="modal-footer">
+                <button (click)="navigateTo('public/about')">About Saray</button>
+                <button (click)="navigateTo('public/faq')">faq</button>
+                <button (click)="navigateTo('pubic/after-care')">After Care</button>
+            </section>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #login>
+    <div class="modal-container">
+        <div class="modal-body">
             <div class="modal-title">
                 {{configuration.title}}
             </div>
-            <div class="modal-content">
+            <div class="modal-content-login">
                 {{configuration.modalMessage}}
+                <label>User Name
+                    <input name="userName" [(ngModel)]="loginValues.userName" type="text" >
+                </label>
+                <label>Password
+                    <input name="password"[(ngModel)]="loginValues.pass" type="password">
+                </label>
             </div>
             <div class="modal-footer">
-                <a routerLink="public/about" routerLinkActive="active">About Saray</a>
+                <button (click)="verifyLogin()">Login</button>
             </div>
         </div>
     </div>
