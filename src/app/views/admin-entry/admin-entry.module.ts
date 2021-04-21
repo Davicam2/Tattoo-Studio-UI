@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AdminRoutingModule} from './admin-entry-routing.module';
+import {FormsModule} from '@angular/forms'
 
 import { MainPageComponent } from './main-page/main-page.component';
 import { AppComponentsModule } from '../../components/components.module';
@@ -12,7 +13,8 @@ import { AppComponentsModule } from '../../components/components.module';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    AppComponentsModule
+    AppComponentsModule,
+    FormsModule
   ]
 })
 export class AdminEntryModule { }

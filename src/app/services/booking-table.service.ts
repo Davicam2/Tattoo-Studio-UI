@@ -107,13 +107,11 @@ export class BookingTableService {
     )
   }
 
-  getBookings(type?: string){
-    if(!type){
-      type = 'pending';
-    }
+  getBookings(){
+    
     this.rApi.makeGetRequest(
       this.serverUrl + this.uris.getBookings,
-      {type}
+      {}
       ).subscribe(
         res => {
           let response: apiResponse = {

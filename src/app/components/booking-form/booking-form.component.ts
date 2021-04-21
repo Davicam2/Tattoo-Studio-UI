@@ -76,9 +76,9 @@ export class BookingFormComponent implements OnInit, OnDestroy {
             let dialogRef = this.matDialog.open(NotificationModalComponent);
             let instance = dialogRef.componentInstance;
             let modalData: modalConfig = {
-              title: 'Booking Request Success Title',
+              title: '<Booking Request Success Title>',
               modalSetting: modalContent.bookingSuccess,
-              modalMessage: 'injected message maybe'
+              modalMessage: '<injected message maybe>'
             }
             instance.configuration = modalData;
           }
@@ -102,9 +102,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
       )
     )
     
-    
     this.onBookingFormChanges();
-
   }
 
   onSubmit(form){
@@ -149,6 +147,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
   }
 
   onBookingFormChanges(){
+
     this.subscriptions.add(
       this.bookingForm.get('guestInfo.phoneNumber').valueChanges.subscribe(
         userInp => {
@@ -160,6 +159,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         }
       )
     )
+    
   }
 
   ngOnDestroy(){

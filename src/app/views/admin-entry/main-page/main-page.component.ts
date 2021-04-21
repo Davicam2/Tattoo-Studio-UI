@@ -11,9 +11,14 @@ import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit, OnDestroy {
+  // send to child===\\
+  bookings = [];
   tableData = [];
   tableHeaders = [];
+  //=================//
+
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
+  tableViewSelect: string = 'pending';
 
   subscriptions = new Subscription();
 
@@ -36,6 +41,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       this.tblService.bookings$.subscribe(
         data => {
           if(!data) return;
+          this.bookings = data.content;
           this.buildTableData(data.content);
         }
       )
@@ -52,13 +58,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     )
   }
 
-  //OBS:this could lead to confusion. is sending dropdown value
-  //all the way to backend, but its just a coincidence that
-  //these values are an exact match. should handle on
-  //backend probably
-  tableViewChange(viewValue:string){
-    
-    this.tblService.getBookings(viewValue);
+  tableViewChange(){
+    this.buildTableData(this.bookings);
   }
 
   buildTableData(rows){
@@ -66,7 +67,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     let structuredTableRow: Object;
     this.tableData = [];
     if(!rows) return;
-    rows.forEach(row => {
+    rows.filter( row => row.status === this.tableViewSelect).forEach(row => {
       structuredTableRow = new Object();
       this.tableConfig.map(
         value => {
@@ -109,10 +110,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
       structuredTableRow['id'] = row.id;
       this.tableData.push(structuredTableRow);
     });
+    
+
   }
 
   bookingAction(evt:{action:string,id:string}){
-   
     if(evt.action === 'accept'){
       this.tblService.acceptBooking(evt.id);
     } else if(evt.action === 'reject'){

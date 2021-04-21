@@ -3,13 +3,14 @@
     [title]="viewConfig.title"
     [navUrl]="viewConfig.parentNav"
     ></app-view-header>
+    
     <section class="admin-body">
         <div class="table-container">
             <section class="controls">
                 <div>
-                    <select (change)="tableViewChange($event.target.value)">
-                        <option value="pending">Pending</option>
-                        <option value="accepted">Accepted</option>
+                    <select [(ngModel)]="tableViewSelect" (change)="tableViewChange()">
+                        <option [value]="'pending'">Pending</option>
+                        <option [value]="'accepted'">Accepted</option>
                     </select>
                 </div>
             </section>

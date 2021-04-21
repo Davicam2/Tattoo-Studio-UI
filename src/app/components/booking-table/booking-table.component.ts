@@ -15,7 +15,6 @@ export class BookingTableComponent implements OnInit {
   @Input() tableData: Array<any>;
   @Output() rowAction = new EventEmitter<{action:string,id:string}>();
 
-
   constructor() { }
  
   ngOnInit(): void {
