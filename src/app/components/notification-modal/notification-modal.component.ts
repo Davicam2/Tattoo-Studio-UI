@@ -29,20 +29,10 @@ export class NotificationModalComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
-    this.subscriptions.add(
-      this.userSvc.activeUser$.pipe(skip(1)).subscribe(
-        userProfile => {
-          if(userProfile.USER_PROFILE.isSignedIn){
-            this.close();
-          }
-        }
-      )
-    )
-
+    
+    
 
   }
-
 
   close(){
     this.dialogRef.close();
@@ -63,11 +53,13 @@ export class NotificationModalComponent implements OnInit {
 export interface modalConfig{
   title: string,
   modalSetting: string,
-  modalMessage: string
+  modalMessage: string,
+  modalTableArray?: any[]
 }
 
 export const modalContent = {
   bookingSuccess: 'bookingSuccess',
-  userLogin: 'login'
+  userLogin: 'login',
+  inspectBooking: 'inspectBooking'
 
 }

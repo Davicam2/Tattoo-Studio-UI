@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { modalConfig, modalContent, NotificationModalComponent } from 'src/app/components';
+import { bookingPMap } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 
@@ -18,6 +20,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   //=================//
 
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
+  modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
   tableViewSelect: string = 'pending';
 
   subscriptions = new Subscription();
@@ -30,7 +33,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   constructor(
     private tblService: BookingTableService,
     private appConfig: RuntimeConfigService,
-    private _router: Router
+    private matDialog: MatDialog,
     ) { }
 
   ngOnInit(): void {
@@ -119,8 +122,35 @@ export class MainPageComponent implements OnInit, OnDestroy {
       this.tblService.acceptBooking(evt.id);
     } else if(evt.action === 'reject'){
       this.tblService.rejectBooking(evt.id)
+    } else if(evt.action === 'selected'){
+      
+      let dialogRef = this.matDialog.open(NotificationModalComponent);
+      let instance = dialogRef.componentInstance;
+      let selectedBooking = this.bookings.find(booking => booking.id == evt.id);
+      let rowValues: Array<{title: string, value: string}> = new Array();
+
+      for(let mapKey of Object.keys(bookingPMap)){
+        for(let key of Object.keys(selectedBooking)){
+          if(key === mapKey){
+            rowValues.push({title: bookingPMap[mapKey], value: selectedBooking[key] })
+          }
+        }
+      }
+      
+
+      
+
+      let modalData: modalConfig = {
+        title: this.modalConfig.INSPECT_BOOKING.title,
+        modalSetting: modalContent.inspectBooking,
+        modalMessage: this.modalConfig.INSPECT_BOOKING.message,
+        modalTableArray: rowValues
+      }
+      instance.configuration = modalData;
     }
   }
+
+ 
 
   ngOnDestroy(){
     this.subscriptions.unsubscribe();

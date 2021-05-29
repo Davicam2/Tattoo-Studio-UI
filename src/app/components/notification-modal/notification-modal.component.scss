@@ -1,8 +1,5 @@
 .modal{
-    &-container{
-        height: 20vh;
-        width: 40vw;
-    }
+    
     &-body{
         height: 100%;
         width: 100%;
@@ -17,6 +14,10 @@
         display:flex;
         flex-direction: row;
     }
+    &-content{
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .modal-content-login{
@@ -28,6 +29,17 @@
         justify-content: space-between;
         input{
             width: 80%;
+        }
+    }
+}
+
+.modal-content-inspect{
+    table{
+        border-collapse: collapse;
+        tbody{
+            tr{
+                border-bottom: 1px solid white;
+            }
         }
     }
 }

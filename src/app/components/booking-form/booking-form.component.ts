@@ -26,6 +26,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   user = this.appConfig.getConfig().USER_PROFILE;
   tooltips = this.appConfig.getConfig().TOOLTIPS;
+  modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
 
   bookedDates = {
     closest: new Date(),
@@ -68,7 +69,6 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     // on init api calls
     this.getBookedDates();
     
-
     this.subscriptions.add(
       this.bookingSvc.bookingUpdateResponse$.subscribe(
         res => {
@@ -76,9 +76,9 @@ export class BookingFormComponent implements OnInit, OnDestroy {
             let dialogRef = this.matDialog.open(NotificationModalComponent);
             let instance = dialogRef.componentInstance;
             let modalData: modalConfig = {
-              title: '<Booking Request Success Title>',
+              title: this.modalConfig.BOOKING_FORM_SUCCESS.title,
               modalSetting: modalContent.bookingSuccess,
-              modalMessage: '<injected message maybe>'
+              modalMessage: this.modalConfig.BOOKING_FORM_SUCCESS.message
             }
             instance.configuration = modalData;
           }
@@ -107,7 +107,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   onSubmit(form){
 
-    if(this.bookingForm.valid){
+    if(this.bookingForm.valid && this.bodyPhotos.length > 0){
       this.bookingSvc.requestBooking(
         form, 
         this.bodyPhotos, 

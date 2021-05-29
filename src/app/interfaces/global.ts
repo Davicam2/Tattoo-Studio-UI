@@ -1,4 +1,4 @@
-export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment{
+export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModalConfig{
     URIS:{
         BASE:{
             express: string;
@@ -46,5 +46,22 @@ export interface IEnvironment{
     ENVIRONMENTS:{
         dev: boolean,
         prod: boolean
+    }
+}
+
+export interface IModalConfig {
+    MODAL_CONFIGS:{
+        BOOKING_FORM_SUCCESS:{
+            title: string;
+            message: string;
+        },
+        LOGIN:{
+            title: string;
+            message: string;
+        },
+        INSPECT_BOOKING:{
+            title: string;
+            message: string;
+        }
     }
 }

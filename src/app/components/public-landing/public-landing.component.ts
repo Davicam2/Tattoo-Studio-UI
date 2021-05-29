@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 import { modalConfig, modalContent, NotificationModalComponent } from '../notification-modal/notification-modal.component';
 
 @Component({
@@ -14,12 +15,13 @@ export class PublicLandingComponent implements OnInit {
     title: 'Andrew Saray Tattoos',
     parentNav: '/public'
   }
-  
+  modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
 
   constructor(
     private _router :Router,
     private activatedRoute: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private appConfig: RuntimeConfigService
     ) { }
 
   ngOnInit(): void {

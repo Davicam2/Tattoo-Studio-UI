@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {AdminRoutingModule} from './admin-entry-routing.module';
 import {FormsModule} from '@angular/forms'
+import {MatDialogModule} from '@angular/material/dialog';
 
+import {AdminRoutingModule} from './admin-entry-routing.module';
 import { MainPageComponent } from './main-page/main-page.component';
 import { AppComponentsModule } from '../../components/components.module';
 
@@ -14,7 +15,8 @@ import { AppComponentsModule } from '../../components/components.module';
     CommonModule,
     AdminRoutingModule,
     AppComponentsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ]
 })
 export class AdminEntryModule { }

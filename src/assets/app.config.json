@@ -10,7 +10,6 @@
             "acceptBooking": "/booking/accept",
             "rejectBooking": "/booking/reject",
             "checkUserLogin": "/user/verify"
-            
         }
     },
     "USER_PROFILE":{
@@ -43,6 +42,21 @@
             {"key":"phoneNum", "value": "Phone"},
             {"key":"subDate","value": "Submission Date"}
         ]
+    },
+    "MODAL_CONFIGS":{
+        "BOOKING_FORM_SUCCESS":{
+            "title":"<Booking Request Success Title>",
+            "message": "<injected message maybe>"
+
+        },
+        "LOGIN":{
+            "title":"<Admin Login Title>",
+            "message":"<Admin Login Message>"
+        },
+        "INSPECT_BOOKING":{
+            "title":"<Booking Inspector Title>",
+            "string":"<Booking Inspector Message>"
+        }
     },
     "ENVIRONMENTS": {
         "dev": true,

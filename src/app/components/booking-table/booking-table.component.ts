@@ -35,4 +35,8 @@ export class BookingTableComponent implements OnInit {
   rowNegativeAction(id: string){
     this.rowAction.emit({action:'reject', id:id});
   }
+
+  rowSelection(id: string){
+    this.rowAction.emit({action:'selected', id:id});
+  }
 }

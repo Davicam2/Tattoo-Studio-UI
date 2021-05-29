@@ -114,6 +114,11 @@ export class BookingTableService {
       {}
       ).subscribe(
         res => {
+          // res.forEach(booking => {
+          //   booking.submissionDate = new Date(booking.submissionDate);
+          //   booking.requestedDate = new Date(booking.requestedDate);
+          // });
+
           let response: apiResponse = {
             type: 'Get Request',
             origin: this.apiOrigins.getBookings,

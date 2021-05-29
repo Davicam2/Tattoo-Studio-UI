@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router} from '@angular/router';
 import {RuntimeConfigService} from './services/runtime-config.service';
 import { UserService } from './services/user.service';
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit {
   constructor(
     private _router: Router, 
     private appConfig: RuntimeConfigService,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private dialogRef: MatDialog
     ){}
 
   
@@ -25,6 +27,8 @@ export class AppComponent implements OnInit {
 
     this.userSvc.activeUser$.subscribe(
       profile => {
+        this.dialogRef.closeAll();
+        
         if(profile.USER_PROFILE.roleID == 1){
           this._router.navigate(['admin'])
         } else {
