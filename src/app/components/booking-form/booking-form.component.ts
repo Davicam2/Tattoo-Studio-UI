@@ -33,6 +33,12 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     booked: []
   }
 
+  _errors = {
+    hasError: false,
+    type: '',
+    message: ''
+  }
+
   constructor(
     private fb: FormBuilder,
     private appConfig: RuntimeConfigService,
@@ -107,6 +113,10 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   onSubmit(form){
 
+    if(this.bodyPhotos.length < 1){
+      this.timedErrorMessage('bodyPhotos','Must submit at least one Body Location Photo' );
+    }
+
     if(this.bookingForm.valid && this.bodyPhotos.length > 0){
       this.bookingSvc.requestBooking(
         form, 
@@ -160,6 +170,23 @@ export class BookingFormComponent implements OnInit, OnDestroy {
       )
     )
     
+  }
+
+  timedErrorMessage(type: string, message: string){
+    
+    this._errors = {
+      hasError: true,
+      type: type,
+      message: message
+    }
+
+    setTimeout(() => {
+      this._errors = {
+        type: '',
+        hasError: false,
+        message: ''
+      }
+    }, 3000)
   }
 
   ngOnDestroy(){

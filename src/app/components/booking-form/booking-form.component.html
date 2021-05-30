@@ -87,7 +87,11 @@
                     Body Location Photos
                     <app-drag-drop (loadedImages)="bodyPositionPhotos($event)"></app-drag-drop>
                 </div>
+                
             </section>
+            <div *ngIf="_errors.hasError && _errors.type == 'bodyPhotos'">
+                {{_errors.message}}
+            </div>
            
         </div>
         <button mat-button type="submit" >Submit</button>

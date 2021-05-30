@@ -8,9 +8,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DatePipe implements PipeTransform {
 
   transform(value: number, format: string): any {
-    let vDate = new Date(value).toString();
+    let vDate = new Date(value);
   
-    if(vDate === 'Invalid Date'){
+    if(vDate.toString() === 'Invalid Date'){
       return value;
     } else {
       return formatDate( new Date(value), format,'en-US');
