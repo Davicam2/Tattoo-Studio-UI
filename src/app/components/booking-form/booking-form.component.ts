@@ -111,13 +111,19 @@ export class BookingFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form){
+    if(this.bookingForm.valid){
 
-    if(this.bodyPhotos.length < 1){
-      
-      //this.timedErrorMessage('bodyPhotos','Must submit at least one Body Location Photo' );
-    }
+      if(this.bodyPhotos.length < 1){
+        let modalData: modalConfig = {
+          title: 'Required Input Error',
+          modalSetting: modalContent.errorMessage,
+          modalMessage: 'At least one body location photo is required'
+        }
+        this.openNotificationModal(modalData);
+        return;
+      }
 
-    if(this.bookingForm.valid && this.bodyPhotos.length > 0){
+
       this.bookingSvc.requestBooking(
         form, 
         this.bodyPhotos, 
@@ -192,11 +198,6 @@ export class BookingFormComponent implements OnInit, OnDestroy {
   openNotificationModal(modalData: modalConfig){
     let dialogRef = this.matDialog.open(NotificationModalComponent);
     let instance = dialogRef.componentInstance;
-    // let modalData: modalConfig = {
-    //   title: this.modalConfig.BOOKING_FORM_SUCCESS.title,
-    //   modalSetting: modalContent.bookingSuccess,
-    //   modalMessage: this.modalConfig.BOOKING_FORM_SUCCESS.message
-    // }
     instance.configuration = modalData;
   }
 
