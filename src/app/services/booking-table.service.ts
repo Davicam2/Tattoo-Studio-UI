@@ -69,7 +69,7 @@ export class BookingTableService {
       ).subscribe(
         res => {
           let response: apiResponse = {
-            type: 'Post Request',
+            type: 'Post',
             origin: this.apiOrigins.requestBooking,
             isError: false,
             content: res
@@ -94,7 +94,7 @@ export class BookingTableService {
           dates.push(new Date(date ))
         });
         let response: apiResponse = {
-          type: 'Get Request',
+          type: 'Get',
           origin: this.apiOrigins.getBookedDates,
           isError: false,
           content: dates
@@ -120,11 +120,12 @@ export class BookingTableService {
           // });
 
           let response: apiResponse = {
-            type: 'Get Request',
+            type: 'Get',
             origin: this.apiOrigins.getBookings,
             isError: false,
             content: res
           }
+        
           this.bookings$.next(response);
           console.log(res);
         }, err => {
@@ -141,7 +142,7 @@ export class BookingTableService {
     ).subscribe(
       res => {
         let response: apiResponse = {
-          type: 'Put Request',
+          type: 'Put',
           origin: this.apiOrigins.acceptBooking,
           isError: false,
           content: res
@@ -162,7 +163,7 @@ export class BookingTableService {
     ).subscribe(
       res => {
         let response: apiResponse = {
-          type: 'Delete Request',
+          type: 'Delete',
           origin: this.apiOrigins.rejectBooking,
           isError: false,
           content: res

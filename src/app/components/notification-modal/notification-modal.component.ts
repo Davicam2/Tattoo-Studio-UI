@@ -30,7 +30,6 @@ export class NotificationModalComponent implements OnInit {
 
   ngOnInit(): void {
     
-    
 
   }
 
@@ -47,7 +46,7 @@ export class NotificationModalComponent implements OnInit {
     this.userSvc.checkForUser(this.loginValues.userName, this.loginValues.pass)
     this.close();
   }
-  
+
 
 }
 

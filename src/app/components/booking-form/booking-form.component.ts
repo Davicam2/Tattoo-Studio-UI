@@ -60,7 +60,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
       tattoo: this.fb.group({
         tattooDesc: ['', [Validators.required, Validators.maxLength(300)]],
         tattooPlacement: ['', [Validators.required, Validators.maxLength(300)]],
-        bookingDate: ['', Validators.required]
+        //bookingDate: ['', Validators.required]
       })
     })
 
@@ -142,11 +142,11 @@ export class BookingFormComponent implements OnInit, OnDestroy {
   }
 
 
-  bookingDateFilter = (date: Date) => {
-    //only filters by day, needs more logic to factor in hours
+  // bookingDateFilter = (date: Date) => {
+  //   //only filters by day, needs more logic to factor in hours
     
-    return !this.bookedDates.booked.find(x => x.getDate() == date.getDate())
-  }
+  //   return !this.bookedDates.booked.find(x => x.getDate() == date.getDate())
+  // }
 
   referencePhotos(uploadedPhotos){
     this.refPhotos = uploadedPhotos;
