@@ -25,17 +25,17 @@ export class AppComponent implements OnInit {
     this.isDev = this.appConfig.getEnvironment().dev;
     
 
-    this.userSvc.activeUser$.subscribe(
-      profile => {
-        this.dialogRef.closeAll();
+    // this.userSvc.activeUser$.subscribe(
+    //   profile => {
+    //     this.dialogRef.closeAll();
         
-        if(profile.USER_PROFILE.roleID == 1){
-          this._router.navigate(['admin'])
-        } else {
-          this._router.navigate(['public'])
-        }
-      }
-    )
+    //     if(profile.USER_PROFILE.roleID == 1){
+    //       this._router.navigate(['admin'])
+    //     } else {
+    //       this._router.navigate(['public'])
+    //     }
+    //   }
+    // )
   }
 
   switchProfile(){

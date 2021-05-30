@@ -13,8 +13,7 @@
 </div>
     
 
-
-
+<!--------TEMPLATES------------->
 <ng-template #bookingSuccess>
     <div class="modal-container">
         <div class="modal-body">
@@ -51,7 +50,7 @@
                 </label>
             </div>
             <div class="modal-footer">
-                <button (click)="verifyLogin()">Login</button>
+                <button (click)="tryLogin()">Login</button>
             </div>
         </div>
     </div>
@@ -75,7 +74,7 @@
                         <tbody>
                             <tr *ngFor="let row of configuration.modalTableArray">
                                 <td>{{row.title}}</td>
-                                <td>{{row.value}}</td>
+                                <td>{{row.value | tryParseDate: 'MMM dd, yyyy'}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -35,7 +35,7 @@ export class PublicLandingComponent implements OnInit {
     let dialogRef = this.matDialog.open(NotificationModalComponent);
     let instance = dialogRef.componentInstance;
     let modalData: modalConfig = {
-      title: 'User Login',
+      title: 'Admin Login',
       modalSetting: modalContent.userLogin,
       modalMessage: 'Enter username and password'
     }

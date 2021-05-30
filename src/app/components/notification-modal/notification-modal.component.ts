@@ -43,10 +43,11 @@ export class NotificationModalComponent implements OnInit {
     this.close();
   }
 
-  verifyLogin(){
+  tryLogin(){
     this.userSvc.checkForUser(this.loginValues.userName, this.loginValues.pass)
-    
+    this.close();
   }
+  
 
 }
 
