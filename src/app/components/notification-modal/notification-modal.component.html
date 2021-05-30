@@ -12,6 +12,9 @@
     <ng-container *ngTemplateOutlet="inspectBooking"></ng-container>
 </div>
     
+<div *ngIf="configuration.modalSetting === 'errorMessage'">
+    <ng-container *ngTemplateOutlet="errorMessage"></ng-container>
+</div>
 
 <!--------TEMPLATES------------->
 <ng-template #bookingSuccess>
@@ -23,7 +26,7 @@
             <section class="modal-content">
                 {{configuration.modalMessage}}
             </section>
-            <section class="modal-footer">
+            <section class="modal-footer modal-actions">
                 <button (click)="navigateTo('public/about')">About Saray</button>
                 <button (click)="navigateTo('public/faq')">faq</button>
                 <button (click)="navigateTo('pubic/after-care')">After Care</button>
@@ -88,6 +91,22 @@
             </section>
             <section class="modal-footer">
                
+            </section>
+        </div>
+    </div>
+</ng-template>
+<!-------------------------------->
+<ng-template #errorNotification>
+    <div class="modal-container">
+        <div class="modal-body">
+            <section class="modal-title">
+                {{configuration.title}}
+            </section>
+            <section class="modal-content error-text">
+                {{configuration.modalMessage}}
+            </section>
+            <section class="modal-footer">
+
             </section>
         </div>
     </div>

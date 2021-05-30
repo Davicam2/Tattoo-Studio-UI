@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+
 
 import { BookingTableService } from 'src/app/services/booking-table.service';
 
@@ -8,9 +9,10 @@ import { BookingTableService } from 'src/app/services/booking-table.service';
   templateUrl: './booking-table.component.html',
   styleUrls: ['./booking-table.component.scss']
 })
-export class BookingTableComponent implements OnInit {
+export class BookingTableComponent implements OnInit, OnChanges {
 
-  @Input() tableHeaders: Array<any>;
+  @Input() tablePropMap: Array<any>;
+  @Input() defaultSort: number;
   pageToDisplay: any[];
   @Input() tableData: Array<any>;
   @Output() rowAction = new EventEmitter<{action:string,id:string}>();
@@ -18,7 +20,17 @@ export class BookingTableComponent implements OnInit {
   constructor() { }
  
   ngOnInit(): void {
+  }
 
+  ngOnChanges(changes: SimpleChanges){
+    if(!changes.tableData.firstChange){
+      this.sortTable(this.defaultSort ? this.defaultSort : this.tablePropMap.length - 1);
+    }
+  }
+
+  sortTable(index: number){
+    this.tableData.sort((a,b) => a[this.tablePropMap[index].key] - b[this.tablePropMap[index].key] );
+    console.log(this.tableData)
   }
 
   setPage(page:any[]){

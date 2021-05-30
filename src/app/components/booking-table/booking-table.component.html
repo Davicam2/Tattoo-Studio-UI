@@ -5,7 +5,7 @@
     <table>
         <thead>
             <tr>
-                <th *ngFor="let header of tableHeaders; let i = index">
+                <th *ngFor="let header of tablePropMap; let i = index">
                     {{header.value}}
                 </th>
             </tr>
@@ -17,14 +17,14 @@
                     <button class="tbl-action-button" (click)="rowAffirmativeAction(row.id)"><mat-icon color="accent">done</mat-icon></button>
                     <button class="tbl-action-button" (click)="rowNegativeAction(row.id)"><mat-icon color="warn" >close</mat-icon></button>
                 </td> <!--admin accept button-->
-                <td>{{row[tableHeaders[1].key]}}</td>
-                <td>{{row[tableHeaders[2].key]}}</td>
-                <td>{{row[tableHeaders[3].key]}}</td>
-                <td>{{row[tableHeaders[4].key]}}</td>
-                <td>{{row[tableHeaders[5].key]}}</td>
-                <td>{{row[tableHeaders[6].key]}}</td>
-                <td>{{row[tableHeaders[7].key]}}</td>
-                <td>{{row[tableHeaders[8].key] | date}}</td>
+                <td>{{row[tablePropMap[1].key]}}</td>
+                <td>{{row[tablePropMap[2].key]}}</td>
+                <td>{{row[tablePropMap[3].key]}}</td>
+                <td>{{row[tablePropMap[4].key]}}</td>
+                <td>{{row[tablePropMap[5].key]}}</td>
+                <td>{{row[tablePropMap[6].key]}}</td>
+                <td>{{row[tablePropMap[7].key]}}</td>
+                <td>{{row[tablePropMap[8].key] | tryParseDate: 'MMM dd, yyyy'}}</td>
             </tr>
         </tbody>
     </table>

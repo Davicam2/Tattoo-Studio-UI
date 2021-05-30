@@ -60,6 +60,7 @@ export interface modalConfig{
 export const modalContent = {
   bookingSuccess: 'bookingSuccess',
   userLogin: 'login',
-  inspectBooking: 'inspectBooking'
+  inspectBooking: 'inspectBooking',
+  errorMessage: 'errorMessage'
 
 }

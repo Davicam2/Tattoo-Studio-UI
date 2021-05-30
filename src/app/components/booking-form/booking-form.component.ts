@@ -79,14 +79,13 @@ export class BookingFormComponent implements OnInit, OnDestroy {
       this.bookingSvc.bookingUpdateResponse$.subscribe(
         res => {
           if(!res.isError){
-            let dialogRef = this.matDialog.open(NotificationModalComponent);
-            let instance = dialogRef.componentInstance;
+            
             let modalData: modalConfig = {
               title: this.modalConfig.BOOKING_FORM_SUCCESS.title,
               modalSetting: modalContent.bookingSuccess,
               modalMessage: this.modalConfig.BOOKING_FORM_SUCCESS.message
             }
-            instance.configuration = modalData;
+            this.openNotificationModal(modalData);
           }
           console.log('booking request response', res);
         }
@@ -114,7 +113,8 @@ export class BookingFormComponent implements OnInit, OnDestroy {
   onSubmit(form){
 
     if(this.bodyPhotos.length < 1){
-      this.timedErrorMessage('bodyPhotos','Must submit at least one Body Location Photo' );
+      
+      //this.timedErrorMessage('bodyPhotos','Must submit at least one Body Location Photo' );
     }
 
     if(this.bookingForm.valid && this.bodyPhotos.length > 0){
@@ -187,6 +187,17 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         message: ''
       }
     }, 3000)
+  }
+
+  openNotificationModal(modalData: modalConfig){
+    let dialogRef = this.matDialog.open(NotificationModalComponent);
+    let instance = dialogRef.componentInstance;
+    // let modalData: modalConfig = {
+    //   title: this.modalConfig.BOOKING_FORM_SUCCESS.title,
+    //   modalSetting: modalContent.bookingSuccess,
+    //   modalMessage: this.modalConfig.BOOKING_FORM_SUCCESS.message
+    // }
+    instance.configuration = modalData;
   }
 
   ngOnDestroy(){
