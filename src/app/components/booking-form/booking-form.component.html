@@ -18,6 +18,17 @@
                     matInput 
                     formControlName="email"
                     >
+                    
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field class="form-field-full">
+                    <mat-label>Confirm Email</mat-label>
+                    <input 
+                    matInput 
+                    formControlName="confirmEmail"
+                    >
+                    <mat-error *ngIf="_errors.hasError && _errors.type === 'emailNotMatch'">{{_errors.message}}</mat-error>
                 </mat-form-field>
             </section>
             <section>
@@ -89,10 +100,7 @@
                 </div>
                 
             </section>
-            <div *ngIf="_errors.hasError && _errors.type == 'bodyPhotos'">
-                {{_errors.message}}
-            </div>
-           
+            
         </div>
         <button mat-button type="submit" >Submit</button>
     </form>

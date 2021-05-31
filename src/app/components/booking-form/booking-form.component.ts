@@ -54,6 +54,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         nameFirst: [this.user.fName],
         nameLast: [this.user.lName],
         email: [this.user.email],
+        confirmEmail: [this.user.email],
         phoneNumber: [this.user.phoneNum],
         ageCheck: [this.user.isSignedIn ? true : false]
       }),
@@ -68,6 +69,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
       this.bookingForm.get('guestInfo.nameFirst').setValidators([Validators.required, Validators.maxLength(50)]);
       this.bookingForm.get('guestInfo.nameLast').setValidators([Validators.required,Validators.maxLength(50)]);
       this.bookingForm.get('guestInfo.email').setValidators([Validators.required, Validators.email, Validators.maxLength(100)]);
+      this.bookingForm.get('guestInfo.confirmEmail').setValidators([Validators.required, Validators.email, Validators.maxLength(100)]);
       this.bookingForm.get('guestInfo.phoneNumber').setValidators([Validators.required, Validators.minLength(14)]);
       this.bookingForm.get('guestInfo.ageCheck').setValidators(Validators.requiredTrue);
     }
@@ -172,6 +174,27 @@ export class BookingFormComponent implements OnInit, OnDestroy {
               phoneNumber:this.phoneNumberPipe.transform(userInp)
             }
           }, {emitEvent: false}); 
+        }
+      )
+    ).add(
+      this.bookingForm.get('guestInfo.confirmEmail').valueChanges.subscribe(
+        userInp => {
+          if(userInp !== this.bookingForm.get('guestInfo.email').value){
+            this._errors = {
+              hasError: true,
+              type: 'emailNotMatch',
+              message: 'emails must match'
+            }
+            this.bookingForm.get('guestInfo.confirmEmail').setErrors({invalid: true});
+          } else {
+            this._errors = {
+              hasError: false,
+              type: '',
+              message: ''
+            }
+            this.bookingForm.get('guestInfo.confirmEmail').setErrors(null);
+          }
+          
         }
       )
     )

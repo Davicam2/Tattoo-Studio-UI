@@ -19,10 +19,16 @@
     }
 
     table{
-        border-collapse: collapse;
+        
 
         td{
             padding: 0px 5px;
+        }
+        td:not(:last-child){
+            border-right: 1px dashed white;
+        }
+        th{
+           text-decoration: underline;
         }
         
         tbody tr:nth-child(odd){
