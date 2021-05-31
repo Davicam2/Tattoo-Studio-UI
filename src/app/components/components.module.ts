@@ -7,6 +7,8 @@ import { AngularMaterialModule } from '../material.module';
 import { UtilModule } from '../util/util.module';
 import {AppPipesModule} from 'src/app/pipes/pipes.module';
 import { NotificationModalComponent } from './notification-modal/notification-modal.component';
+import { ViewHeaderComponent } from './view-header/view-header.component';
+import { BookingTableInspectorComponent } from './booking-table-inspector/booking-table-inspector.component';
 
 import { 
   BookingFormComponent, 
@@ -16,7 +18,6 @@ import {
   DragDropComponent
 } from './index';
 
-import { ViewHeaderComponent } from './view-header/view-header.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ViewHeaderComponent } from './view-header/view-header.component';
     ImageUploadComponent, 
     DragDropComponent, 
     NotificationModalComponent, 
-    ViewHeaderComponent
+    ViewHeaderComponent, 
+    BookingTableInspectorComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,8 @@ import { ViewHeaderComponent } from './view-header/view-header.component';
     BookingTableComponent,
     BookingFormComponent,
     ImageUploadComponent,
-    ViewHeaderComponent
+    ViewHeaderComponent,
+    BookingTableInspectorComponent
   ]
 })
 export class AppComponentsModule { }

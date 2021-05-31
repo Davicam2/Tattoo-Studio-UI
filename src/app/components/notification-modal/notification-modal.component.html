@@ -58,44 +58,7 @@
         </div>
     </div>
 </ng-template>
-
-<!--Probably needs to be stateful-->
-<ng-template #inspectBooking>
-    <div class="modal-container">
-        <div class="modal-body">
-            <section class="modal-title">
-                {{configuration.title}}
-            </section>
-            <section class="modal-content">
-                {{configuration.modalMessage}}
-                <div class="modal-content-inspect">
-                    <table>
-                        <thead>
-                            <th>(Thing)</th>
-                            <th>(Value)</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let row of configuration.modalTableArray">
-                                <td>{{row.title}}</td>
-                                <td>{{row.value | tryParseDate: 'MMM dd, yyyy'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="modal-actions">
-                        <button>RFI</button>
-                        <button>Accept</button>
-                        <button>Reject</button>
-                        <button>other actions?</button>
-                    </div>
-                </div>
-            </section>
-            <section class="modal-footer">
-               
-            </section>
-        </div>
-    </div>
-</ng-template>
-<!-------------------------------->
+<!-------------------------->
 <ng-template #errorMessage>
     <div class="modal-container">
         <div class="modal-body">

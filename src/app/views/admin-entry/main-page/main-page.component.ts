@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { modalConfig, modalContent, NotificationModalComponent } from 'src/app/components';
+import { modalContent, inspectorModalConfig, BookingTableInspectorComponent } from 'src/app/components';
 import { bookingPMap } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
@@ -113,8 +113,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
       structuredTableRow['id'] = row.id;
       this.tableData.push(structuredTableRow);
     });
-    
-
   }
 
   bookingAction(evt:{action:string,id:string}){
@@ -124,7 +122,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       this.tblService.rejectBooking(evt.id)
     } else if(evt.action === 'selected'){
       
-      let dialogRef = this.matDialog.open(NotificationModalComponent);
+      let dialogRef = this.matDialog.open(BookingTableInspectorComponent);
       let instance = dialogRef.componentInstance;
       let selectedBooking = this.bookings.find(booking => booking.id == evt.id);
       let rowValues: Array<{title: string, value: string}> = new Array();
@@ -140,7 +138,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
       
 
-      let modalData: modalConfig = {
+      let modalData: inspectorModalConfig = {
         title: this.modalConfig.INSPECT_BOOKING.title,
         modalSetting: modalContent.inspectBooking,
         modalMessage: this.modalConfig.INSPECT_BOOKING.message,

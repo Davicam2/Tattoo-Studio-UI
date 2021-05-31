@@ -1,5 +1,4 @@
 .modal{
-    
     &-body{
         height: 100%;
         width: 100%;
@@ -17,19 +16,6 @@
     &-content{
         display: flex;
         justify-content: center;
-    }
-}
-
-.modal-content-login{
-
-    display: flex;
-    flex-direction: column;
-    label{
-        display: flex;
-        justify-content: space-between;
-        input{
-            width: 80%;
-        }
     }
 }
 
@@ -65,8 +51,4 @@
             box-shadow: 10px 5px 5px #888;
         }
     }
-}
-
-.error-text{
-    color: red;
 }
