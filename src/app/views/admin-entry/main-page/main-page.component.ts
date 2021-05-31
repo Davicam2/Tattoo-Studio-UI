@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { modalContent, inspectorModalConfig, BookingTableInspectorComponent } from 'src/app/components';
+import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent } from 'src/app/components';
 import { bookingPMap } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
@@ -117,9 +117,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   bookingAction(evt:{action:string,id:string}){
     if(evt.action === 'accept'){
-      this.tblService.acceptBooking(evt.id);
+      this.acceptBooking(evt.id);
     } else if(evt.action === 'reject'){
-      this.tblService.rejectBooking(evt.id)
+      this.rejectBooking(evt.id)
     } else if(evt.action === 'selected'){
       
       let dialogRef = this.matDialog.open(BookingTableInspectorComponent);
@@ -134,10 +134,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           }
         }
       }
-      
-
-      
-
+    
       let modalData: inspectorModalConfig = {
         title: this.modalConfig.INSPECT_BOOKING.title,
         modalSetting: modalContent.inspectBooking,
@@ -145,7 +142,25 @@ export class MainPageComponent implements OnInit, OnDestroy {
         modalTableArray: rowValues
       }
       instance.configuration = modalData;
+      dialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
+        if(action === inspectorActions.accept){
+          this.acceptBooking(evt.id)
+          dialogRef.close();
+        }else if( action === inspectorActions.reject){
+          this.rejectBooking(evt.id)
+          dialogRef.close();
+        }else if( action === inspectorActions.rfi){
+          // initiate rfi email builder
+        }
+      })
     }
+  }
+
+  acceptBooking(id: string){
+    this.tblService.acceptBooking(id)
+  }
+  rejectBooking(id: string){
+    this.tblService.rejectBooking(id);
   }
 
  
