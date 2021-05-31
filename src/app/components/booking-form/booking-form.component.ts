@@ -183,7 +183,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
             this._errors = {
               hasError: true,
               type: 'emailNotMatch',
-              message: 'emails must match'
+              message: 'Emails must match'
             }
             this.bookingForm.get('guestInfo.confirmEmail').setErrors({invalid: true});
           } else {
@@ -195,6 +195,27 @@ export class BookingFormComponent implements OnInit, OnDestroy {
             this.bookingForm.get('guestInfo.confirmEmail').setErrors(null);
           }
           
+        }
+      )
+    ).add(
+      this.bookingForm.get('guestInfo.email').valueChanges.subscribe(
+        userInp => {
+          let emConf = this.bookingForm.get('guestInfo.confirmEmail');
+          if(emConf.value !== '' && userInp !== emConf.value){
+            this._errors = {
+              hasError: true,
+              type: 'emailNotMatch',
+              message: 'Emails must match'
+            }
+            emConf.setErrors({invalid: true});
+          } else {
+            this._errors = {
+              hasError: false,
+              type: '',
+              message: ''
+            }
+            emConf.setErrors(null);
+          }
         }
       )
     )

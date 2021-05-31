@@ -27,6 +27,7 @@
                     <input 
                     matInput 
                     formControlName="confirmEmail"
+                    onPaste="return false"
                     >
                     <mat-error *ngIf="_errors.hasError && _errors.type === 'emailNotMatch'">{{_errors.message}}</mat-error>
                 </mat-form-field>
