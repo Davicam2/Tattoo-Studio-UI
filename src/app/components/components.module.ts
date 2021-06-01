@@ -17,6 +17,7 @@ import {
   ImageUploadComponent,
   DragDropComponent
 } from './index';
+import { CalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import {
     DragDropComponent, 
     NotificationModalComponent, 
     ViewHeaderComponent, 
-    BookingTableInspectorComponent
+    BookingTableInspectorComponent, CalendarComponent
   ],
   imports: [
     CommonModule,
