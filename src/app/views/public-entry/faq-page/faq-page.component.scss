@@ -1,0 +1,11 @@
+.comp-container{
+    height: 100%;
+    width: 100%;
+    .section-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+    }
+}

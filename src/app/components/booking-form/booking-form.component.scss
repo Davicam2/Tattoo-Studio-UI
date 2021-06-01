@@ -5,12 +5,14 @@
     width: 70%;
     max-width: 900px;
     border-radius: 15px;
+    border: 10px double var(--joker-green);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color:#758f7e;
-    box-shadow: 3px 2px 7px 1px;
+    background-color:black;
+    color:white;
+    box-shadow: 15px 15px 25px 3px var(--joker-green);
     margin-bottom: 20px;
     @media screen and (min-width: $mediaPCWidth){
         max-width: 700px;
@@ -26,17 +28,20 @@
         padding-top: 15px;
         padding-bottom: 15px;
         width: 90%;
+        
         section{
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
+            justify-content: space-between;
             width: 100%;
-           
         }
         button{
-            background-color: var(--joker-green);
+            background: none;
+            border: 10px double var(--joker-green);
             color: white;
+            width:25%;
         }
+
         .drag-drop-section{
             display: flex;
             flex-direction: column;

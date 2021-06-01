@@ -23,6 +23,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { FormContainerComponent } from './form-container/form-container.component';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -40,7 +41,8 @@ FullCalendarModule.registerPlugins([
     NotificationModalComponent, 
     ViewHeaderComponent, 
     BookingTableInspectorComponent, 
-    CalendarComponent,
+    CalendarComponent, 
+    FormContainerComponent,
 
   ],
   imports: [
@@ -61,7 +63,8 @@ FullCalendarModule.registerPlugins([
     ImageUploadComponent,
     ViewHeaderComponent,
     BookingTableInspectorComponent,
-    CalendarComponent
+    CalendarComponent,
+    FormContainerComponent
   ]
 })
 export class AppComponentsModule { }

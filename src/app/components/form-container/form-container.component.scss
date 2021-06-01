@@ -1,0 +1,24 @@
+@import '/src/assets/master';
+
+.form-container{
+    height:fit-content;
+    width: 70%;
+    max-width: 900px;
+    border-radius: 15px;
+    border: 10px double var(--joker-green);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:black;
+    color:white;
+    box-shadow: 15px 15px 25px 3px var(--joker-green);
+    margin-bottom: 20px;
+    @media screen and (min-width: $mediaPCWidth){
+        max-width: 700px;
+    }
+    @media screen and (max-width: $mediaMobileWidth) {
+        min-width: 95%;
+    }
+    
+}

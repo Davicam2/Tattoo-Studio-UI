@@ -14,7 +14,19 @@ export class CalendarComponent implements OnInit {
   }
 
   calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth'
+    initialView: 'dayGridMonth',
+    dateClick: this.dateClickAction.bind(this),
   };
 
+  dateClickAction(arg){
+    Object.keys(arg).forEach(key => {
+      console.log(key +'--' + arg[key]);
+      
+    })
+    Object.keys(arg['view']).forEach(key => {
+      console.log(key +'--'+ arg['view'][key]);
+    })
+   
+   
+  }
 }
