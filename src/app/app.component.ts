@@ -12,6 +12,7 @@ import { UserService } from './services/user.service';
 export class AppComponent implements OnInit {
   title = 'Tattoo-Studio-UI';
   isDev;
+  
 
   constructor(
     private _router: Router, 

@@ -5,7 +5,7 @@
     ></app-view-header>
     
     <section class="admin-body">
-        <div class="table-container">
+        <div class="component-container">
             <section class="controls">
                 <div>
                     <select [(ngModel)]="tableViewSelect" (change)="tableViewChange()">
@@ -21,7 +21,13 @@
                 (rowAction)='bookingAction($event)'
             ></app-booking-table>
         </div>
+        <div class="component-container">
+            <app-calendar></app-calendar>
+        </div>
         
+
+
     </section>
+
 </div>
  

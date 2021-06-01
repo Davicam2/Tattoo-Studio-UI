@@ -20,6 +20,16 @@ import {
 import { CalendarComponent } from './calendar/calendar.component';
 
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
+FullCalendarModule.registerPlugins([ 
+  dayGridPlugin,
+  interactionPlugin
+]);
+
+
 @NgModule({
   declarations: [
     PublicLandingComponent, 
@@ -29,7 +39,9 @@ import { CalendarComponent } from './calendar/calendar.component';
     DragDropComponent, 
     NotificationModalComponent, 
     ViewHeaderComponent, 
-    BookingTableInspectorComponent, CalendarComponent
+    BookingTableInspectorComponent, 
+    CalendarComponent,
+
   ],
   imports: [
     CommonModule,
@@ -38,7 +50,9 @@ import { CalendarComponent } from './calendar/calendar.component';
     UtilModule,
     AppPipesModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    FullCalendarModule
+
   ],
   exports:[
     PublicLandingComponent,
@@ -46,7 +60,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     BookingFormComponent,
     ImageUploadComponent,
     ViewHeaderComponent,
-    BookingTableInspectorComponent
+    BookingTableInspectorComponent,
+    CalendarComponent
   ]
 })
 export class AppComponentsModule { }

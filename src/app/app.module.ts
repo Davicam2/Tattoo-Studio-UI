@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { RuntimeConfigService } from './services/runtime-config.service';
 
 
+
+
 const appInitializerFn = (appConfig: RuntimeConfigService) => {
   return () => {
     return appConfig.loadAppConfig();
