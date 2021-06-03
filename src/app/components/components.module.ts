@@ -18,16 +18,18 @@ import {
   DragDropComponent
 } from './index';
 import { CalendarComponent } from './calendar/calendar.component';
-
+import { FormContainerComponent } from './form-container/form-container.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { FormContainerComponent } from './form-container/form-container.component';
+import timeGridPlugin from '@fullcalendar/timegrid';
+
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
-  interactionPlugin
+  interactionPlugin,
+  timeGridPlugin
 ]);
 
 
