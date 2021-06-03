@@ -10,8 +10,31 @@
     align-items: center;
     position: relative;
 
+    .icons{
+        position: absolute;
+        height: 100%;
+        
+        &-business{
+            left: 0;
+            top: 0;
+            cursor: pointer;
+        }
+        &-social{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+            width: fit-content;
+            a{
+                margin-right: 15px;
+            }
+        }
+    }
 
-    img{
+    .business-icon{
         position: absolute;
         height: 100%;
         left: 0;
