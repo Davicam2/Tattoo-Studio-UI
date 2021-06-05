@@ -22,10 +22,11 @@
             ></app-booking-table>
         </div>
         <div class="component-container">
-            <app-calendar></app-calendar>
+            <app-calendar 
+                [bookings]="calendarEvents"
+                (eventSelect)="calendarEventSelect($event)"
+            ></app-calendar>
         </div>
-        
-
 
     </section>
 

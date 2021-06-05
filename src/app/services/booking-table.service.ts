@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
-import { apiResponse } from 'src/app/interfaces';
+import { apiResponse, Ibooking } from 'src/app/interfaces';
 import { RestService } from './rest-api.service';
 
 
@@ -113,7 +113,7 @@ export class BookingTableService {
       this.serverUrl + this.uris.getBookings,
       {}
       ).subscribe(
-        res => {
+        (res: [Ibooking]) => {
           // res.forEach(booking => {
           //   booking.submissionDate = new Date(booking.submissionDate);
           //   booking.requestedDate = new Date(booking.requestedDate);

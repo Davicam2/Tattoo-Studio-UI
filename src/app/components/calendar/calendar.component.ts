@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
+import { formatDate } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi } from '@fullcalendar/angular';
+
 import * as uuid from 'uuid';
 
 
@@ -8,12 +10,25 @@ import * as uuid from 'uuid';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
+
+  @Input() bookings: Array<{start: string, end: string, title: string, id: string}> = [];
+  @Output() eventSelect = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+   
+    
   }
+  ngOnChanges(changes: SimpleChanges){
+    if(changes.bookings){
+      this.calendarOptions.events = this.bookings;
+      console.log(this.bookings)
+      
+    }
+  }
+  
 
   calendarOptions: CalendarOptions = {
     headerToolbar:{
@@ -28,7 +43,7 @@ export class CalendarComponent implements OnInit {
       day: 'day',
       
     },
-    initialView: 'timeGridWeek',
+    initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
     selectable: true,
@@ -37,11 +52,13 @@ export class CalendarComponent implements OnInit {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
+   
     
   };
   currentEvents: EventApi[] = [];
 
   handleDateSelect(selectInfo: DateSelectArg) {
+    console.log(selectInfo)
     const title = prompt('Please enter a new title for your event');
     const calendarApi = selectInfo.view.calendar;
 
@@ -58,15 +75,19 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  //TODO: use the event.id parameter to bring up the booking inspector
   handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
-    }
+    this.eventSelect.emit(clickInfo.event.id);
+    // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+    //   clickInfo.event.remove();
+    // }
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
+
+  
  
 }
 

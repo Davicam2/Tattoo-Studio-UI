@@ -30,7 +30,7 @@ export class BookingTableInspectorComponent implements OnInit {
 
 export interface inspectorModalConfig{
   title: string,
-  modalSetting: string,
+  modalState: string,
   modalMessage: string,
   modalTableArray: any[]
 }

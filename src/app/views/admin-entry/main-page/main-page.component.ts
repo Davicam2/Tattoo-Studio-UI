@@ -1,8 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent } from 'src/app/components';
-import { bookingPMap } from 'src/app/interfaces';
+import { bookingPMap, Ibooking } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 
@@ -14,9 +15,11 @@ import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 })
 export class MainPageComponent implements OnInit, OnDestroy {
   // send to child===\\
-  bookings = [];
+  bookings: Array<Ibooking> = [];
   tableData = [];
   tableHeaders = [];
+
+  calendarEvents: Array<{start:string, end:string, title: string, id: string}> = []; 
   //=================//
 
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
@@ -46,6 +49,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           if(!data) return;
           this.bookings = data.content;
           this.buildTableData(data.content);
+          this.createCalendarEvents(data.content);
         }
       )
     ).add(
@@ -137,7 +141,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     
       let modalData: inspectorModalConfig = {
         title: this.modalConfig.INSPECT_BOOKING.title,
-        modalSetting: modalContent.inspectBooking,
+        modalState: selectedBooking.status,
         modalMessage: this.modalConfig.INSPECT_BOOKING.message,
         modalTableArray: rowValues
       }
@@ -163,10 +167,38 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.tblService.rejectBooking(id);
   }
 
- 
+  //TODO: base logic off booking status instead of requested date
+  //set fullday or half day properties
+  createCalendarEvents(data: [Ibooking]){
+    let tempArr: Array<{start:string, end:string, title: string, id: string}> = [];
+
+    for(let booking of data){
+      if(booking.requestedDate.toString() !== 'tbd'){
+        tempArr.push(
+          {
+            start: formatDate(booking.requestedDate, 'yyyy-MM-dd', 'en-US'),
+            end: formatDate(booking.requestedDate, 'yyyy-MM-dd', 'en-US'),
+            title: `${booking.nameFirst} ${booking.nameLast} appointment`,
+            id: booking.id
+          }
+        )
+      }
+    }
+
+    if(tempArr.length > 0){
+      this.calendarEvents =  [...tempArr];
+    }
+
+  }
+
+  calendarEventSelect(id){
+    this.bookingAction({action:'selected', id:id})
+   
+  }
 
   ngOnDestroy(){
     this.subscriptions.unsubscribe();
   }
+
 
 }

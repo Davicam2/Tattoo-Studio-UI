@@ -19,7 +19,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="modal-actions">
+                <div class="modal-actions" *ngIf="configuration.modalState === 'pending'">
                     <button (click)="clickRFI()">RFI</button>
                     <button (click)="clickAccept()">Accept</button>
                     <button (click)="clickReject()">Reject</button>
