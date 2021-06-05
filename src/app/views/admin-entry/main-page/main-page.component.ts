@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent } from 'src/app/components';
 import { bookingPMap, Ibooking } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
+import { ReservationService } from 'src/app/services/reservation.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 
 
@@ -37,6 +38,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private tblService: BookingTableService,
     private appConfig: RuntimeConfigService,
     private matDialog: MatDialog,
+    private resSvc: ReservationService
     ) { }
 
   ngOnInit(): void {
@@ -160,6 +162,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  dateBlockAction(start: string, end: string, allDay: boolean, view?: any){
+    const title = prompt('Please enter a new title for your event');
+
+    if(title){
+      
+    }
+    debugger;
+  }
+
   acceptBooking(id: string){
     this.tblService.acceptBooking(id)
   }
@@ -194,6 +205,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
   calendarEventSelect(id){
     this.bookingAction({action:'selected', id:id})
    
+  }
+
+  calendarDateSelect(event){
+    this.dateBlockAction(event.start, event.end, event.allDay);
+    console.log(event)
   }
 
   ngOnDestroy(){

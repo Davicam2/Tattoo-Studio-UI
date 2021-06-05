@@ -12,6 +12,13 @@ export interface Ibooking{
     id: string,
     ageCheck: boolean,
     isTest: boolean,
-    status: string,
-    
+    status: string
+}
+
+export interface IReservation{
+    start: Date,
+    end: Date,
+    allDay: boolean,
+    title: string,
+    view?: any
 }

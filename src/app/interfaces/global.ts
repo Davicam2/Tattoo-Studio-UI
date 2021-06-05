@@ -9,7 +9,8 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
             getBookings: string,
             acceptBooking: string,
             rejectBooking: string,
-            checkUserLogin: string
+            checkUserLogin: string,
+            requestReservedDate: string
         }
     },
     

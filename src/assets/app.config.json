@@ -9,7 +9,8 @@
             "getBookings": "/booking/bookings",
             "acceptBooking": "/booking/accept",
             "rejectBooking": "/booking/reject",
-            "checkUserLogin": "/user/verify"
+            "checkUserLogin": "/user/verify",
+            "requestReservedDate": "/reservations/reserve"
         }
     },
     "USER_PROFILE":{

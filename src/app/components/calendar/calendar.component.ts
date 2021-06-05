@@ -14,6 +14,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   @Input() bookings: Array<{start: string, end: string, title: string, id: string}> = [];
   @Output() eventSelect = new EventEmitter();
+  @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
 
   constructor() { }
 
@@ -58,21 +59,27 @@ export class CalendarComponent implements OnInit, OnChanges {
   currentEvents: EventApi[] = [];
 
   handleDateSelect(selectInfo: DateSelectArg) {
-    console.log(selectInfo)
-    const title = prompt('Please enter a new title for your event');
-    const calendarApi = selectInfo.view.calendar;
+    this.dateSelect.emit({
+      allDay: selectInfo.allDay,
+      start: selectInfo.start,
+      end: selectInfo.end,
+      view: selectInfo.view.type
+    })
 
-    calendarApi.unselect(); // clear date selection
+    // const title = prompt('Please enter a new title for your event');
+    // const calendarApi = selectInfo.view.calendar;
 
-    if (title) {
-      calendarApi.addEvent({
-        id: uuid.v4(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      });
-    }
+    // calendarApi.unselect(); // clear date selection
+
+    // if (title) {
+    //   calendarApi.addEvent({
+    //     id: uuid.v4(),
+    //     title,
+    //     start: selectInfo.startStr,
+    //     end: selectInfo.endStr,
+    //     allDay: selectInfo.allDay
+    //   });
+    // }
   }
 
   //TODO: use the event.id parameter to bring up the booking inspector

@@ -25,6 +25,7 @@
             <app-calendar 
                 [bookings]="calendarEvents"
                 (eventSelect)="calendarEventSelect($event)"
+                (dateSelect)="calendarDateSelect($event)"
             ></app-calendar>
         </div>
 
