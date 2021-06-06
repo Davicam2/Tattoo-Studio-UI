@@ -64,7 +64,7 @@ export class BookingTableService {
     }
 
     this.rApi.makePostRequest(
-      this.serverUrl + this.uris.requestBooking,
+      this.serverUrl + this.uris.BOOKING.requestBooking,
       submissionForm
       ).subscribe(
         res => {
@@ -84,7 +84,7 @@ export class BookingTableService {
 
   getBookedDates(){
     this.rApi.makeGetRequest(
-      this.serverUrl + this.uris.getBookedDates,
+      this.serverUrl + this.uris.BOOKING.getBookedDates,
       ''
     ).subscribe(
       res => {
@@ -110,7 +110,7 @@ export class BookingTableService {
   getBookings(){
     
     this.rApi.makeGetRequest(
-      this.serverUrl + this.uris.getBookings,
+      this.serverUrl + this.uris.BOOKING.getBookings,
       {}
       ).subscribe(
         (res: [Ibooking]) => {
@@ -137,7 +137,7 @@ export class BookingTableService {
 
   acceptBooking(id: string){
     this.rApi.makeUpdatePutRequest(
-      this.serverUrl + this.uris.acceptBooking,
+      this.serverUrl + this.uris.BOOKING.acceptBooking,
       {id}
     ).subscribe(
       res => {
@@ -158,7 +158,7 @@ export class BookingTableService {
 
   rejectBooking(id: string){
     this.rApi.makeDeleteRequest(
-      this.serverUrl + this.uris.rejectBooking,
+      this.serverUrl + this.uris.BOOKING.rejectBooking,
       {id}
     ).subscribe(
       res => {
@@ -177,9 +177,9 @@ export class BookingTableService {
     )
   }
 
-  
 
-  apiOrigins = {
+
+  private apiOrigins = {
     acceptBooking: 'acceptBooking',
     rejectBooking: 'rejectBooking',
     getBookings: 'getPendingRequests',

@@ -9,6 +9,8 @@ import { RestService } from './rest-api.service';
 })
 export class ReservationService {
 
+  reservationCreated$: Subject<apiResponse> = new Subject();
+  reservedDateList$: BehaviorSubject<apiResponse> = new BehaviorSubject(null)
 
   private serverUrl = this.appConfig.getServerUrl();
   private uris = this.appConfig.getEndpoints();
@@ -23,7 +25,7 @@ export class ReservationService {
     requestAReservation(start: Date, end:Date, allDay: boolean, title:string, view?:any){
       
       this.rApi.makePostRequest(
-        this.serverUrl + this.uris.requestReservedDate,
+        this.serverUrl + this.uris.RESERVATION.requestReservedDate,
         {start:start, end:end, allDay:allDay, title: title}
         ).subscribe(
           res => {
@@ -33,18 +35,42 @@ export class ReservationService {
               isError: false,
               content: res
             } 
-            return response;
+            this.reservationCreated$.next(response);
           }, err =>  {
-            
-            return err;
+            this.reservationCreated$.next(err);
           }
         )
     }
 
+    getReservationList(){
+      this.rApi.makeGetRequest(
+        this.serverUrl + this.uris.RESERVATION.getReservationList,
+        {}).subscribe(
+          res => {
+            let response: apiResponse = {
+              type: 'Get',
+              origin: this.apiOrigins.getResList,
+              isError: false,
+              content: res
+            }
+            this.reservedDateList$.next(response);
+          }, err => {
+            let response: apiResponse = {
+              type: 'Get',
+              origin: this.apiOrigins.getResList,
+              isError: true,
+              content: err
+            }
+            this.reservedDateList$.next(response);
+          }
 
-    apiOrigins = {
+        )
+    }
+
+
+    private apiOrigins = {
       requestReservation: 'requestReservation',
-      
+      getResList: 'getReservationList'
     
     }
     

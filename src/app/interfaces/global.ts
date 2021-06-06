@@ -4,13 +4,21 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
             express: string;
         },
         ENDPOINTS:{
-            getBookedDates: string,
-            requestBooking: string,
-            getBookings: string,
-            acceptBooking: string,
-            rejectBooking: string,
-            checkUserLogin: string,
-            requestReservedDate: string
+            BOOKING:{
+                getBookedDates: string,
+                requestBooking: string,
+                getBookings: string,
+                acceptBooking: string,
+                rejectBooking: string,
+            },
+            USER:{
+                checkUserLogin: string,
+            },
+            RESERVATION:{
+                requestReservedDate: string,
+                getReservationList: string
+            }
+            
         }
     },
     

@@ -20,5 +20,6 @@ export interface IReservation{
     end: Date,
     allDay: boolean,
     title: string,
+    id:string,
     view?: any
 }

@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi } from '@fullcalendar/angular';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi, FullCalendarComponent } from '@fullcalendar/angular';
 
 import * as uuid from 'uuid';
 
@@ -12,10 +12,13 @@ import * as uuid from 'uuid';
 })
 export class CalendarComponent implements OnInit, OnChanges {
 
-  @Input() bookings: Array<{start: string, end: string, title: string, id: string}> = [];
+  @Input() bookings: Array<{start: string, end: string, title: string, id: string, allday?:boolean}> = [];
+  @Input() reservations: Array<{start: string, end:string, title:string, id:string, allday?:boolean}> = [];
   @Output() eventSelect = new EventEmitter();
   @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
 
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -23,10 +26,28 @@ export class CalendarComponent implements OnInit, OnChanges {
     
   }
   ngOnChanges(changes: SimpleChanges){
+    let calendarAPI
+    if(this.calendarComponent){
+      calendarAPI = this.calendarComponent.getApi();
+    } else return;
+    
     if(changes.bookings){
-      this.calendarOptions.events = this.bookings;
+      
+      
+      this.bookings.map(booking => {
+        booking['color'] = 'blue';
+        booking['groupId'] = 'booking'
+        calendarAPI.addEvent(booking)
+      });
       console.log(this.bookings)
       
+    } else if (changes.reservations){
+      console.log(this.reservations)
+      this.reservations.map(res => {
+        res['color'] = 'grey';
+        res['groupId'] = 'reservation';
+        calendarAPI.addEvent(res);
+      })
     }
   }
   
@@ -53,6 +74,10 @@ export class CalendarComponent implements OnInit, OnChanges {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
+    eventSources:[
+      {events: [this.bookings], color: 'blue'},
+      {events: [this.reservations], color: 'grey'}
+    ]
    
     
   };
@@ -84,7 +109,11 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   //TODO: use the event.id parameter to bring up the booking inspector
   handleEventClick(clickInfo: EventClickArg) {
-    this.eventSelect.emit(clickInfo.event.id);
+    debugger;
+    if(clickInfo.event.groupId === 'booking'){
+      this.eventSelect.emit(clickInfo.event.id);
+    }
+    
     // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
     //   clickInfo.event.remove();
     // }

@@ -30,7 +30,7 @@ export class UserService {
 
     checkForUser(userName: string, pass: string){
       this.rApi.makeGetRequest(
-        this.serverUrl + this.uris.checkUserLogin,
+        this.serverUrl + this.uris.USER.checkUserLogin,
         {userName: userName, pass:pass}
       ).subscribe(
         res => {

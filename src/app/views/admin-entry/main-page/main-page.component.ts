@@ -1,9 +1,9 @@
 import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent } from 'src/app/components';
-import { bookingPMap, Ibooking } from 'src/app/interfaces';
+import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
@@ -17,6 +17,7 @@ import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 export class MainPageComponent implements OnInit, OnDestroy {
   // send to child===\\
   bookings: Array<Ibooking> = [];
+  reservations = new Subject<Array<IReservation>>();
   tableData = [];
   tableHeaders = [];
 
@@ -44,7 +45,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tableHeaders = this.tblService.getTableHeaders();
     this.tblService.getBookings();
-
+    this.resSvc.getReservationList();
     this.subscriptions.add(
       this.tblService.bookings$.subscribe(
         data => {
@@ -62,6 +63,25 @@ export class MainPageComponent implements OnInit, OnDestroy {
           // if( data.origin === this.tblService.apiOrigins.acceptBooking){
           //   this.tblService.getBookings();
           // }
+        }
+      )
+    ).add(
+      this.resSvc.reservationCreated$.subscribe(
+        (event) => {
+          if(!event.isError){
+            this.resSvc.getReservationList();
+            //TODO: get updated reservations list
+          }
+        }
+      )
+    ).add(
+      this.resSvc.reservedDateList$.subscribe(
+        (res) => {
+          if(res){
+            console.log(res);
+            this.reservations.next(res.content)
+          }
+          
         }
       )
     )
@@ -156,19 +176,20 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this.rejectBooking(evt.id)
           dialogRef.close();
         }else if( action === inspectorActions.rfi){
-          // initiate rfi email builder
+          //TODO: initiate rfi email builder
         }
       })
     }
   }
 
-  dateBlockAction(start: string, end: string, allDay: boolean, view?: any){
+  dateBlockAction(start: Date, end: Date, allDay: boolean, view?: any){
     const title = prompt('Please enter a new title for your event');
 
     if(title){
-      
+
+     this.resSvc.requestAReservation(start,end,allDay,title);
     }
-    debugger;
+  
   }
 
   acceptBooking(id: string){

@@ -4,13 +4,20 @@
             "express": "http://localhost:3000"
         },
         "ENDPOINTS":{
-            "getBookedDates": "/booking/dates",
-            "requestBooking": "/booking/request",
-            "getBookings": "/booking/bookings",
-            "acceptBooking": "/booking/accept",
-            "rejectBooking": "/booking/reject",
-            "checkUserLogin": "/user/verify",
-            "requestReservedDate": "/reservations/reserve"
+            "BOOKING":{
+                "getBookedDates": "/booking/dates",
+                "requestBooking": "/booking/request",
+                "getBookings": "/booking/bookings",
+                "acceptBooking": "/booking/accept",
+                "rejectBooking": "/booking/reject"
+            },
+            "USER":{
+                "checkUserLogin": "/user/verify"
+            },
+            "RESERVATION":{
+                "requestReservedDate": "/reservations/reserve",
+                "getReservationList": "/reservations/getReservationList"
+            }
         }
     },
     "USER_PROFILE":{

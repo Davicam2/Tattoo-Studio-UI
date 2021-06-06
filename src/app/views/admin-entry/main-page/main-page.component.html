@@ -24,6 +24,7 @@
         <div class="component-container">
             <app-calendar 
                 [bookings]="calendarEvents"
+                [reservations]="reservations | async"
                 (eventSelect)="calendarEventSelect($event)"
                 (dateSelect)="calendarDateSelect($event)"
             ></app-calendar>
