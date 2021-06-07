@@ -16,7 +16,8 @@
             },
             "RESERVATION":{
                 "requestReservedDate": "/reservations/reserve",
-                "getReservationList": "/reservations/getReservationList"
+                "getReservationList": "/reservations/getReservationList",
+                "deleteReservation": "/reservations/removeReservation"
             }
         }
     },

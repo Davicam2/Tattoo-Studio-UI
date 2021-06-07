@@ -66,7 +66,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         }
       )
     ).add(
-      this.resSvc.reservationCreated$.subscribe(
+      this.resSvc.reservationListChanged$.subscribe(
         (event) => {
           if(!event.isError){
             this.resSvc.getReservationList();
@@ -223,8 +223,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   }
 
-  calendarEventSelect(id){
-    this.bookingAction({action:'selected', id:id})
+  calendarEventSelect(event){
+  
+    if(event.group === 'booking'){
+      this.bookingAction({action:'selected', id:event.id})
+    }else if (event.group === 'reservation'){
+      if(confirm('Remove this date reservation?')){
+        this.resSvc.deleteReservation(event.id);
+        //delete reservation
+      }
+    }
+    
    
   }
 

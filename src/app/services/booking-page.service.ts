@@ -19,7 +19,7 @@ export class BookingPageService {
     
     this.rAPISvc.makeGetRequest(
       this.configSvc.getConfig().URIS.BASE.express +
-      this.configSvc.getConfig().URIS.ENDPOINTS.getBookedDates,
+      this.configSvc.getConfig().URIS.ENDPOINTS.BOOKING.getBookedDates,
       ""
     ).subscribe(
       (data) => {

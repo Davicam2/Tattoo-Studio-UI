@@ -14,11 +14,13 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   @Input() bookings: Array<{start: string, end: string, title: string, id: string, allday?:boolean}> = [];
   @Input() reservations: Array<{start: string, end:string, title:string, id:string, allday?:boolean}> = [];
-  @Output() eventSelect = new EventEmitter();
+  @Output() eventSelect = new EventEmitter<{id:string, group:string}>();
   @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   
+  currentEventIds: Array<string> = [];
+
   constructor() { }
 
   ngOnInit(): void {
@@ -26,29 +28,31 @@ export class CalendarComponent implements OnInit, OnChanges {
     
   }
   ngOnChanges(changes: SimpleChanges){
+    
+    if(changes.bookings || changes.reservations){
+      this.synchCalendarEventUpdates();
+      console.log(this.bookings)
+    } 
+  }
+
+  synchCalendarEventUpdates(){
     let calendarAPI
     if(this.calendarComponent){
       calendarAPI = this.calendarComponent.getApi();
     } else return;
-    
-    if(changes.bookings){
-      
-      
-      this.bookings.map(booking => {
-        booking['color'] = 'blue';
-        booking['groupId'] = 'booking'
-        calendarAPI.addEvent(booking)
-      });
-      console.log(this.bookings)
-      
-    } else if (changes.reservations){
-      console.log(this.reservations)
-      this.reservations.map(res => {
-        res['color'] = 'grey';
-        res['groupId'] = 'reservation';
-        calendarAPI.addEvent(res);
-      })
-    }
+
+    calendarAPI.removeAllEvents()
+
+    this.bookings.map(booking => {
+      booking['color'] = 'blue';
+      booking['groupId'] = 'booking'
+      calendarAPI.addEvent(booking)
+    });
+    this.reservations.map(res => {
+      res['color'] = 'grey';
+      res['groupId'] = 'reservation';
+      calendarAPI.addEvent(res);
+    });
   }
   
 
@@ -109,10 +113,8 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   //TODO: use the event.id parameter to bring up the booking inspector
   handleEventClick(clickInfo: EventClickArg) {
-    debugger;
-    if(clickInfo.event.groupId === 'booking'){
-      this.eventSelect.emit(clickInfo.event.id);
-    }
+      this.eventSelect.emit({id:clickInfo.event.id,group: clickInfo.event.groupId });
+   
     
     // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
     //   clickInfo.event.remove();

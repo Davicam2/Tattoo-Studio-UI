@@ -16,7 +16,8 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
             },
             RESERVATION:{
                 requestReservedDate: string,
-                getReservationList: string
+                getReservationList: string,
+                deleteReservation: string
             }
             
         }

@@ -9,7 +9,7 @@ import { RestService } from './rest-api.service';
 })
 export class ReservationService {
 
-  reservationCreated$: Subject<apiResponse> = new Subject();
+  reservationListChanged$: Subject<apiResponse> = new Subject();
   reservedDateList$: BehaviorSubject<apiResponse> = new BehaviorSubject(null)
 
   private serverUrl = this.appConfig.getServerUrl();
@@ -35,9 +35,10 @@ export class ReservationService {
               isError: false,
               content: res
             } 
-            this.reservationCreated$.next(response);
+            this.reservationListChanged$.next(response);
           }, err =>  {
-            this.reservationCreated$.next(err);
+            console.log(err)
+            
           }
         )
     }
@@ -53,6 +54,7 @@ export class ReservationService {
               isError: false,
               content: res
             }
+          
             this.reservedDateList$.next(response);
           }, err => {
             let response: apiResponse = {
@@ -67,10 +69,36 @@ export class ReservationService {
         )
     }
 
+    deleteReservation(id:string){
+      this.rApi.makeDeleteRequest(
+        this.serverUrl + this.uris.RESERVATION.deleteReservation,
+        {id:id}
+      ).subscribe(
+        res => {
+          let response: apiResponse = {
+            type: 'delete',
+            origin: this.apiOrigins.deleteRes,
+            isError:false,
+            content: res
+          }
+          this.reservationListChanged$.next(response);
+        }, err => {
+          let response: apiResponse = {
+            type: 'delete',
+            origin: this.apiOrigins.deleteRes,
+            isError:true,
+            content: err
+          }
+          console.log(response);
+        }
+      )
+    }
+
 
     private apiOrigins = {
       requestReservation: 'requestReservation',
-      getResList: 'getReservationList'
+      getResList: 'getReservationList',
+      deleteRes: 'deleteReservation'
     
     }
     
