@@ -42,17 +42,21 @@ export class CalendarComponent implements OnInit, OnChanges {
     } else return;
 
     calendarAPI.removeAllEvents()
-
-    this.bookings.map(booking => {
-      booking['color'] = 'blue';
-      booking['groupId'] = 'booking'
-      calendarAPI.addEvent(booking)
-    });
-    this.reservations.map(res => {
-      res['color'] = 'grey';
-      res['groupId'] = 'reservation';
-      calendarAPI.addEvent(res);
-    });
+    if(this.bookings){
+      this.bookings.map(booking => {
+        booking['color'] = 'blue';
+        booking['groupId'] = 'booking'
+        calendarAPI.addEvent(booking)
+      });
+    }
+    if(this.reservations){
+      this.reservations.map(res => {
+        res['color'] = 'grey';
+        res['groupId'] = 'reservation';
+        calendarAPI.addEvent(res);
+      });
+    }
+    
   }
   
 
