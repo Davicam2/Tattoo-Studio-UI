@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "Tattoo-Studio-UI"
+  "defaultProject": "Tattoo-Studio-UI",
+  "cli": {
+    "analytics": "9a9dbadc-fafa-4325-9937-ef145ad1e68a"
+  }
 }
