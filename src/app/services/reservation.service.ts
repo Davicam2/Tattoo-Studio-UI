@@ -24,6 +24,8 @@ export class ReservationService {
 
     requestAReservation(start: Date, end:Date, allDay: boolean, title:string, view?:any){
       
+      console.log(start.getTime())
+
       this.rApi.makePostRequest(
         this.serverUrl + this.uris.RESERVATION.requestReservedDate,
         {start:start, end:end, allDay:allDay, title: title}

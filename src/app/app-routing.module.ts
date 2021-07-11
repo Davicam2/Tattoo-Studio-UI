@@ -13,7 +13,6 @@ const routes: Routes = [
     path: 'public',
     loadChildren: () => import('./views/public-entry/public-entry.module').then(m => m.PublicEntryModule)
   },
-  
   {
     path:'**',
     pathMatch:'full',

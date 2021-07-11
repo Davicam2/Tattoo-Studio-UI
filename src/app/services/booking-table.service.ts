@@ -22,7 +22,7 @@ export class BookingTableService {
   constructor(
     private appConfig: RuntimeConfigService,
     private rApi: RestService
-    ) { }
+  ) { }
 
   getTableHeaders(){
     return this.appConfig.getConfig().BOOKINGTABLE.headers;
@@ -107,11 +107,16 @@ export class BookingTableService {
     )
   }
 
-  getBookings(){
-    
+  getBookings(id?: string){
+    let body = {};
+
+    if(id){
+      body['id'] = id;
+    }
+
     this.rApi.makeGetRequest(
       this.serverUrl + this.uris.BOOKING.getBookings,
-      {}
+      body
       ).subscribe(
         (res: [Ibooking]) => {
           // res.forEach(booking => {

@@ -5,3 +5,7 @@ export * from './image-upload/image-upload.component';
 export * from './image-drag-drop/drag-drop.component';
 export * from './notification-modal/notification-modal.component';
 export * from './booking-table-inspector/booking-table-inspector.component';
+export * from './booking-action-modal/booking-action-modal.component';
+export * from './calendar/calendar.component';
+export * from './form-container/form-container.component';
+export * from './view-header/view-header.component';

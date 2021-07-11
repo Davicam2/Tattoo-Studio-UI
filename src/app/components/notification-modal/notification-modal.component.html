@@ -1,76 +1,67 @@
-
+<div class="modal-container">
+    <div class="modal-body">
     
-<div *ngIf="configuration.modalSetting === 'bookingSuccess'">
-    <ng-container *ngTemplateOutlet="bookingSuccess"></ng-container>
-</div>
+        <div *ngIf="configuration.modalSetting === 'bookingSuccess'">
+            <ng-container *ngTemplateOutlet="bookingSuccess"></ng-container>
+        </div>
 
-<div *ngIf="configuration.modalSetting === 'login'">
-    <ng-container *ngTemplateOutlet="login"></ng-container>
-</div>
+        <div *ngIf="configuration.modalSetting === 'login'">
+            <ng-container *ngTemplateOutlet="login"></ng-container>
+        </div>
 
-<div *ngIf="configuration.modalSetting === 'inspectBooking'">
-    <ng-container *ngTemplateOutlet="inspectBooking"></ng-container>
-</div>
-    
-<div *ngIf="configuration.modalSetting === 'errorMessage'">
-    <ng-container *ngTemplateOutlet="errorMessage"></ng-container>
-</div>
-
-<!--------TEMPLATES------------->
-<ng-template #bookingSuccess>
-    <div class="modal-container">
-        <div class="modal-body">
-            <section class="modal-title">
-                {{configuration.title}}
-            </section>
-            <section class="modal-content">
-                {{configuration.modalMessage}}
-            </section>
-            <section class="modal-footer modal-actions">
-                <button (click)="navigateTo('public/about')">About Saray</button>
-                <button (click)="navigateTo('public/faq')">faq</button>
-                <button (click)="navigateTo('pubic/after-care')">After Care</button>
-            </section>
+        <div *ngIf="configuration.modalSetting === 'inspectBooking'">
+            <ng-container *ngTemplateOutlet="inspectBooking"></ng-container>
+        </div>
+            
+        <div *ngIf="configuration.modalSetting === 'errorMessage'">
+            <ng-container *ngTemplateOutlet="errorMessage"></ng-container>
         </div>
     </div>
+</div>
+<!--------TEMPLATES------------->
+<ng-template #bookingSuccess>
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content">
+        {{configuration.modalMessage}}
+    </section>
+    <section class="modal-footer modal-actions">
+        <button (click)="navigateTo('public/about')">About Saray</button>
+        <button (click)="navigateTo('public/faq')">faq</button>
+        <button (click)="navigateTo('pubic/after-care')">After Care</button>
+    </section>
 </ng-template>
 <!------------------------------->
 <ng-template #login>
-    <div class="modal-container">
-        <div class="modal-body">
-            <div class="modal-title">
-                {{configuration.title}}
-            </div>
-            <div class="modal-content">
-                {{configuration.modalMessage}}
-            </div>
-            <div class="modal-content-login">
-                <label>User Name
-                    <input name="userName" [(ngModel)]="loginValues.userName" type="text" >
-                </label>
-                <label>Password
-                    <input name="password"[(ngModel)]="loginValues.pass" type="password">
-                </label>
-            </div>
-            <div class="modal-footer">
-                <button (click)="tryLogin()">Login</button>
-            </div>
-        </div>
+
+    <div class="modal-title">
+        {{configuration.title}}
+    </div>
+    <div class="modal-content">
+        {{configuration.modalMessage}}
+    </div>
+    <div class="modal-content-login">
+        <label>User Name
+            <input name="userName" [(ngModel)]="loginValues.userName" type="text" >
+        </label>
+        <label>Password
+            <input name="password"[(ngModel)]="loginValues.pass" type="password">
+        </label>
+    </div>
+    <div class="modal-footer">
+        <button (click)="tryLogin()">Login</button>
     </div>
 </ng-template>
 <!-------------------------->
 <ng-template #errorMessage>
-    <div class="modal-container">
-        <div class="modal-body">
-            <section class="modal-title">
-                {{configuration.title}}
-            </section>
-            <section class="modal-content error-text">
-                {{configuration.modalMessage}}
-            </section>
-            <section class="modal-footer">
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content error-text">
+        {{configuration.modalMessage}}
+    </section>
+    <section class="modal-footer">
 
-            </section>
-        </div>
-    </div>
+    </section>
 </ng-template>
