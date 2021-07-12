@@ -1,8 +1,9 @@
 import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, Subscription } from 'rxjs';
-import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent } from 'src/app/components';
+import { Subject, Subscription, combineLatest, forkJoin, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent } from 'src/app/components';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -22,6 +23,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   tableHeaders = [];
 
   calendarEvents: Array<{start:string, end:string, title: string, id: string}> = []; 
+
+  _calendarEvents: Array<ICalendarEvent> = [];
   //=================//
 
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
@@ -46,13 +49,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.tableHeaders = this.tblService.getTableHeaders();
     this.tblService.getBookings();
     this.resSvc.getReservationList();
+
+   
+
     this.subscriptions.add(
       this.tblService.bookings$.subscribe(
         data => {
           if(!data) return;
           this.bookings = data.content;
           this.buildTableData(data.content);
-          this.createCalendarEvents(data.content);
         }
       )
     ).add(
@@ -80,6 +85,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
           if(res){
             console.log(res);
             this.reservations.next(res.content)
+          }
+          
+        }
+      )
+    ).add(
+      combineLatest(
+        this.resSvc.reservedDateList$,
+        this.tblService.bookings$
+      ).subscribe(
+        ([resvs, books]) => {
+          if(resvs && books){
+            this.createCalendarEvts(books.content, resvs.content);
           }
           
         }
@@ -186,10 +203,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     const title = prompt('Please enter a new title for your event');
 
     if(title){
-
      this.resSvc.requestAReservation(start,end,allDay,title);
     }
-  
   }
 
   acceptBooking(id: string){
@@ -199,29 +214,48 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.tblService.rejectBooking(id);
   }
 
-  //TODO: base logic off booking status instead of requested date
-  //set fullday or half day properties
-  createCalendarEvents(data: [Ibooking]){
-    let tempArr: Array<{start:string, end:string, title: string, id: string}> = [];
+  private createCalendarEvts( bookings?: Array<Ibooking>, reservations?: Array<IReservation>){
+    let tempArr: Array<ICalendarEvent> = [];
 
-    for(let booking of data){
-      if(booking.requestedDate.toString() !== 'tbd'){
-        tempArr.push(
-          {
-            start: formatDate(booking.requestedDate, 'yyyy-MM-dd', 'en-US'),
-            end: formatDate(booking.requestedDate, 'yyyy-MM-dd', 'en-US'),
-            title: `${booking.nameFirst} ${booking.nameLast} appointment`,
-            id: booking.id
+    if(bookings){
+      bookings.map(
+        booking => {
+          if(booking.requestedDateStart.toString() !== 'tbd'){
+            tempArr.push(
+              {
+                start: formatDate(booking.requestedDateStart, 'yyyy-MM-dd', 'en-US'),
+                end: formatDate(booking.requestedDateEnd, 'yyyy-MM-dd', 'en-US'),
+                allDay: booking.allDay,
+                title: `${booking.nameFirst} ${booking.nameLast}`,
+                id: booking.id,
+                groupId: 'booking',
+                color: 'blue'
+              }
+            )
           }
-        )
-      }
+        }
+      )
     }
-
-    if(tempArr.length > 0){
-      this.calendarEvents =  [...tempArr];
+    if (reservations){
+      reservations.map(
+        res => {
+          tempArr.push(
+            {
+              start: formatDate(res.start, 'yyyy-MM-dd', 'en-US'),
+              end: formatDate(res.end, 'yyyy-MM-dd', 'en-US'),
+              allDay: res.allDay,
+              title: res.title,
+              id: res.id,
+              groupId: 'reservation',
+              color: 'grey'
+            }
+          )
+        }
+      )
     }
-
+    this._calendarEvents = [...tempArr];
   }
+
 
   calendarEventSelect(event){
   
@@ -233,8 +267,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
         //delete reservation
       }
     }
-    
-   
   }
 
   calendarDateSelect(event){

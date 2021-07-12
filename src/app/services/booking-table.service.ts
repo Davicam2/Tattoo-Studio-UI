@@ -128,7 +128,7 @@ export class BookingTableService {
             type: 'Get',
             origin: this.apiOrigins.getBookings,
             isError: false,
-            content: res
+            content: res 
           }
         
           this.bookings$.next(response);

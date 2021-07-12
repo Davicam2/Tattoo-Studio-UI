@@ -12,8 +12,8 @@ import * as uuid from 'uuid';
 })
 export class CalendarComponent implements OnInit, OnChanges {
 
-  @Input() bookings: Array<{start: string, end: string, title: string, id: string, allday?:boolean}> = [];
-  @Input() reservations: Array<{start: string, end:string, title:string, id:string, allday?:boolean}> = [];
+  @Input() events: Array<ICalendarEvent> = [];
+
   @Output() eventSelect = new EventEmitter<{id:string, group:string}>();
   @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
 
@@ -29,36 +29,30 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges){
     
-    if(changes.bookings || changes.reservations){
+    
+    if(changes.events){
       this.synchCalendarEventUpdates();
-      console.log(this.bookings)
-    } 
+      console.log(this.events)
+    }
   }
 
   synchCalendarEventUpdates(){
     let calendarAPI
+
     if(this.calendarComponent){
       calendarAPI = this.calendarComponent.getApi();
     } else return;
 
-    calendarAPI.removeAllEvents()
-    if(this.bookings){
-      this.bookings.map(booking => {
-        booking['color'] = 'blue';
-        booking['groupId'] = 'booking'
-        calendarAPI.addEvent(booking)
-      });
+    calendarAPI.removeAllEvents();
+
+    if(this.events){
+      this.events.forEach(
+        event => {
+          calendarAPI.addEvent(event)
+        }
+      )
     }
-    if(this.reservations){
-      this.reservations.map(res => {
-        res['color'] = 'grey';
-        res['groupId'] = 'reservation';
-        calendarAPI.addEvent(res);
-      });
-    }
-    
   }
-  
 
   calendarOptions: CalendarOptions = {
     headerToolbar:{
@@ -82,10 +76,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    eventSources:[
-      {events: [this.bookings], color: 'blue'},
-      {events: [this.reservations], color: 'grey'}
-    ]
+    
    
     
   };
@@ -134,3 +125,12 @@ export class CalendarComponent implements OnInit, OnChanges {
 }
 
 
+export interface ICalendarEvent {
+  start: string,
+  end: string,
+  title: string,
+  id: string,
+  allDay: boolean
+  groupId: string,
+  color: string
+}

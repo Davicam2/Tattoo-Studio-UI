@@ -9,10 +9,13 @@ export interface Ibooking{
     phoneNumber: string,
     submissionDate: Date,
     requestedDate: Date,
+    requestedDateStart: Date,
+    requestedDateEnd: Date,
     id: string,
     ageCheck: boolean,
     isTest: boolean,
-    status: string
+    status: string,
+    allDay: boolean
 }
 
 export interface IReservation{
