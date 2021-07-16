@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, combineLatest, forkJoin, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent } from 'src/app/components';
+import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions } from 'src/app/components';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -23,13 +23,23 @@ export class MainPageComponent implements OnInit, OnDestroy {
   tableHeaders = [];
 
   calendarEvents: Array<{start:string, end:string, title: string, id: string}> = []; 
+  calendarOptions: ICalendarOptions = {
+    dateConstraints:{
+      futureDatesOnly: false
+    },
+    calendarConfig: {
+      month:true,
+      week: true,
+      day: true
+    }
+  }
 
   _calendarEvents: Array<ICalendarEvent> = [];
   //=================//
 
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
   modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
-  tableViewSelect: string = 'pending';
+  tableViewSelect: string = 'requested';
 
   subscriptions = new Subscription();
 
@@ -115,6 +125,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     if(!rows) return;
     rows.filter( row => row.status === this.tableViewSelect).forEach(row => {
       structuredTableRow = new Object();
+     
       this.tableConfig.map(
         value => {
           switch (value.key){
@@ -154,7 +165,25 @@ export class MainPageComponent implements OnInit, OnDestroy {
         }
       )
       structuredTableRow['id'] = row.id;
-      this.tableData.push(structuredTableRow);
+
+      if(this.tableViewSelect === 'requested'){
+        if(row.status === 'requested'){
+          this.tableData.push(structuredTableRow);
+        } 
+      }else if (this.tableViewSelect === 'upcoming'){
+        if(row.requestedDate >= Date.parse(Date())){
+          this.tableData.push(structuredTableRow);
+        }
+      }else if (this.tableViewSelect === 'accepted'){
+        if(row.status === 'accepted'){
+          this.tableData.push(structuredTableRow);
+        }
+      }else if (this.tableViewSelect === 'History'){
+        if(row.requestedDate < Date.parse(Date())) {
+          this.tableData.push(structuredTableRow);
+        }
+      }
+      
     });
   }
 

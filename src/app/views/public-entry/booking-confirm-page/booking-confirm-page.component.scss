@@ -1,4 +1,8 @@
-.comp-container{
+.main-view{
     height: 100%;
     width: 100%;
+
+    .component-container{
+        margin-bottom: 20px;
+    }
 }

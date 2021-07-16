@@ -9,8 +9,10 @@
             <section class="controls">
                 <div>
                     <select [(ngModel)]="tableViewSelect" (change)="tableViewChange()">
-                        <option [value]="'pending'">Pending</option>
-                        <option [value]="'accepted'">Accepted</option>
+                        <option [value]="'requested'">Requested</option>
+                        <option [value]="'accepted'">Accepted Pending Deposit</option>
+                        <option [value]="'upcoming'">Upcoming</option>
+                        <option [value]="'History'">Historical</option>
                     </select>
                 </div>
             </section>
@@ -24,12 +26,11 @@
         <div class="component-container">
             <app-calendar 
                 [events]="_calendarEvents"
+                [dynamicOptions]="calendarOptions"
                 (eventSelect)="calendarEventSelect($event)"
                 (dateSelect)="calendarDateSelect($event)"
             ></app-calendar>
         </div>
-
     </section>
-
 </div>
  

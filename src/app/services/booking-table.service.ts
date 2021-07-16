@@ -107,11 +107,14 @@ export class BookingTableService {
     )
   }
 
-  getBookings(id?: string){
+  getBookings(id?: string, futureOnly?: boolean){
     let body = {};
 
     if(id){
       body['id'] = id;
+    }
+    if(futureOnly){
+      body['futureOnly'] = true;
     }
 
     this.rApi.makeGetRequest(

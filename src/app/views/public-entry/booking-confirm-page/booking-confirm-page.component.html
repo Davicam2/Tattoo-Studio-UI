@@ -1,7 +1,15 @@
-<div class="comp-container">
+<div class="main-view">
     <app-view-header
         [title]="headerConfig.title"
         [navUrl]="headerConfig.parentNav"
     ></app-view-header>
     
+    <div class="component-container">
+        <app-calendar 
+            [events]="_calendarEvents"
+            [dynamicOptions]="_calendarOptions"
+            (eventSelect)="calendarEventSelect($event)"
+            (dateSelect)="calendarDateSelect($event)"
+        ></app-calendar>
+    </div>
 </div>

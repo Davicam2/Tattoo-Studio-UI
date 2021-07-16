@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, CalendarApi, FullCalendarComponent } from '@fullcalendar/angular';
 
 import * as uuid from 'uuid';
@@ -13,6 +13,16 @@ import * as uuid from 'uuid';
 export class CalendarComponent implements OnInit, OnChanges {
 
   @Input() events: Array<ICalendarEvent> = [];
+  @Input() dynamicOptions: ICalendarOptions = {
+    dateConstraints:{ 
+      futureDatesOnly: false
+    },
+    calendarConfig:{
+      month: true,
+      week: false,
+      day: false
+    }
+  };
 
   @Output() eventSelect = new EventEmitter<{id:string, group:string}>();
   @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
@@ -21,38 +31,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   
   currentEventIds: Array<string> = [];
 
-  constructor() { }
-
-  ngOnInit(): void {
-   
-    
-  }
-  ngOnChanges(changes: SimpleChanges){
-    
-    
-    if(changes.events){
-      this.synchCalendarEventUpdates();
-      console.log(this.events)
-    }
-  }
-
-  synchCalendarEventUpdates(){
-    let calendarAPI
-
-    if(this.calendarComponent){
-      calendarAPI = this.calendarComponent.getApi();
-    } else return;
-
-    calendarAPI.removeAllEvents();
-
-    if(this.events){
-      this.events.forEach(
-        event => {
-          calendarAPI.addEvent(event)
-        }
-      )
-    }
-  }
+  calendarAPI: any;
 
   calendarOptions: CalendarOptions = {
     headerToolbar:{
@@ -76,10 +55,76 @@ export class CalendarComponent implements OnInit, OnChanges {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    
+    eventOverlap: false
    
     
   };
+
+  constructor() { }
+
+  ngOnInit(): void {
+   
+    
+  }
+  ngOnChanges(changes: SimpleChanges){
+    
+    if(changes.events){
+      this.synchCalendarEventUpdates();
+      console.log(this.events)
+    }
+    if(changes.dynamicOptions){
+      this.setRestrictDatesOption();
+      this.setHeaderButtons();
+    }
+  }
+
+  synchCalendarEventUpdates(){
+
+    if(this.calendarComponent){
+      this.calendarAPI = this.calendarComponent.getApi();
+    } else return;
+
+    this.calendarAPI.removeAllEvents();
+
+    if(this.events){
+      this.events.forEach(
+        event => {
+          event['selectOverlap'] = false;
+          this.calendarAPI.addEvent(event)
+        }
+      )
+    }
+  }
+
+  setRestrictDatesOption(){
+    if(this.dynamicOptions.dateConstraints.futureDatesOnly){
+      this.calendarOptions.selectAllow = function(selectedDate){
+        if(selectedDate.start < new Date()){
+          return false;
+        } else return true;
+      }
+    }
+  }
+  setHeaderButtons(){
+
+    let dateGroup = '';
+    const currentSettings = this.calendarOptions.headerToolbar;
+    if(this.dynamicOptions.calendarConfig.month){
+      dateGroup += 'dayGridMonth';
+    }
+    if(this.dynamicOptions.calendarConfig.week){
+      dateGroup += ',timeGridWeek';
+    }
+    if(this.dynamicOptions.calendarConfig.day){
+      dateGroup += ',timeGridDay';
+    }
+    this.calendarOptions.headerToolbar = {
+      left: 'prev,next today',
+      center: 'title',
+      right: dateGroup
+    }
+  }
+
   currentEvents: EventApi[] = [];
 
   handleDateSelect(selectInfo: DateSelectArg) {
@@ -89,39 +134,28 @@ export class CalendarComponent implements OnInit, OnChanges {
       end: selectInfo.end,
       view: selectInfo.view.type
     })
-
-    // const title = prompt('Please enter a new title for your event');
-    // const calendarApi = selectInfo.view.calendar;
-
-    // calendarApi.unselect(); // clear date selection
-
-    // if (title) {
-    //   calendarApi.addEvent({
-    //     id: uuid.v4(),
-    //     title,
-    //     start: selectInfo.startStr,
-    //     end: selectInfo.endStr,
-    //     allDay: selectInfo.allDay
-    //   });
-    // }
   }
 
-  //TODO: use the event.id parameter to bring up the booking inspector
+  
   handleEventClick(clickInfo: EventClickArg) {
-      this.eventSelect.emit({id:clickInfo.event.id,group: clickInfo.event.groupId });
-   
-    
-    // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-    //   clickInfo.event.remove();
-    // }
+    this.eventSelect.emit({id:clickInfo.event.id,group: clickInfo.event.groupId });
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
 
-  
- 
+  restrictDateSelections(selectedDate){
+    debugger;
+    if(this.dynamicOptions.dateConstraints.futureDatesOnly){
+      if(selectedDate.start < new Date()){
+        return false;
+      }
+    }else{
+      return true;
+    }
+   
+  }
 }
 
 
@@ -133,4 +167,15 @@ export interface ICalendarEvent {
   allDay: boolean
   groupId: string,
   color: string
+}
+
+export interface ICalendarOptions {
+  dateConstraints:{
+    futureDatesOnly: boolean,
+  },
+  calendarConfig:{
+    month: boolean,
+    week: boolean,
+    day: boolean
+  }
 }
