@@ -1,1 +1,48 @@
-<p>booking-action-modal works!</p>
+<div class="modal-container">
+    <div class="modal-body">
+        <section class="modal-title">
+            {{configuration.title}}
+        </section>
+        <section class="modal-content">
+            {{configuration.modalMessage}}
+            <section class="actions-group">
+                <form [formGroup]="adminActionsFm" (submit)="onSubmit(adminActionsFm.value)">
+                    <mat-form-field>
+                        <mat-label>Set Appointment Length</mat-label>
+                        
+                        <mat-select class="select-length" formControlName="aptLength">
+                            <mat-option value="allDay">All Day</mat-option>
+                            <mat-option value="halfDay">Half Day</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!--
+                    <mat-form-field>
+                        <mat-label>Time To Arrive</mat-label>
+                        <mat-select formControlName="startTime">
+                            <mat-option *ngFor="let time of startTimes" [value]="time.value">{{time.text}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    -->
+                    <mat-form-field>
+                        <mat-label>Set Tattoo Cost</mat-label>
+                        <input matInput formControlName="tattooCost" type="number" >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Set Deposit Amount</mat-label>
+                        <input matInput formControlName="depositAmount" type="number" >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Comments</mat-label>
+                        <textarea matInput formControlName="adminComments"></textarea>
+                    </mat-form-field>
+                    <section class="center-items">
+                        <button mat-button type="submit" >Accept Booking</button>
+                    </section>
+                </form>
+                
+            </section>
+        </section>
+    </div>
+</div>

@@ -39,6 +39,9 @@ export class RuntimeConfigService {
     return this.conf.ENVIRONMENTS;
   }
  
+  getStripeConfig(){
+    return this.conf.STRIPE_SETTINGS;
+  }
   
 
   

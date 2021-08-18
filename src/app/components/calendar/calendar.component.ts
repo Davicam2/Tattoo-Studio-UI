@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     }
   };
 
-  @Output() eventSelect = new EventEmitter<{id:string, group:string}>();
+  @Output() eventSelect = new EventEmitter<{id:string, type:string}>();
   @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
@@ -138,7 +138,8 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   
   handleEventClick(clickInfo: EventClickArg) {
-    this.eventSelect.emit({id:clickInfo.event.id,group: clickInfo.event.groupId });
+   
+    this.eventSelect.emit({id:clickInfo.event.id,type: clickInfo.event._def.extendedProps.type });
   }
 
   handleEvents(events: EventApi[]) {
@@ -146,12 +147,12 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   restrictDateSelections(selectedDate){
-    debugger;
+   
     if(this.dynamicOptions.dateConstraints.futureDatesOnly){
       if(selectedDate.start < new Date()){
         return false;
       }
-    }else{
+    } else {
       return true;
     }
    
@@ -160,13 +161,13 @@ export class CalendarComponent implements OnInit, OnChanges {
 
 
 export interface ICalendarEvent {
-  start: string,
-  end: string,
+  start: Date,
+  end: Date,
   title: string,
-  id: string,
-  allDay: boolean
-  groupId: string,
-  color: string
+  allDay: boolean,
+  color: string,
+  id?: string,
+  type?: string
 }
 
 export interface ICalendarOptions {

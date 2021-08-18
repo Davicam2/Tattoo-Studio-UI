@@ -75,7 +75,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     }
 
     // on init api calls
-    this.getBookedDates();
+    
     
     this.subscriptions.add(
       this.bookingSvc.bookingUpdateResponse$.subscribe(
@@ -92,24 +92,10 @@ export class BookingFormComponent implements OnInit, OnDestroy {
           console.log('booking request response', res);
         }
       )
-    ).add(
-      this.bookingSvc.bookedDates$.subscribe(
-        data => {
-          if(!data) return;
-          console.log(data);
-          if(data.content.length == 0){
-            this.bookedDates.closest = new Date();
-            this.bookedDates.booked = [new Date()]; 
-          } else {
-            this.bookedDates.closest = new Date();
-            this.bookedDates.booked = data.content;
-          }
-          console.log(this.bookedDates)
-        }
-      )
     )
-    
+    //booking form changes subscriptions
     this.onBookingFormChanges();
+    
   }
 
   onSubmit(form){

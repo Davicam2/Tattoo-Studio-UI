@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
-import { apiResponse, Ibooking } from 'src/app/interfaces';
+import { apiResponse, Ibooking, IBookingAcceptFm } from 'src/app/interfaces';
 import { RestService } from './rest-api.service';
 
 
@@ -19,6 +19,8 @@ export class BookingTableService {
   bookedDates$: BehaviorSubject<apiResponse> = new BehaviorSubject(null)
   bookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
 
+  publicUserBooking$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
+
   constructor(
     private appConfig: RuntimeConfigService,
     private rApi: RestService
@@ -32,8 +34,6 @@ export class BookingTableService {
     const bPics = new FormData();
     const rPics = new FormData();
     const submissionForm = new FormData();
-
-
 
     bodyPics.forEach(image => {
       submissionForm.append('bodyImgs', image);
@@ -51,7 +51,6 @@ export class BookingTableService {
     Object.keys(formFields.tattoo).forEach(field => {
       submissionForm.append(field, formFields.tattoo[field]);
     })
-    
     
     // bPics.forEach((value,key) => {
     //   console.log(key + ' ' + value);
@@ -142,11 +141,37 @@ export class BookingTableService {
       )
   }
 
+  getBooking(id: string){
+    
 
-  acceptBooking(id: string){
+
+    this.rApi.makeGetRequest(
+      this.serverUrl + this.uris.BOOKING.getBooking, 
+      {id: id}).subscribe(
+        res => {
+          let resp: apiResponse = {
+            type: 'Get',
+            origin: this.apiOrigins.getBooking,
+            isError: res.error ? true: false,
+            content: res 
+          }
+          this.publicUserBooking$.next(resp);
+        }, err => {
+          let resp: apiResponse ={
+            type: 'Get',
+            origin: this.apiOrigins.getBooking,
+            isError: true,
+            content: err 
+          }
+        }
+      )
+  }
+
+
+  acceptBooking(id: string, form:IBookingAcceptFm){
     this.rApi.makeUpdatePutRequest(
       this.serverUrl + this.uris.BOOKING.acceptBooking,
-      {id}
+      {id, form}
     ).subscribe(
       res => {
         let response: apiResponse = {
@@ -185,14 +210,32 @@ export class BookingTableService {
     )
   }
 
+  updateBookingDate(id: string, start: Date,end: Date){
+    this.rApi.makeUpdatePutRequest(this.serverUrl + this.uris.BOOKING.reserveBookingDate,
+      {id:id, start: start, end: end}
+      ).subscribe(
+        res => {
+          let response: apiResponse = {
+            type: 'update',
+            origin: this.apiOrigins.updateBookingDate,
+            isError: false,
+            content: res
+          }
+          console.log('booking update res', response);
+        }
+      )
+  }
+
 
 
   private apiOrigins = {
     acceptBooking: 'acceptBooking',
     rejectBooking: 'rejectBooking',
     getBookings: 'getPendingRequests',
+    getBooking: 'getBooking',
     getBookedDates: 'getBookedDates',
-    requestBooking: 'requestBooking'
+    requestBooking: 'requestBooking',
+    updateBookingDate: 'updateBookingDate'
   
   }
 }

@@ -18,13 +18,18 @@ import {
   BookingTableInspectorComponent,
   ViewHeaderComponent,
   NotificationModalComponent,
-  BookingActionModalComponent
+  BookingActionModalComponent,
+  StripeProcessorComponent
 } from './index';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+
+
+
+
 
 
 
@@ -47,7 +52,9 @@ FullCalendarModule.registerPlugins([
     BookingTableInspectorComponent, 
     CalendarComponent, 
     FormContainerComponent, 
-    BookingActionModalComponent,
+    BookingActionModalComponent, 
+    StripeProcessorComponent
+      
 
   ],
   imports: [
@@ -71,6 +78,8 @@ FullCalendarModule.registerPlugins([
     CalendarComponent,
     FormContainerComponent,
     BookingActionModalComponent,
+    StripeProcessorComponent
+    
   ]
 })
 export class AppComponentsModule { }

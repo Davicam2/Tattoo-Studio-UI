@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, combineLatest, forkJoin, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions } from 'src/app/components';
+import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions, BookingActionModalComponent, IActionModalConfig } from 'src/app/components';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -123,7 +123,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     let structuredTableRow: Object;
     this.tableData = [];
     if(!rows) return;
-    rows.filter( row => row.status === this.tableViewSelect).forEach(row => {
+    
+    rows.forEach(row => {
       structuredTableRow = new Object();
      
       this.tableConfig.map(
@@ -164,26 +165,27 @@ export class MainPageComponent implements OnInit, OnDestroy {
           }
         }
       )
-      structuredTableRow['id'] = row.id;
 
+      structuredTableRow['id'] = row.id;
+       
       if(this.tableViewSelect === 'requested'){
         if(row.status === 'requested'){
           this.tableData.push(structuredTableRow);
         } 
       }else if (this.tableViewSelect === 'upcoming'){
-        if(row.requestedDate >= Date.parse(Date())){
+        if(row.endDate >= Date.parse(Date())){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'accepted'){
         if(row.status === 'accepted'){
           this.tableData.push(structuredTableRow);
         }
-      }else if (this.tableViewSelect === 'History'){
+      }else if (this.tableViewSelect === 'historic'){
         if(row.requestedDate < Date.parse(Date())) {
           this.tableData.push(structuredTableRow);
         }
       }
-      
+
     });
   }
 
@@ -214,6 +216,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         modalTableArray: rowValues
       }
       instance.configuration = modalData;
+
       dialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
         if(action === inspectorActions.accept){
           this.acceptBooking(evt.id)
@@ -229,16 +232,31 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   dateBlockAction(start: Date, end: Date, allDay: boolean, view?: any){
-    const title = prompt('Please enter a new title for your event');
-
+    const title = prompt('Add title to date block');
     if(title){
      this.resSvc.requestAReservation(start,end,allDay,title);
     }
   }
 
   acceptBooking(id: string){
-    this.tblService.acceptBooking(id)
+    let dialogRef = this.matDialog.open(BookingActionModalComponent);
+    let instance = dialogRef.componentInstance;
+    let modalConfig: IActionModalConfig = {
+      title: 'actions title',
+      modalMessage: 'accepting this booking',
+      id: id
+    }
+
+    instance.configuration = modalConfig;
+
+    dialogRef.componentInstance.onButtonAction.subscribe((submission) => {
+      if(submission.action === 'accept'){
+        this.tblService.acceptBooking(id,submission.data)
+        dialogRef.close();
+      }
+    })
   }
+
   rejectBooking(id: string){
     this.tblService.rejectBooking(id);
   }
@@ -249,15 +267,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
     if(bookings){
       bookings.map(
         booking => {
-          if(booking.requestedDateStart.toString() !== 'tbd'){
+          if(booking.startDate.toString() !== 'tbd'){
             tempArr.push(
               {
-                start: formatDate(booking.requestedDateStart, 'yyyy-MM-dd', 'en-US'),
-                end: formatDate(booking.requestedDateEnd, 'yyyy-MM-dd', 'en-US'),
+                start: booking.startDate,
+                end: booking.endDate,
                 allDay: booking.allDay,
                 title: `${booking.nameFirst} ${booking.nameLast}`,
                 id: booking.id,
-                groupId: 'booking',
+                type: 'booking',
                 color: 'blue'
               }
             )
@@ -270,12 +288,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
         res => {
           tempArr.push(
             {
-              start: formatDate(res.start, 'yyyy-MM-dd', 'en-US'),
-              end: formatDate(res.end, 'yyyy-MM-dd', 'en-US'),
+              start: res.start,
+              end: res.end,
               allDay: res.allDay,
               title: res.title,
               id: res.id,
-              groupId: 'reservation',
+              type: 'reservation',
               color: 'grey'
             }
           )
@@ -287,13 +305,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
 
   calendarEventSelect(event){
-  
-    if(event.group === 'booking'){
+    if(event.type === 'booking'){
       this.bookingAction({action:'selected', id:event.id})
-    }else if (event.group === 'reservation'){
+    }else if (event.type === 'reservation'){
       if(confirm('Remove this date reservation?')){
         this.resSvc.deleteReservation(event.id);
-        //delete reservation
+        
       }
     }
   }
@@ -306,6 +323,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.subscriptions.unsubscribe();
   }
+
+ 
 
 
 }

@@ -1,0 +1,48 @@
+@import '/src/assets/master';
+
+.container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    form{
+        min-width: 400px;
+        max-width: 600px;
+        width: 50%;
+        background: gray;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+
+        .form-row{
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            label{
+                color: white;
+            }
+            .card-info{
+                width: 100%;
+                color:white;
+            }
+            .card-errors{
+                color: red;
+            }
+        }
+        .submit{
+            width: 20%;
+            border-radius: 10px;
+            height: 40px;
+            background-color: var(--joker-purple);
+            color: white;
+        }
+    }
+}

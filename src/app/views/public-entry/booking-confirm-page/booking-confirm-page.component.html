@@ -12,4 +12,11 @@
             (dateSelect)="calendarDateSelect($event)"
         ></app-calendar>
     </div>
+    
+   <app-stripe-processor 
+    (tokenGenerated)="submitPaymentRequest($event)"
+   ></app-stripe-processor>
+  
 </div>
+
+

@@ -1,11 +1,13 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
-import { ICalendarEvent, ICalendarOptions } from 'src/app/components';
+import { ICalendarEvent, ICalendarOptions, modalConfig, NotificationModalComponent, modalContent } from 'src/app/components';
 import { Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { StripeService } from 'src/app/services/stripe.service';
 
 @Component({
   selector: 'app-booking-confirm-page',
@@ -21,6 +23,8 @@ export class BookingConfirmPageComponent implements OnInit {
 
   subscriptions = new Subscription();
   bookingConfirmationId = this.route.snapshot.paramMap.get('id');
+  userBooking: Ibooking;
+  userDateSelection: {start: Date, end:Date};
 
   _calendarOptions: ICalendarOptions = {
     dateConstraints:{
@@ -32,21 +36,26 @@ export class BookingConfirmPageComponent implements OnInit {
       day: false
     }
   }
+
   _calendarEvents: Array<ICalendarEvent> = [];
  
 
   constructor(
     private route: ActivatedRoute, 
     private bookingSvc: BookingTableService,
-    private resSvc: ReservationService
-    ) { }
+    private resSvc: ReservationService,
+    private stripeService: StripeService,
+    private matDialog: MatDialog,
+    private router: Router
+  ) { }
 
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.bookingSvc.bookings$.subscribe(
         booking => {
-          console.log(booking);
+
+         
         }
       )
     ).add(
@@ -60,18 +69,166 @@ export class BookingConfirmPageComponent implements OnInit {
           }
         }
       )
+    ).add(
+      this.stripeService.requestPaymentResponse$.subscribe(
+        res => {
+          
+          console.log(res);
+          //alert('payment request Recieved');
+          let dialogRef = this.matDialog.open(NotificationModalComponent);
+          let instance = dialogRef.componentInstance;
+          let modalData: modalConfig = {
+            title: 'Payment Confirmation',
+            modalSetting: modalContent.paymentResponse,
+            modalMessage: 'Payment Recieved',
+            contentBody: res
+          }
+          instance.configuration = modalData;
+          dialogRef.afterClosed().subscribe(
+            res => {
+              this.router.navigate(['public/faq']);
+            }
+          )
+
+         
+          if(!res.isError){
+            this.bookingSvc.updateBookingDate(this.bookingConfirmationId,this.userDateSelection.start, this.userDateSelection.end);
+          }
+        }
+      )
+    ).add(
+      this.bookingSvc.publicUserBooking$.subscribe(
+        res => {
+          if(!res) return;
+          if(res.isError){
+            //TODO:
+            //show error modal for info purposes, on modal close navigate away
+            this.router.navigate(['public']);
+          }
+          console.log(res);
+          this.userBooking = res.content;
+        }
+      )
     )
 
-    this.bookingSvc.getBookings(null,true);
+    this.bookingSvc.getBookings(null,null);
+    this.bookingSvc.getBooking(this.bookingConfirmationId);
     this.resSvc.getReservationList();
   }
 
   calendarEventSelect(evt){
-
+    if(evt.id == this.userBooking.id){
+      this._calendarEvents = this._calendarEvents.filter(x => x.id != evt.id);
+    }
+    this.userDateSelection = null;
   }
 
   calendarDateSelect(evt){
+    console.log(evt);
+    const futureEvents = this._calendarEvents.filter(evt => new Date(evt.end) > new Date())
+    let count = 0;
+    
+    if(this.userDateSelection) return;
 
+    evt.start.setHours(1,0,0);
+    let st = Date.parse(evt.start);
+    evt.end.setHours(-5,0,0);
+    let ed = Date.parse(evt.end);
+
+    let halfDayEvt;
+    for(let calendarEvent of futureEvents){
+    
+      if(
+        st >= Number(calendarEvent.start) && st <= Number(calendarEvent.end) ||
+        ed >= Number(calendarEvent.start) && ed <= Number(calendarEvent.end) ||
+        Number(calendarEvent.start) >= st && Number(calendarEvent.start) <= ed ||
+        Number(calendarEvent.end) >= st && Number(calendarEvent.end) <= ed
+      ){
+        if(calendarEvent.allDay){
+          console.log('all day event, day closed for bookings')
+          return;
+        } else {
+          halfDayEvt = calendarEvent;
+          count += 1;
+          
+        }
+      }
+    }
+
+    if(count  > 1){
+      console.log('ive picked a date with two events');
+      return;
+    } else if(count == 1 && this.userBooking.allDay){
+      console.log('User booking requires full day');
+      return;
+    } else if(count == 1 && !this.userBooking.allDay){
+      
+      if(new Date(halfDayEvt.start).getHours() < 12){
+        this.generateCalendarEvent(evt,'PM Booking', 'blue','pm');
+      } else{
+        this.generateCalendarEvent(evt, 'AM Booking', 'blue','am');
+      }
+      
+      return;
+    }
+
+  
+   
+    let userTimeSelect = '';
+    if(this.userBooking.allDay){
+      this.generateCalendarEvent(evt, 'All Day Booking', 'blue', 'allDay');
+    }else{
+      let dialogRef = this.matDialog.open(NotificationModalComponent);
+      let modalData: modalConfig = {
+        title: 'Time Slot Selection',
+        modalSetting: modalContent.timeslotSelect,
+        modalMessage: 'Please select a timeslot for your appointment.',
+        contentBody: {event: evt, booking: this.userBooking}
+      }
+      dialogRef.componentInstance.configuration = modalData;
+      
+      dialogRef.afterClosed().subscribe(
+        timeSlot => {
+          if(!timeSlot) return;
+          userTimeSelect = timeSlot;
+          this.generateCalendarEvent(evt, 'user booking', 'blue', userTimeSelect);
+        }
+      )
+    }
+  }
+
+  generateCalendarEvent(evt: any, title: string, color: string, timeslot){
+  
+    
+    if(timeslot == 'am'){
+      evt.start.setHours(8,0,0);
+      evt.end.setHours(-12,0,0);
+
+    }else if(timeslot == 'pm'){
+      evt.start.setHours(13,0,0);
+      evt.end.setHours(-6,0,0);
+    }
+    this.userDateSelection = {start: evt.start, end: evt.end};
+
+    let temp: ICalendarEvent = {
+      start: evt.start,
+      end: evt.end,
+      allDay: this.userBooking.allDay,
+      title: title,
+      id: this.userBooking.id,
+      color: color
+    }
+
+    this._calendarEvents = [...this._calendarEvents,temp ];
+  }
+
+  submitPaymentRequest(token){
+    // check for date selection
+    
+    if(this.userDateSelection){
+      this.stripeService.requestPayment(token, this.bookingConfirmationId);
+    }
+    
   }
 
 
@@ -83,15 +240,15 @@ export class BookingConfirmPageComponent implements OnInit {
     if(bookings){
       bookings.map(
         booking => {
-          if(booking.requestedDateStart.toString() !== 'tbd'){
+          if(booking.startDate.toString() !== 'tbd'){
             tempArr.push(
               {
-                start: formatDate(booking.requestedDateStart, 'yyyy-MM-dd', 'en-US'),
-                end: formatDate(booking.requestedDateEnd, 'yyyy-MM-dd', 'en-US'),
+                start: booking.startDate,
+                end: booking.endDate,
                 allDay: booking.allDay,
                 title: `Booked`,
-                id: booking.id,
-                groupId: 'booking',
+                
+               
                 color: 'black',
               }
             )
@@ -104,12 +261,12 @@ export class BookingConfirmPageComponent implements OnInit {
         res => {
           tempArr.push(
             {
-              start: formatDate(res.start, 'yyyy-MM-dd', 'en-US'),
-              end: formatDate(res.end, 'yyyy-MM-dd', 'en-US'),
+              start: res.start,
+              end: res.end,
               allDay: res.allDay,
               title: 'Booked',
-              id: res.id,
-              groupId: 'reservation',
+          
+              
               color: 'black'
             }
           )

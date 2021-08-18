@@ -9,7 +9,9 @@
                 "requestBooking": "/booking/request",
                 "getBookings": "/booking/bookings",
                 "acceptBooking": "/booking/accept",
-                "rejectBooking": "/booking/reject"
+                "rejectBooking": "/booking/reject",
+                "reserveBookingDate": "/booking/book-date" ,
+                "getBooking": "/booking/booking"
             },
             "USER":{
                 "checkUserLogin": "/user/verify"
@@ -18,6 +20,9 @@
                 "requestReservedDate": "/reservations/reserve",
                 "getReservationList": "/reservations/getReservationList",
                 "deleteReservation": "/reservations/removeReservation"
+            },
+            "STRIPE":{
+                "requestPayment": "/stripe/charge"
             }
         }
     },
@@ -70,5 +75,8 @@
     "ENVIRONMENTS": {
         "dev": true,
         "prod": false
+    },
+    "STRIPE_SETTINGS":{
+        "publishable_key": "pk_test_51JJl3jLlJEov7K7AyyqlQbscQDv6zVkjqERECcZ5bmckAahdfxYCqLxQtQ5JTmn6uYLmuPftZEIdOeBAM2nzWKAW00sQxLYldQ"
     }
 }

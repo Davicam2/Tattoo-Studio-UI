@@ -1,4 +1,4 @@
-export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModalConfig{
+export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModalConfig, IStripeConfig{
     URIS:{
         BASE:{
             express: string;
@@ -10,6 +10,9 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
                 getBookings: string,
                 acceptBooking: string,
                 rejectBooking: string,
+                reserveBookingDate: string,
+                getBooking: string,
+                
             },
             USER:{
                 checkUserLogin: string,
@@ -18,6 +21,9 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
                 requestReservedDate: string,
                 getReservationList: string,
                 deleteReservation: string
+            },
+            STRIPE:{
+                requestPayment: string
             }
             
         }
@@ -74,4 +80,11 @@ export interface IModalConfig {
             message: string;
         }
     }
+}
+
+export interface IStripeConfig{
+    STRIPE_SETTINGS:{
+        publishable_key: string;
+    }
+    
 }

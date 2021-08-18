@@ -8,14 +8,19 @@
         <div *ngIf="configuration.modalSetting === 'login'">
             <ng-container *ngTemplateOutlet="login"></ng-container>
         </div>
-
-        <div *ngIf="configuration.modalSetting === 'inspectBooking'">
-            <ng-container *ngTemplateOutlet="inspectBooking"></ng-container>
-        </div>
             
         <div *ngIf="configuration.modalSetting === 'errorMessage'">
             <ng-container *ngTemplateOutlet="errorMessage"></ng-container>
         </div>
+
+        <div *ngIf="configuration.modalSetting === 'paymentResponse'">
+            <ng-container *ngTemplateOutlet="paymentResponse"></ng-container>
+        </div>
+
+        <div *ngIf="configuration.modalSetting === 'timeslotSelect'">
+            <ng-container *ngTemplateOutlet="timeslotSelect"></ng-container>
+        </div>
+
     </div>
 </div>
 <!--------TEMPLATES------------->
@@ -63,5 +68,45 @@
     </section>
     <section class="modal-footer">
 
+    </section>
+</ng-template>
+<!------------------------->
+<ng-template #paymentResponse>
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content">
+        <div class="payment-info">
+            <ul>
+                <li>Charge Applied to Card Ending in: {{configuration.contentBody.content.cardLastFour}}</li>
+                <li>Amount: {{configuration.contentBody.content.amount/100 | currency}} </li>
+                <li>Receipt: <a href="{{configuration.contentBody.content.receipt}}" target="_blank">Payment Receipt</a></li>
+            </ul>
+            <p>A confirmation email has been generated and will be delivered shortly</p>
+        </div>
+    </section>
+    <section class="modal-footer">
+
+    </section>
+</ng-template>
+
+<ng-template #timeslotSelect>
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content">
+        {{configuration.modalMessage}}
+    </section>
+    <section>
+        <div class="timeslot-select">
+            <mat-form-field>
+                <mat-label>TimeSlots</mat-label>
+                <mat-select [(value)]="timeslotSelection.selection">
+                    <mat-option value="am">AM</mat-option>
+                    <mat-option value="pm">PM</mat-option>
+                </mat-select>
+                <button mat-button (click)="close()">Select Slot</button>
+            </mat-form-field>
+        </div>
     </section>
 </ng-template>

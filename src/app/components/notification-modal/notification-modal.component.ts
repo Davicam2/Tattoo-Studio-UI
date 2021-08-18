@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {  Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './notification-modal.component.html',
   styleUrls: ['./notification-modal.component.scss']
 })
-export class NotificationModalComponent implements OnInit {
+export class NotificationModalComponent implements OnInit{
 
   @Input() configuration: modalConfig;
 
@@ -19,6 +19,11 @@ export class NotificationModalComponent implements OnInit {
   loginValues = {
     userName:'',
     pass: ''
+  }
+
+  timeslotSelection = {
+    selection: 'am'
+    
   }
   
   constructor( 
@@ -30,11 +35,17 @@ export class NotificationModalComponent implements OnInit {
 
   ngOnInit(): void {
     
-
+    console.log(this.configuration.contentBody)
   }
 
   close(){
-    this.dialogRef.close();
+
+    if(this.configuration.modalSetting === modalContent.timeslotSelect){
+      this.dialogRef.close(this.timeslotSelection.selection);
+    }else{
+      this.dialogRef.close();
+    }
+    
   }
 
   navigateTo(url: string){
@@ -47,20 +58,23 @@ export class NotificationModalComponent implements OnInit {
     this.close();
   }
 
-
+  
 }
 
 export interface modalConfig{
   title: string,
   modalSetting: string,
   modalMessage: string,
-  modalTableArray?: any[]
+  modalTableArray?: any[],
+  contentBody?: any
 }
 
 export const modalContent = {
   bookingSuccess: 'bookingSuccess',
   userLogin: 'login',
   inspectBooking: 'inspectBooking',
-  errorMessage: 'errorMessage'
+  errorMessage: 'errorMessage',
+  paymentResponse: 'paymentResponse',
+  timeslotSelect: 'timeslotSelect'
 
 }

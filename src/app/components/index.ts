@@ -9,3 +9,4 @@ export * from './booking-action-modal/booking-action-modal.component';
 export * from './calendar/calendar.component';
 export * from './form-container/form-container.component';
 export * from './view-header/view-header.component';
+export * from './stripe-processor/stripe-processor.component';
