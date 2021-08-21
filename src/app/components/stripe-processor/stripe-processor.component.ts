@@ -17,7 +17,7 @@ export class StripeProcessorComponent implements OnInit {
       color: '#ffffff',
       fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
       fontSmoothing: 'antialiased',
-      fontSize: '16px',
+      fontSize: '20px',
       '::placeholder': {
         color: '#aab7c4'
       }
