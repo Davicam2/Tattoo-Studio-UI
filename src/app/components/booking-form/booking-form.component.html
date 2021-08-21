@@ -1,6 +1,6 @@
 <div class="form-container">
     <form [formGroup]="bookingForm" (submit)="onSubmit(bookingForm.value)">
-        <div formGroupName="guestInfo" *ngIf="!user.isSignedIn">
+        <div class="form-group-container" formGroupName="guestInfo" *ngIf="!user.isSignedIn">
             <section>
                 <mat-form-field apperance="fill" class="form-field-half">
                     <mat-label>First Name</mat-label>
@@ -55,7 +55,7 @@
             </section>
         </div>
 
-        <div formGroupName="tattoo">
+        <div class="form-group-container"  formGroupName="tattoo">
             <section>
                 <mat-form-field 
                 matTooltip="{{tooltips.BOOKING.tattooDesc}}"

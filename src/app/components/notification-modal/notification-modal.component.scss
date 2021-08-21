@@ -67,10 +67,20 @@
     }
 }
 .payment-info{
-
+    
 }
 .timeslot-select{
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:10px;
+    mat-form-field{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40% !important;
+        
+    }
 }
 
 .error-text{

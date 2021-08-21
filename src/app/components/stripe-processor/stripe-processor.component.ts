@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {loadStripe} from '@stripe/stripe-js';
+import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
 
 @Component({
   selector: 'app-stripe-processor',
@@ -8,6 +9,7 @@ import {loadStripe} from '@stripe/stripe-js';
 })
 export class StripeProcessorComponent implements OnInit {
 
+  @Input() bookingDetails: stripePurchaseDetails;
   @Output() tokenGenerated = new EventEmitter<any>();
 
   style = {
@@ -28,12 +30,13 @@ export class StripeProcessorComponent implements OnInit {
 
   
 
-  stripe = Stripe('pk_test_51JJl3jLlJEov7K7AyyqlQbscQDv6zVkjqERECcZ5bmckAahdfxYCqLxQtQ5JTmn6uYLmuPftZEIdOeBAM2nzWKAW00sQxLYldQ');
+  stripe = Stripe(this.appConf.getStripeConfig().publishable_key);
+
   elements = this.stripe.elements();
 
   card = this.elements.create('card', {style: this.style});
 
-  constructor() { }
+  constructor(private appConf: RuntimeConfigService) { }
 
   ngOnInit(): void {
     
@@ -62,15 +65,13 @@ export class StripeProcessorComponent implements OnInit {
 
   }
 
- 
-
   createToken() {
     this.stripe.createToken(this.card).then((result)=>{
       if (result.error) {
         // Inform the user of error
         var errorElement = document.getElementById('card-errors');
         errorElement.textContent = result.error.message;
-        
+
       } else {
         console.log(result.token);
         
@@ -80,4 +81,10 @@ export class StripeProcessorComponent implements OnInit {
     });
   };
   
+}
+
+export interface stripePurchaseDetails {
+  amount: (string | number),
+  bookedDate: Date,
+
 }

@@ -15,6 +15,7 @@
     
    <app-stripe-processor 
     (tokenGenerated)="submitPaymentRequest($event)"
+    [bookingDetails]='stripeBookingDetails'
    ></app-stripe-processor>
   
 </div>

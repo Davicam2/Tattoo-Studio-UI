@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
-import { ICalendarEvent, ICalendarOptions, modalConfig, NotificationModalComponent, modalContent } from 'src/app/components';
+import { ICalendarEvent, ICalendarOptions, modalConfig, NotificationModalComponent, modalContent, stripePurchaseDetails } from 'src/app/components';
 import { Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -25,6 +25,11 @@ export class BookingConfirmPageComponent implements OnInit {
   bookingConfirmationId = this.route.snapshot.paramMap.get('id');
   userBooking: Ibooking;
   userDateSelection: {start: Date, end:Date};
+
+  stripeBookingDetails: stripePurchaseDetails = {
+    amount: null,
+    bookedDate: null
+  }
 
   _calendarOptions: ICalendarOptions = {
     dateConstraints:{
@@ -52,13 +57,6 @@ export class BookingConfirmPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.bookingSvc.bookings$.subscribe(
-        booking => {
-
-         
-        }
-      )
-    ).add(
       combineLatest(
         this.bookingSvc.bookings$,
         this.resSvc.reservedDateList$
@@ -107,6 +105,7 @@ export class BookingConfirmPageComponent implements OnInit {
           }
           console.log(res);
           this.userBooking = res.content;
+          this.stripeBookingDetails.amount = this.userBooking.depositAmount;
         }
       )
     )
@@ -121,6 +120,7 @@ export class BookingConfirmPageComponent implements OnInit {
       this._calendarEvents = this._calendarEvents.filter(x => x.id != evt.id);
     }
     this.userDateSelection = null;
+    this.stripeBookingDetails.bookedDate = null;
   }
 
   calendarDateSelect(evt){
@@ -209,7 +209,7 @@ export class BookingConfirmPageComponent implements OnInit {
       evt.end.setHours(-6,0,0);
     }
     this.userDateSelection = {start: evt.start, end: evt.end};
-
+    this.stripeBookingDetails.bookedDate = evt.start;
     let temp: ICalendarEvent = {
       start: evt.start,
       end: evt.end,
