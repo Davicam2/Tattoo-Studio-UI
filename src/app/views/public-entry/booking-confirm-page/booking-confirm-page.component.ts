@@ -58,7 +58,7 @@ export class BookingConfirmPageComponent implements OnInit {
   ngOnInit(): void {
     this.subscriptions.add(
       combineLatest(
-        this.bookingSvc.bookings$,
+        this.bookingSvc.dataRestrictedBookings$,
         this.resSvc.reservedDateList$
       ).subscribe(
         ([bookings, resvs]) => {
@@ -88,7 +88,6 @@ export class BookingConfirmPageComponent implements OnInit {
             }
           )
 
-         
           if(!res.isError){
             this.bookingSvc.updateBookingDate(this.bookingConfirmationId,this.userDateSelection.start, this.userDateSelection.end);
           }
@@ -110,7 +109,7 @@ export class BookingConfirmPageComponent implements OnInit {
       )
     )
 
-    this.bookingSvc.getBookings(null,null);
+    this.bookingSvc.getSecureBookings();
     this.bookingSvc.getBooking(this.bookingConfirmationId);
     this.resSvc.getReservationList();
   }
@@ -118,9 +117,10 @@ export class BookingConfirmPageComponent implements OnInit {
   calendarEventSelect(evt){
     if(evt.id == this.userBooking.id){
       this._calendarEvents = this._calendarEvents.filter(x => x.id != evt.id);
+      this.userDateSelection = null;
+      this.stripeBookingDetails.bookedDate = null;
     }
-    this.userDateSelection = null;
-    this.stripeBookingDetails.bookedDate = null;
+    
   }
 
   calendarDateSelect(evt){
@@ -247,8 +247,6 @@ export class BookingConfirmPageComponent implements OnInit {
                 end: booking.endDate,
                 allDay: booking.allDay,
                 title: `Booked`,
-                
-               
                 color: 'black',
               }
             )
@@ -265,8 +263,6 @@ export class BookingConfirmPageComponent implements OnInit {
               end: res.end,
               allDay: res.allDay,
               title: 'Booked',
-          
-              
               color: 'black'
             }
           )

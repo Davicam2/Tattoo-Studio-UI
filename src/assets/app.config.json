@@ -11,7 +11,8 @@
                 "acceptBooking": "/booking/accept",
                 "rejectBooking": "/booking/reject",
                 "reserveBookingDate": "/booking/book-date" ,
-                "getBooking": "/booking/booking"
+                "getBooking": "/booking/booking",
+                "getSecureBookings": "/booking/secure-bookings"
             },
             "USER":{
                 "checkUserLogin": "/user/verify"

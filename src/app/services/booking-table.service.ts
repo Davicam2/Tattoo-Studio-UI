@@ -20,6 +20,7 @@ export class BookingTableService {
   bookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
 
   publicUserBooking$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
+  dataRestrictedBookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
 
   constructor(
     private appConfig: RuntimeConfigService,
@@ -141,6 +142,23 @@ export class BookingTableService {
       )
   }
 
+  getSecureBookings(){
+    this.rApi.makeGetRequest(this.serverUrl + this.uris.BOOKING.getSecureBookings, {}).subscribe(
+      res => {
+       
+        let resp: apiResponse = {
+            type: 'Get',
+            origin: this.apiOrigins.secureBookings,
+            isError: false,
+            content: res 
+        }
+        this.dataRestrictedBookings$.next(resp);
+      }, err => {
+
+      }
+    )
+  }
+
   getBooking(id: string){
     
 
@@ -235,7 +253,8 @@ export class BookingTableService {
     getBooking: 'getBooking',
     getBookedDates: 'getBookedDates',
     requestBooking: 'requestBooking',
-    updateBookingDate: 'updateBookingDate'
+    updateBookingDate: 'updateBookingDate',
+    secureBookings: 'secureBookings'
   
   }
 }
