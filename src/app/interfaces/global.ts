@@ -2,6 +2,8 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
     URIS:{
         BASE:{
             express: string;
+            express_dev: string;
+            express_prod: string;
         },
         ENDPOINTS:{
             BOOKING:{
@@ -13,6 +15,8 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
                 reserveBookingDate: string,
                 getBooking: string,
                 getSecureBookings: string,
+                getBookingImages: string,
+                cancelBooking: string,
             },
             USER:{
                 checkUserLogin: string,

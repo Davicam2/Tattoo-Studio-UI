@@ -28,5 +28,8 @@
             </tr>
         </tbody>
     </table>
+    <div class="no-results" *ngIf="tableData?.length == 0">
+        {{noResultsMessage}}
+    </div>
     <app-pagination  [tableData]="tableData" (displayPage)="setPage($event)"></app-pagination>
 </div>

@@ -1,7 +1,9 @@
 {
     "URIS":{
         "BASE":{
-            "express": "http://localhost:3000"
+            "express": "http://10.10.0.13:3000",
+            "express_dev": "http://localhost:3000",
+            "express_prod": ""
         },
         "ENDPOINTS":{
             "BOOKING":{
@@ -10,9 +12,11 @@
                 "getBookings": "/booking/bookings",
                 "acceptBooking": "/booking/accept",
                 "rejectBooking": "/booking/reject",
-                "reserveBookingDate": "/booking/book-date" ,
+                "reserveBookingDate": "/booking/book-date", 
                 "getBooking": "/booking/booking",
-                "getSecureBookings": "/booking/secure-bookings"
+                "getSecureBookings": "/booking/secure-bookings",
+                "getBookingImages": "/booking/image-links",
+                "cancelBooking": "/booking/cancel"
             },
             "USER":{
                 "checkUserLogin": "/user/verify"
@@ -79,5 +83,10 @@
     },
     "STRIPE_SETTINGS":{
         "publishable_key": "pk_test_51JJl3jLlJEov7K7AyyqlQbscQDv6zVkjqERECcZ5bmckAahdfxYCqLxQtQ5JTmn6uYLmuPftZEIdOeBAM2nzWKAW00sQxLYldQ"
+    },
+    "CALENDAR_SETTINGS":{
+        "showAdminEventVariable": "booked",
+        "showPublicEventVariable": ""
+
     }
 }

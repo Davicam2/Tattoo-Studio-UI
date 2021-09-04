@@ -4,7 +4,7 @@
         [navUrl]="headerConfig.parentNav"
     ></app-view-header>
     
-    <div class="component-container">
+    <div *ngIf="pageConfig.showCalendar" class="component-container">
         <app-calendar 
             [events]="_calendarEvents"
             [dynamicOptions]="_calendarOptions"
@@ -14,10 +14,14 @@
     </div>
     
    <app-stripe-processor 
+    *ngIf="pageConfig.showPaymentProcessor"
     (tokenGenerated)="submitPaymentRequest($event)"
     [bookingDetails]='stripeBookingDetails'
    ></app-stripe-processor>
   
+   <div *ngIf="pageConfig.showUpdateDateButton" class="submission-button">
+        <button (click)="updateBookingDate()"> Select New Date</button>
+   </div>
 </div>
 
 

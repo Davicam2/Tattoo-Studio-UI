@@ -29,7 +29,12 @@ export class RuntimeConfigService {
   }
   
   getServerUrl() {
-    return this.conf.URIS.BASE.express;
+    if(this.conf.ENVIRONMENTS.prod){
+      return this.conf.URIS.BASE.express
+    }else{
+      return this.conf.URIS.BASE.express_dev;
+    }
+    
   }
 
   getEndpoints() {

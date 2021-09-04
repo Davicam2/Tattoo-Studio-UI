@@ -6,6 +6,7 @@
     
     <section class="admin-body">
         <div class="component-container">
+            
             <section class="controls">
                 <div>
                     <select [(ngModel)]="tableViewSelect" (change)="tableViewChange()">
@@ -21,6 +22,7 @@
                 [tablePropMap]='tableHeaders'
                 [tableData]='tableData'
                 (rowAction)='bookingAction($event)'
+                [noResultsMessage]='tableNoResultsMessage'
             ></app-booking-table>
         </div>
         <div class="component-container">

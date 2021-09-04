@@ -20,6 +20,11 @@ export class BookingConfirmPageComponent implements OnInit {
     title: 'Andrew Saray Tattoos',
     parentNav: '/public'
   }
+  pageConfig ={
+    showCalendar: true,
+    showPaymentProcessor: false,
+    showUpdateDateButton: false
+  }
 
   subscriptions = new Subscription();
   bookingConfirmationId = this.route.snapshot.paramMap.get('id');
@@ -38,8 +43,10 @@ export class BookingConfirmPageComponent implements OnInit {
     calendarConfig: {
       month:true,
       week: false,
-      day: false
-    }
+      day: false,
+      
+    },
+    longPressDelay: .5
   }
 
   _calendarEvents: Array<ICalendarEvent> = [];
@@ -105,7 +112,33 @@ export class BookingConfirmPageComponent implements OnInit {
           console.log(res);
           this.userBooking = res.content;
           this.stripeBookingDetails.amount = this.userBooking.depositAmount;
+
+          this.pageConfig.showPaymentProcessor = !this.userBooking.depositPaid;
+          this.pageConfig.showUpdateDateButton = !this.pageConfig.showPaymentProcessor;
+          //if(this.userBooking.depositPaid && this.userBooking.status == 'accepted')
+          
         }
+      ).add(
+        this.bookingSvc.updateBookingDateResponse$.subscribe(
+          res => {
+
+            let dialogRef = this.matDialog.open(NotificationModalComponent);
+            let instance = dialogRef.componentInstance;
+            let modalData: modalConfig = {
+              title: 'Booking Date Updated',
+              modalSetting: modalContent.bookingSuccess,
+              modalMessage: `Your Booking has been moved to ${formatDate( this.userDateSelection.start,'dd/MM/yyyy','en-US' )}` ,
+              contentBody: res
+            }
+            instance.configuration = modalData;
+            dialogRef.afterClosed().subscribe(
+              res => {
+                this.router.navigate(['public/faq']);
+              }
+            )
+
+          }
+        )
       )
     )
 
@@ -120,7 +153,6 @@ export class BookingConfirmPageComponent implements OnInit {
       this.userDateSelection = null;
       this.stripeBookingDetails.bookedDate = null;
     }
-    
   }
 
   calendarDateSelect(evt){
@@ -134,10 +166,9 @@ export class BookingConfirmPageComponent implements OnInit {
     let st = Date.parse(evt.start);
     evt.end.setHours(-5,0,0);
     let ed = Date.parse(evt.end);
-
     let halfDayEvt;
+
     for(let calendarEvent of futureEvents){
-    
       if(
         st >= Number(calendarEvent.start) && st <= Number(calendarEvent.end) ||
         ed >= Number(calendarEvent.start) && ed <= Number(calendarEvent.end) ||
@@ -150,7 +181,6 @@ export class BookingConfirmPageComponent implements OnInit {
         } else {
           halfDayEvt = calendarEvent;
           count += 1;
-          
         }
       }
     }
@@ -162,17 +192,13 @@ export class BookingConfirmPageComponent implements OnInit {
       console.log('User booking requires full day');
       return;
     } else if(count == 1 && !this.userBooking.allDay){
-      
       if(new Date(halfDayEvt.start).getHours() < 12){
         this.generateCalendarEvent(evt,'PM Booking', 'blue','pm');
       } else{
         this.generateCalendarEvent(evt, 'AM Booking', 'blue','am');
       }
-      
       return;
     }
-
-  
    
     let userTimeSelect = '';
     if(this.userBooking.allDay){
@@ -231,6 +257,9 @@ export class BookingConfirmPageComponent implements OnInit {
     
   }
 
+  updateBookingDate(){
+    this.bookingSvc.updateBookingDate(this.bookingConfirmationId,this.userDateSelection.start, this.userDateSelection.end);
+  }       
 
 
 

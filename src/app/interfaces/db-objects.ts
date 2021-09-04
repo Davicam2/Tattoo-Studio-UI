@@ -17,6 +17,7 @@ export interface Ibooking{
     status: string,
     allDay: boolean
     depositAmount: number,
+    depositPaid?: boolean
 }
 
 export interface IReservation{

@@ -16,6 +16,16 @@
             .component-container{
                
                 margin-bottom: 20px;
+                .controls{
+                    select{
+                        background: black;
+                        color: white;
+                        padding-left: 5px;
+                        height: 30px;
+                        border: 3px solid var(--joker-green);
+                        border-radius: 20px;
+                    }
+                }
             }
         }
     }

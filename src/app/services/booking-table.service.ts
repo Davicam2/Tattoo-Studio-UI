@@ -16,11 +16,16 @@ export class BookingTableService {
   private uris = this.appConfig.getEndpoints();
 
   bookingUpdateResponse$: Subject<apiResponse> = new Subject();
+  cancelBookingResponse$: Subject<apiResponse> = new Subject();
+  updateBookingDateResponse$: Subject<apiResponse> = new Subject();
+
   bookedDates$: BehaviorSubject<apiResponse> = new BehaviorSubject(null)
   bookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
 
   publicUserBooking$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
   dataRestrictedBookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
+
+  bookingImageLinks$: Subject<apiResponse> = new Subject()
 
   constructor(
     private appConfig: RuntimeConfigService,
@@ -160,21 +165,20 @@ export class BookingTableService {
   }
 
   getBooking(id: string){
-    
-
-
     this.rApi.makeGetRequest(
       this.serverUrl + this.uris.BOOKING.getBooking, 
       {id: id}).subscribe(
         res => {
+       
           let resp: apiResponse = {
             type: 'Get',
             origin: this.apiOrigins.getBooking,
-            isError: res.error ? true: false,
+            isError: res.error,
             content: res 
           }
           this.publicUserBooking$.next(resp);
         }, err => {
+          
           let resp: apiResponse ={
             type: 'Get',
             origin: this.apiOrigins.getBooking,
@@ -228,6 +232,24 @@ export class BookingTableService {
     )
   }
 
+  cancelBooking(id: string){
+    this.rApi.makeUpdatePutRequest(
+      this.serverUrl + this.uris.BOOKING.cancelBooking,
+      {id}
+    ).subscribe(
+      res => {
+        let response: apiResponse = {
+          type: 'Put',
+          origin: this.apiOrigins.cancelBooking,
+          isError: false,
+          content: res
+        }
+
+        this.cancelBookingResponse$.next(response);
+      }
+    )
+  }
+
   updateBookingDate(id: string, start: Date,end: Date){
     this.rApi.makeUpdatePutRequest(this.serverUrl + this.uris.BOOKING.reserveBookingDate,
       {id:id, start: start, end: end}
@@ -239,9 +261,27 @@ export class BookingTableService {
             isError: false,
             content: res
           }
+          this.updateBookingDateResponse$.next(response);
           console.log('booking update res', response);
         }
       )
+  }
+
+
+  getBookingImageLinks(id:string){
+    this.rApi.makeGetRequest(this.serverUrl + this.uris.BOOKING.getBookingImages, {id}).subscribe(
+      res => {
+        let response: apiResponse = {
+          type: 'GET',
+          origin: this.apiOrigins.imageLinks,
+          isError: false,
+          content: res
+        }
+        this.bookingImageLinks$.next(response);
+      }, err => {
+
+      }
+    )
   }
 
 
@@ -254,7 +294,9 @@ export class BookingTableService {
     getBookedDates: 'getBookedDates',
     requestBooking: 'requestBooking',
     updateBookingDate: 'updateBookingDate',
-    secureBookings: 'secureBookings'
+    secureBookings: 'secureBookings',
+    imageLinks: 'imageLinks',
+    cancelBooking: 'cancelBooking'
   
   }
 }

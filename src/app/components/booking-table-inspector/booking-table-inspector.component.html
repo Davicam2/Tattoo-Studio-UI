@@ -19,11 +19,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="modal-actions" *ngIf="configuration.modalState === 'pending'">
-                    <button (click)="clickRFI()">RFI</button>
-                    <button (click)="clickAccept()">Accept</button>
-                    <button (click)="clickReject()">Reject</button>
+                <div class="modal-actions" *ngIf="configuration?.modalActionsGroup === _actionGroupSetting.bookingActions">
+                    <button (click)="buttonClickAction(_inspectorActions.rfi)">RFI</button>
+                    <button (click)="buttonClickAction(_inspectorActions.accept)">Accept</button>
+                    <button (click)="buttonClickAction(_inspectorActions.reject)">Reject</button>
                     <button>other actions?</button>
+                </div>
+                <div class="modal-actions" *ngIf="configuration?.modalActionsGroup === _actionGroupSetting.cancelable">
+                    <button (click)="buttonClickAction(_inspectorActions.cancel)">Cancel</button>
                 </div>
             </div>
         </section>

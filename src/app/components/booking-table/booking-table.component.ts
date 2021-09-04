@@ -15,11 +15,15 @@ export class BookingTableComponent implements OnInit, OnChanges {
   @Input() defaultSort: number;
   pageToDisplay: any[];
   @Input() tableData: Array<any>;
+  @Input() noResultsMessage: string;
   @Output() rowAction = new EventEmitter<{action:string,id:string}>();
+
+  
 
   constructor() { }
  
   ngOnInit(): void {
+    
   }
 
   ngOnChanges(changes: SimpleChanges){

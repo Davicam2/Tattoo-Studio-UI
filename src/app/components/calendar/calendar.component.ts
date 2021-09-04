@@ -178,5 +178,6 @@ export interface ICalendarOptions {
     month: boolean,
     week: boolean,
     day: boolean
-  }
+  },
+  longPressDelay?:  number
 }

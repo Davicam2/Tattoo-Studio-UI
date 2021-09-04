@@ -11,19 +11,17 @@ export class BookingTableInspectorComponent implements OnInit {
   @Input() configuration: inspectorModalConfig;
   onButtonAction = new EventEmitter();
 
+  _actionGroupSetting = actionsGroup;
+  _inspectorActions = inspectorActions;
+
   constructor(public dialogRef:MatDialogRef<BookingTableInspectorComponent>) { }
 
   ngOnInit(): void {
+    console.log(this.configuration)
   }
 
-  clickRFI(){
-    this.onButtonAction.emit(inspectorActions.rfi);
-  }
-  clickAccept(){
-    this.onButtonAction.emit(inspectorActions.accept);
-  }
-  clickReject(){
-    this.onButtonAction.emit(inspectorActions.reject);
+  buttonClickAction(evt: string){
+    this.onButtonAction.emit(evt);
   }
 
 }
@@ -32,11 +30,19 @@ export interface inspectorModalConfig{
   title: string,
   modalState: string,
   modalMessage: string,
-  modalTableArray: any[]
+  modalTableArray: any[],
+  modalActionsGroup?: number
 }
 
 export const inspectorActions = {
   rfi: 'RFI',
   accept: 'accept',
   reject: 'reject',
+  cancel: 'cancel'
 }
+export enum actionsGroup{
+  bookingActions,
+  cancelable
+
+}
+

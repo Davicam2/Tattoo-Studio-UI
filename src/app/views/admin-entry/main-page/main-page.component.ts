@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, combineLatest, forkJoin, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions, BookingActionModalComponent, IActionModalConfig } from 'src/app/components';
+import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions, BookingActionModalComponent, IActionModalConfig, actionsGroup, NotificationModalComponent, modalConfig } from 'src/app/components';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -40,7 +40,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
   modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
   tableViewSelect: string = 'requested';
-
+  tableNoResultsMessage = 'No Results';
   subscriptions = new Subscription();
 
   viewConfig = {
@@ -111,6 +111,28 @@ export class MainPageComponent implements OnInit, OnDestroy {
           
         }
       )
+    ).add(
+      this.tblService.bookingImageLinks$.subscribe(
+        res => {
+          console.log(res);
+        }
+      )
+    ).add(
+      this.tblService.cancelBookingResponse$.subscribe(
+        res => {
+          debugger;
+          let dialogRef = this.matDialog.open(NotificationModalComponent);
+          let instance = dialogRef.componentInstance;
+          let modalData: modalConfig = {
+            title: 'Cancelation Confirmation',
+            modalSetting: modalContent.errorMessage,
+            modalMessage: 'The booking has been canceled. The customer will receive an email asking them to select a new date',
+            contentBody: res
+          }
+          instance.configuration = modalData;
+          this._calendarEvents = this._calendarEvents.filter( item => item.id !== res.content.id);
+        }
+      )
     )
   }
 
@@ -169,18 +191,22 @@ export class MainPageComponent implements OnInit, OnDestroy {
       structuredTableRow['id'] = row.id;
        
       if(this.tableViewSelect === 'requested'){
+        this.tableNoResultsMessage = 'No Pending Requests To Review';
         if(row.status === 'requested'){
           this.tableData.push(structuredTableRow);
         } 
       }else if (this.tableViewSelect === 'upcoming'){
+        this.tableNoResultsMessage = 'No Upcoming Bookings';
         if(row.endDate >= Date.parse(Date())){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'accepted'){
+        this.tableNoResultsMessage = 'No Requests Pending Deposit';
         if(row.status === 'accepted'){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'historic'){
+        this.tableNoResultsMessage = 'No Bookings in History';
         if(row.requestedDate < Date.parse(Date())) {
           this.tableData.push(structuredTableRow);
         }
@@ -201,6 +227,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
       let selectedBooking = this.bookings.find(booking => booking.id == evt.id);
       let rowValues: Array<{title: string, value: string}> = new Array();
 
+      //TODO: complete this line of logic once security is fixed
+      this.tblService.getBookingImageLinks(evt.id);
+
       for(let mapKey of Object.keys(bookingPMap)){
         for(let key of Object.keys(selectedBooking)){
           if(key === mapKey){
@@ -208,24 +237,27 @@ export class MainPageComponent implements OnInit, OnDestroy {
           }
         }
       }
-    
+     
       let modalData: inspectorModalConfig = {
         title: this.modalConfig.INSPECT_BOOKING.title,
         modalState: selectedBooking.status,
         modalMessage: this.modalConfig.INSPECT_BOOKING.message,
-        modalTableArray: rowValues
+        modalTableArray: rowValues,
+        modalActionsGroup: selectedBooking.status == 'requested' ? actionsGroup.bookingActions : actionsGroup.cancelable 
       }
       instance.configuration = modalData;
 
       dialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
         if(action === inspectorActions.accept){
-          this.acceptBooking(evt.id)
+          this.acceptBooking(evt.id);
           dialogRef.close();
         }else if( action === inspectorActions.reject){
-          this.rejectBooking(evt.id)
+          this.rejectBooking(evt.id);
           dialogRef.close();
         }else if( action === inspectorActions.rfi){
           //TODO: initiate rfi email builder
+        } else if( action === inspectorActions.cancel){
+          this.cancelBooking(evt.id);
         }
       })
     }
@@ -261,13 +293,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.tblService.rejectBooking(id);
   }
 
+  cancelBooking(id: string){
+    this.tblService.cancelBooking(id);
+
+  }
+
   private createCalendarEvts( bookings?: Array<Ibooking>, reservations?: Array<IReservation>){
     let tempArr: Array<ICalendarEvent> = [];
 
     if(bookings){
       bookings.map(
         booking => {
-          if(booking.startDate.toString() !== 'tbd'){
+          if(booking.status === 'booked'){
             tempArr.push(
               {
                 start: booking.startDate,
