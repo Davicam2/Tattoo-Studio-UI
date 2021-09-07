@@ -23,7 +23,7 @@
                             </td>
                             <td>
                                 <div class="thumbnail-display">
-                                    <div class="img-container" *ngFor="let image of bodyImages">
+                                    <div (click)="imageGroupSelected(imgGrpSelect.bodyImage)" class="img-container" *ngFor="let image of bodyImages">
                                         <img [src]="image">
                                     </div>
                                 </div>
@@ -35,7 +35,7 @@
                             </td>
                             <td>
                                 <div class="thumbnail-display">
-                                    <div class="img-container" *ngFor="let image of referenceImages">
+                                    <div (click)="imageGroupSelected(imgGrpSelect.referenceImage)" class="img-container" *ngFor="let image of referenceImages">
                                         <img [src]="image">
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, OnChanges, SimpleChanges, Output } from '@angular/core';
 import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -11,6 +11,10 @@ export class BookingTableInspectorComponent implements OnInit, OnChanges {
   @Input() configuration: inspectorModalConfig;
   @Input() bodyImages: string[];
   @Input() referenceImages: string[];
+
+  imageClick = new EventEmitter<number>();
+
+  imgGrpSelect = imageGroupSelect;
 
   onButtonAction = new EventEmitter();
 
@@ -33,7 +37,12 @@ export class BookingTableInspectorComponent implements OnInit, OnChanges {
     this.onButtonAction.emit(evt);
   }
 
+  imageGroupSelected(selection: imageGroupSelect){
+    this.imageClick.emit(selection);
+  }
+
 }
+
 
 export interface inspectorModalConfig{
   title: string,
@@ -52,6 +61,10 @@ export const inspectorActions = {
 export enum actionsGroup{
   bookingActions,
   cancelable
+}
 
+export enum imageGroupSelect{
+  bodyImage,
+  referenceImage
 }
 

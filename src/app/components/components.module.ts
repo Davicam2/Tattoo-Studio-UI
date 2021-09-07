@@ -7,6 +7,8 @@ import { AngularMaterialModule } from '../material.module';
 import { UtilModule } from '../util/util.module';
 import {AppPipesModule} from 'src/app/pipes/pipes.module';
 
+import { CarouselModule } from 'ngx-owl-carousel-o';
+
 import { 
   BookingFormComponent, 
   PublicLandingComponent,  
@@ -19,19 +21,14 @@ import {
   ViewHeaderComponent,
   NotificationModalComponent,
   BookingActionModalComponent,
-  StripeProcessorComponent
+  StripeProcessorComponent,
 } from './index';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-
-
-
-
-
-
+import { ImageSliderModalComponent } from './image-slider-modal/image-slider-modal.component';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -53,7 +50,8 @@ FullCalendarModule.registerPlugins([
     CalendarComponent, 
     FormContainerComponent, 
     BookingActionModalComponent, 
-    StripeProcessorComponent
+    StripeProcessorComponent, 
+    ImageSliderModalComponent
       
 
   ],
@@ -65,7 +63,8 @@ FullCalendarModule.registerPlugins([
     AppPipesModule,
     RouterModule,
     FormsModule,
-    FullCalendarModule
+    FullCalendarModule,
+    CarouselModule
 
   ],
   exports:[
@@ -78,7 +77,8 @@ FullCalendarModule.registerPlugins([
     CalendarComponent,
     FormContainerComponent,
     BookingActionModalComponent,
-    StripeProcessorComponent
+    StripeProcessorComponent,
+    ImageSliderModalComponent
     
   ]
 })

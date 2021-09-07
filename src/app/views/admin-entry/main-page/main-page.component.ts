@@ -3,7 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, combineLatest, forkJoin, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions, BookingActionModalComponent, IActionModalConfig, actionsGroup, NotificationModalComponent, modalConfig } from 'src/app/components';
+import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions, BookingActionModalComponent, IActionModalConfig, actionsGroup, NotificationModalComponent, modalConfig, imageGroupSelect } from 'src/app/components';
+import { ImageSliderModalComponent } from 'src/app/components/image-slider-modal/image-slider-modal.component';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -235,13 +236,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
       this.rejectBooking(evt.id)
     } else if(evt.action === 'selected'){
       
+      //TODO: complete this line of logic once security is fixed
+      this.tblService.getBookingImageLinks(evt.id);
+
       this.inspDialogRef = this.matDialog.open(BookingTableInspectorComponent);
       let instance = this.inspDialogRef.componentInstance;
       let selectedBooking = this.bookings.find(booking => booking.id == evt.id);
       let rowValues: Array<{title: string, value: string}> = new Array();
-
-      //TODO: complete this line of logic once security is fixed
-      this.tblService.getBookingImageLinks(evt.id);
 
       for(let mapKey of Object.keys(bookingPMap)){
         for(let key of Object.keys(selectedBooking)){
@@ -274,6 +275,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
         } else if( action === inspectorActions.cancel){
           this.cancelBooking(evt.id);
         }
+      })
+
+      this.inspDialogRef.componentInstance.imageClick.subscribe((selection: imageGroupSelect) => {
+        this.callImageInspector(selection);
       })
     }
   }
@@ -355,6 +360,20 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this._calendarEvents = [...tempArr];
   }
 
+  callImageInspector(selection: imageGroupSelect){
+    this.inspDialogRef = this.matDialog.open(ImageSliderModalComponent, {
+      height:'fit-content',
+      width:'90vw'
+    });
+    let instance = this.inspDialogRef.componentInstance;
+    if(selection === imageGroupSelect.bodyImage){
+      instance.imageUrls = this.bookingInspectorImgs.body;
+    } else if (selection === imageGroupSelect.referenceImage){
+      instance.imageUrls = this.bookingInspectorImgs.reference;
+    }
+    
+
+  }
 
   calendarEventSelect(event){
     if(event.type === 'booking'){
