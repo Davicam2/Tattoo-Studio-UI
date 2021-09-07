@@ -34,6 +34,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  bookingInspectorImgs = {
+    body: [],
+    reference: []
+  }
+  inspDialogRef;
+
   _calendarEvents: Array<ICalendarEvent> = [];
   //=================//
 
@@ -114,7 +120,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
     ).add(
       this.tblService.bookingImageLinks$.subscribe(
         res => {
-          console.log(res);
+          this.bookingInspectorImgs = {
+            body: res.content.bodyUrls,
+            reference: res.content.refUrls
+          }
+
+          this.inspDialogRef.componentInstance.bodyImages = this.bookingInspectorImgs.body;
+          this.inspDialogRef.componentInstance.referenceImages = this.bookingInspectorImgs.reference;
+       
         }
       )
     ).add(
@@ -215,15 +228,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  bookingAction(evt:{action:string,id:string}){
-    if(evt.action === 'accept'){
+  bookingAction(evt:{action:string,id:string}){  
+    if(evt.action === 'accept'){  
       this.acceptBooking(evt.id);
     } else if(evt.action === 'reject'){
       this.rejectBooking(evt.id)
     } else if(evt.action === 'selected'){
       
-      let dialogRef = this.matDialog.open(BookingTableInspectorComponent);
-      let instance = dialogRef.componentInstance;
+      this.inspDialogRef = this.matDialog.open(BookingTableInspectorComponent);
+      let instance = this.inspDialogRef.componentInstance;
       let selectedBooking = this.bookings.find(booking => booking.id == evt.id);
       let rowValues: Array<{title: string, value: string}> = new Array();
 
@@ -246,14 +259,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
         modalActionsGroup: selectedBooking.status == 'requested' ? actionsGroup.bookingActions : actionsGroup.cancelable 
       }
       instance.configuration = modalData;
+      //instance.bodyImages = this.bookingInspectorImgs.body;
+      //instance.referenceImages = this.bookingInspectorImgs.reference;
 
-      dialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
+      this.inspDialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
         if(action === inspectorActions.accept){
           this.acceptBooking(evt.id);
-          dialogRef.close();
+          this.inspDialogRef.close();
         }else if( action === inspectorActions.reject){
           this.rejectBooking(evt.id);
-          dialogRef.close();
+          this.inspDialogRef.close();
         }else if( action === inspectorActions.rfi){
           //TODO: initiate rfi email builder
         } else if( action === inspectorActions.cancel){

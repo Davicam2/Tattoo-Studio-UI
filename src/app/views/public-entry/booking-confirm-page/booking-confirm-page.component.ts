@@ -121,7 +121,8 @@ export class BookingConfirmPageComponent implements OnInit {
       ).add(
         this.bookingSvc.updateBookingDateResponse$.subscribe(
           res => {
-
+            if(this.pageConfig.showPaymentProcessor) return;
+            
             let dialogRef = this.matDialog.open(NotificationModalComponent);
             let instance = dialogRef.componentInstance;
             let modalData: modalConfig = {

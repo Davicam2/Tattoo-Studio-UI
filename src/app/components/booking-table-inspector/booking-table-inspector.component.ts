@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -6,9 +6,12 @@ import { MatDialog, MatDialogRef} from '@angular/material/dialog';
   templateUrl: './booking-table-inspector.component.html',
   styleUrls: ['./booking-table-inspector.component.scss']
 })
-export class BookingTableInspectorComponent implements OnInit {
+export class BookingTableInspectorComponent implements OnInit, OnChanges {
 
   @Input() configuration: inspectorModalConfig;
+  @Input() bodyImages: string[];
+  @Input() referenceImages: string[];
+
   onButtonAction = new EventEmitter();
 
   _actionGroupSetting = actionsGroup;
@@ -18,6 +21,12 @@ export class BookingTableInspectorComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.configuration)
+  }
+  ngOnChanges(changes: SimpleChanges){
+    if(changes.bodyImages || changes.referenceImages){
+      console.log(this.bodyImages);
+      console.log(this.referenceImages);
+    }
   }
 
   buttonClickAction(evt: string){

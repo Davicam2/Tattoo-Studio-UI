@@ -17,8 +17,33 @@
                             <td>{{row.title}}</td>
                             <td>{{row.value | tryParseDate: 'MMM dd, yyyy'}}</td>
                         </tr>
+                        <tr>
+                            <td>
+                                Body Images
+                            </td>
+                            <td>
+                                <div class="thumbnail-display">
+                                    <div class="img-container" *ngFor="let image of bodyImages">
+                                        <img [src]="image">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Reference Images
+                            </td>
+                            <td>
+                                <div class="thumbnail-display">
+                                    <div class="img-container" *ngFor="let image of referenceImages">
+                                        <img [src]="image">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
+                
                 <div class="modal-actions" *ngIf="configuration?.modalActionsGroup === _actionGroupSetting.bookingActions">
                     <button (click)="buttonClickAction(_inspectorActions.rfi)">RFI</button>
                     <button (click)="buttonClickAction(_inspectorActions.accept)">Accept</button>

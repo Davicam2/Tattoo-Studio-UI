@@ -2,6 +2,7 @@
     &-body{
         height: 100%;
         width: 100%;
+        min-width: 800px;
     }
     &-title{
         display: flex;
@@ -49,6 +50,27 @@
         &:hover {
             background-color: var(--joker-purple);
             box-shadow: 10px 5px 5px #888;
+        }
+    }
+}
+
+.thumbnail-display{
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin-top: 10px;
+    display:flex;
+    
+    .img-container{
+        position: relative;
+        background-color: white;
+        margin-right: 10px;
+        
+
+        img{
+            height: 120px;
+            object-fit: contain;
+            margin: 10px 10px 2px 10px;
+            border-radius: 0px 20px 0px 0px;
         }
     }
 }
