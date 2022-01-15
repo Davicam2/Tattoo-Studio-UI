@@ -39,6 +39,13 @@ export class ReservationService {
             } 
             this.reservationListChanged$.next(response);
           }, err =>  {
+            let response: apiResponse = {
+              type: 'Post',
+              origin: this.apiOrigins.requestReservation,
+              isError: true,
+              content: err
+            } 
+            this.reservationListChanged$.next(response);
             console.log(err)
             
           }
@@ -96,6 +103,7 @@ export class ReservationService {
       )
     }
 
+    
 
     private apiOrigins = {
       requestReservation: 'requestReservation',

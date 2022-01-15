@@ -20,6 +20,7 @@ export class BookingConfirmPageComponent implements OnInit {
     title: 'Andrew Saray Tattoos',
     parentNav: '/public'
   }
+
   pageConfig ={
     showCalendar: true,
     showPaymentProcessor: false,
@@ -122,7 +123,7 @@ export class BookingConfirmPageComponent implements OnInit {
         this.bookingSvc.updateBookingDateResponse$.subscribe(
           res => {
             if(this.pageConfig.showPaymentProcessor) return;
-            
+
             let dialogRef = this.matDialog.open(NotificationModalComponent);
             let instance = dialogRef.componentInstance;
             let modalData: modalConfig = {
@@ -160,7 +161,7 @@ export class BookingConfirmPageComponent implements OnInit {
     console.log(evt);
     const futureEvents = this._calendarEvents.filter(evt => new Date(evt.end) > new Date())
     let count = 0;
-    
+    debugger;
     if(this.userDateSelection) return;
 
     evt.start.setHours(1,0,0);

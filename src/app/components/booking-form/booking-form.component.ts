@@ -88,6 +88,13 @@ export class BookingFormComponent implements OnInit, OnDestroy {
               modalMessage: this.modalConfig.BOOKING_FORM_SUCCESS.message
             }
             this.openNotificationModal(modalData);
+          }else{
+            let modalData: modalConfig = {
+              title: this.modalConfig.BOOKING_FORM_FAILURE.title,
+              modalSetting: modalContent.errorMessage,
+              modalMessage: this.modalConfig.BOOKING_FORM_FAILURE.message
+            }
+            this.openNotificationModal(modalData);
           }
           console.log('booking request response', res);
         }

@@ -3,8 +3,10 @@
   "version": "0.8.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "ng serve --host 0.0.0.0 --ssl true --disable-host-check",
+    "prod": "ng serve --prod --host 0.0.0.0 --disable-host-check" ,
     "build": "ng build",
+    "build prod": "ng build -c production --disable-host-check",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -34,6 +36,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^12.1.2",
     "@angular-devkit/build-angular": "~0.1001.2",
     "@angular/cli": "~10.1.2",
     "@angular/compiler-cli": "~10.1.2",

@@ -1,9 +1,9 @@
 {
     "URIS":{
         "BASE":{
-            "express": "http://localhost:3000",
-            "express_dev": "http://localhost:3000",
-            "express_prod": "https://68.183.131.23:3000"
+            "express": "https://tattoo-test.net:4201",
+            "express_dev": "https://localhost:3000",
+            "express_prod": "https://tattoo-test.net:4201"
         },
         "ENDPOINTS":{
             "BOOKING":{
@@ -66,12 +66,8 @@
     "MODAL_CONFIGS":{
         "BOOKING_FORM_SUCCESS":{
             "title":"<Booking Request Success Title>",
-            "message": "<Overriden message maybe>"
+            "message": "<injected message maybe>"
 
-        },
-        "BOOKING_FORM_FAILURE":{
-            "title":"<Booking Form Failure Title>",
-            "message":"<Overridden Message Maybe"
         },
         "LOGIN":{
             "title":"<Admin Login Title>",
@@ -83,8 +79,8 @@
         }
     },
     "ENVIRONMENTS": {
-        "dev": true,
-        "prod": false
+        "dev": false,
+        "prod": true
     },
     "STRIPE_SETTINGS":{
         "publishable_key": "pk_test_51JJl3jLlJEov7K7AyyqlQbscQDv6zVkjqERECcZ5bmckAahdfxYCqLxQtQ5JTmn6uYLmuPftZEIdOeBAM2nzWKAW00sQxLYldQ"

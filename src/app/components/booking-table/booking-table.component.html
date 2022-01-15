@@ -5,7 +5,7 @@
     <table>
         <thead>
             <tr>
-                <th *ngFor="let header of tablePropMap; let i = index">
+                <th *ngFor="let header of headersToDisplay; let i = index">
                     {{header.value}}
                 </th>
             </tr>
@@ -13,7 +13,7 @@
 
         <tbody>
             <tr *ngFor="let row of pageToDisplay; let i = index" (click)="rowSelection(row.id)">
-                <td (click)=" $event.stopPropagation()">
+                <td (click)=" $event.stopPropagation()" *ngIf="showActionButtons">
                     <button class="tbl-action-button" (click)="rowAffirmativeAction(row.id)"><mat-icon color="accent">done</mat-icon></button>
                     <button class="tbl-action-button" (click)="rowNegativeAction(row.id)"><mat-icon color="warn" >close</mat-icon></button>
                 </td> <!--admin accept button-->

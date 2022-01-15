@@ -34,7 +34,8 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
     },
     
     BOOKINGTABLE:{
-        headers:[{key:string,value:string}]
+        headers:[{key:string,value:string}],
+        showButtons: boolean
     }
 }
 
@@ -74,6 +75,10 @@ export interface IModalConfig {
         BOOKING_FORM_SUCCESS:{
             title: string;
             message: string;
+        },
+        BOOKING_FORM_FAILURE: {
+            title: string;
+            message:string;
         },
         LOGIN:{
             title: string;

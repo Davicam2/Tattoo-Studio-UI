@@ -14,4 +14,5 @@ EXPOSE 4200
 
 # ENV CHOKIDAR_USEPOLLING=true
 
-CMD ["npm", "start" ]
+#CMD ["npm", "prod" ]
+CMD ["npm", "run", "prod"]

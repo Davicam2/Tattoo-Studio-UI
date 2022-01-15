@@ -67,12 +67,13 @@ export class BookingTableService {
       bodyImgs: bPics,
       refImgs: rPics
     }
-
+ 
     this.rApi.makePostRequest(
       this.serverUrl + this.uris.BOOKING.requestBooking,
       submissionForm
       ).subscribe(
         res => {
+         
           let response: apiResponse = {
             type: 'Post',
             origin: this.apiOrigins.requestBooking,
@@ -81,8 +82,14 @@ export class BookingTableService {
           } 
           this.bookingUpdateResponse$.next(response);
         }, err =>  {
-          
-          this.bookingUpdateResponse$.next(err)
+        
+          let response: apiResponse = {
+            type: 'Post',
+            origin: this.apiOrigins.requestBooking,
+            isError: true,
+            content: err
+          } 
+          this.bookingUpdateResponse$.next(response)
         }
       )
   }

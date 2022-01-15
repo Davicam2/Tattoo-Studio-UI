@@ -24,9 +24,12 @@ export class RestService {
    
     return this.http.post<any>(url,payload).pipe(
       map((res: any) => {
+       
         return res;
       }),
       catchError((error: any) => {
+        
+       
         return (error || 'Server Error')
       })
     );

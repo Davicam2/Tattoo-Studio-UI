@@ -44,7 +44,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   _calendarEvents: Array<ICalendarEvent> = [];
   //=================//
 
-  tableConfig = this.appConfig.getConfig().BOOKINGTABLE.headers;
+  tableConfig = this.appConfig.getConfig().BOOKINGTABLE;
+  showTableButtons = true;
   modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
   tableViewSelect: string = 'requested';
   tableNoResultsMessage = 'No Results';
@@ -68,7 +69,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.resSvc.getReservationList();
 
    
-
+    
     this.subscriptions.add(
       this.tblService.bookings$.subscribe(
         data => {
@@ -134,7 +135,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     ).add(
       this.tblService.cancelBookingResponse$.subscribe(
         res => {
-          debugger;
+          
           let dialogRef = this.matDialog.open(NotificationModalComponent);
           let instance = dialogRef.componentInstance;
           let modalData: modalConfig = {
@@ -163,7 +164,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     rows.forEach(row => {
       structuredTableRow = new Object();
      
-      this.tableConfig.map(
+      this.tableConfig.headers.map(
         value => {
           switch (value.key){
             case 'name':{
@@ -205,23 +206,28 @@ export class MainPageComponent implements OnInit, OnDestroy {
       structuredTableRow['id'] = row.id;
        
       if(this.tableViewSelect === 'requested'){
+        this.showTableButtons = true;
         this.tableNoResultsMessage = 'No Pending Requests To Review';
         if(row.status === 'requested'){
           this.tableData.push(structuredTableRow);
         } 
       }else if (this.tableViewSelect === 'upcoming'){
+        this.showTableButtons = false;
         this.tableNoResultsMessage = 'No Upcoming Bookings';
         if(row.endDate >= Date.parse(Date())){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'accepted'){
+        this.showTableButtons = false;
         this.tableNoResultsMessage = 'No Requests Pending Deposit';
         if(row.status === 'accepted'){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'historic'){
+        this.showTableButtons = false;
         this.tableNoResultsMessage = 'No Bookings in History';
-        if(row.requestedDate < Date.parse(Date())) {
+       
+        if(row.endDate < Date.parse(Date())) {
           this.tableData.push(structuredTableRow);
         }
       }
