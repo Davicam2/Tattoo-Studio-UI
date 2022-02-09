@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RuntimeConfigService } from './services/runtime-config.service';
+import { AppHttpInterceptService } from './services/app-http-intercept.service';
 
 
 
@@ -40,7 +41,11 @@ const appInitializerFn = (appConfig: RuntimeConfigService) => {
       multi: true,
       deps: [RuntimeConfigService]
     },
-
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptService,
+      multi: true
+    }
 
   ],
   exports:[

@@ -29,6 +29,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { ImageSliderModalComponent } from './image-slider-modal/image-slider-modal.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -51,7 +52,8 @@ FullCalendarModule.registerPlugins([
     FormContainerComponent, 
     BookingActionModalComponent, 
     StripeProcessorComponent, 
-    ImageSliderModalComponent
+    ImageSliderModalComponent, 
+    LoadingScreenComponent
       
 
   ],
@@ -78,7 +80,8 @@ FullCalendarModule.registerPlugins([
     FormContainerComponent,
     BookingActionModalComponent,
     StripeProcessorComponent,
-    ImageSliderModalComponent
+    ImageSliderModalComponent,
+    LoadingScreenComponent
     
   ]
 })
