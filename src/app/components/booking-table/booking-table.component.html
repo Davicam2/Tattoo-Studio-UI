@@ -13,10 +13,13 @@
 
         <tbody>
             <tr *ngFor="let row of pageToDisplay; let i = index" (click)="rowSelection(row.id)">
-                <td (click)=" $event.stopPropagation()" *ngIf="showActionButtons">
+                <td (click)=" $event.stopPropagation()" *ngIf="buttonConf == 1">
                     <button class="tbl-action-button" (click)="rowAffirmativeAction(row.id)"><mat-icon color="accent">done</mat-icon></button>
                     <button class="tbl-action-button" (click)="rowNegativeAction(row.id)"><mat-icon color="warn" >close</mat-icon></button>
                 </td> <!--admin accept button-->
+                <td (click)="$event.stopPropagation()" *ngIf="buttonConf == 3">
+                    <button class="tbl-action-button" (click)="rowNegativeAction(row.id)"><mat-icon color="warn" >close</mat-icon></button>
+                </td>
                 <td>{{row[tablePropMap[1].key]}}</td>
                 <td>{{row[tablePropMap[2].key]}}</td>
                 <td>{{row[tablePropMap[3].key]}}</td>

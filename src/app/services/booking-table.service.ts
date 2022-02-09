@@ -157,7 +157,6 @@ export class BookingTableService {
   getSecureBookings(){
     this.rApi.makeGetRequest(this.serverUrl + this.uris.BOOKING.getSecureBookings, {}).subscribe(
       res => {
-       
         let resp: apiResponse = {
             type: 'Get',
             origin: this.apiOrigins.secureBookings,

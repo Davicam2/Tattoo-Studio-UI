@@ -15,7 +15,7 @@ export class BookingTableComponent implements OnInit, OnChanges {
   @Input() tablePropMap: Array<any>;
   headersToDisplay: Array<any>;
   @Input() defaultSort: number;
-  @Input() showActionButtons: boolean = false;
+  @Input() buttonConf: number = bookingTableActionButtonConf.showAll;
   @Input() tableData: Array<any>;
   @Input() noResultsMessage: string;
   @Output() rowAction = new EventEmitter<{action:string,id:string}>();
@@ -29,6 +29,7 @@ export class BookingTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges){
+   
     if(!changes.tableData.firstChange){
       this.sortTable(this.defaultSort ? this.defaultSort : this.tablePropMap.length - 1);
     }
@@ -38,7 +39,7 @@ export class BookingTableComponent implements OnInit, OnChanges {
     this.tableData.sort((a,b) => a[this.tablePropMap[index].key] - b[this.tablePropMap[index].key] );
     console.log(this.tableData)
     // removes the first header if action butons are set to off
-    if(!this.showActionButtons){
+    if(this.buttonConf == bookingTableActionButtonConf.showNone){
       this.headersToDisplay = this.tablePropMap.filter( x => this.tablePropMap.indexOf(x) > 0 );
     }
   }
@@ -61,4 +62,11 @@ export class BookingTableComponent implements OnInit, OnChanges {
   rowSelection(id: string){
     this.rowAction.emit({action:'selected', id:id});
   }
+}
+
+export const bookingTableActionButtonConf = {
+  showAll: 1,
+  showPositive: 2,
+  showNegative: 3,
+  showNone: 4
 }

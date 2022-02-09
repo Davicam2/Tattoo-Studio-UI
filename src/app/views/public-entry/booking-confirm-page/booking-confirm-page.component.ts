@@ -3,7 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
-import { ICalendarEvent, ICalendarOptions, modalConfig, NotificationModalComponent, modalContent, stripePurchaseDetails } from 'src/app/components';
+import { ICalendarEvent, 
+  ICalendarOptions, 
+  modalConfig, 
+  NotificationModalComponent, 
+  modalContent, 
+  stripePurchaseDetails } from 'src/app/components';
 import { Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
@@ -161,7 +166,6 @@ export class BookingConfirmPageComponent implements OnInit {
     console.log(evt);
     const futureEvents = this._calendarEvents.filter(evt => new Date(evt.end) > new Date())
     let count = 0;
-    debugger;
     if(this.userDateSelection) return;
 
     evt.start.setHours(1,0,0);
@@ -178,7 +182,17 @@ export class BookingConfirmPageComponent implements OnInit {
         Number(calendarEvent.end) >= st && Number(calendarEvent.end) <= ed
       ){
         if(calendarEvent.allDay){
+
+          let dialogRef = this.matDialog.open(NotificationModalComponent);
+          let instance = dialogRef.componentInstance;
+          let modalData: modalConfig = {
+            title: 'Date Selection Error',
+            modalSetting: modalContent.errorMessage,
+            modalMessage: 'Day fully booked, please select a different date',
+          }
+          instance.configuration = modalData;
           console.log('all day event, day closed for bookings')
+
           return;
         } else {
           halfDayEvt = calendarEvent;
@@ -188,10 +202,22 @@ export class BookingConfirmPageComponent implements OnInit {
     }
 
     if(count  > 1){
+   
+
       console.log('ive picked a date with two events');
-      return;
+      return; 
     } else if(count == 1 && this.userBooking.allDay){
       console.log('User booking requires full day');
+
+      let dialogRef = this.matDialog.open(NotificationModalComponent);
+          let instance = dialogRef.componentInstance;
+          let modalData: modalConfig = {
+            title: 'Date Selection Error',
+            modalSetting: modalContent.errorMessage,
+            modalMessage: 'Your booking requires a full day, please select a different date',
+          }
+          instance.configuration = modalData;
+
       return;
     } else if(count == 1 && !this.userBooking.allDay){
       if(new Date(halfDayEvt.start).getHours() < 12){
@@ -230,11 +256,11 @@ export class BookingConfirmPageComponent implements OnInit {
     
     if(timeslot == 'am'){
       evt.start.setHours(8,0,0);
-      evt.end.setHours(-12,0,0);
+      evt.end.setHours(12,0,0);
 
     }else if(timeslot == 'pm'){
       evt.start.setHours(13,0,0);
-      evt.end.setHours(-6,0,0);
+      evt.end.setHours(17,0,0);
     }
     this.userDateSelection = {start: evt.start, end: evt.end};
     this.stripeBookingDetails.bookedDate = evt.start;
@@ -265,13 +291,14 @@ export class BookingConfirmPageComponent implements OnInit {
 
 
 
+
   private createCalendarEvts( bookings?: Array<Ibooking>, reservations?: Array<IReservation>){
     let tempArr: Array<ICalendarEvent> = [];
 
     if(bookings){
       bookings.map(
         booking => {
-          if(booking.startDate.toString() !== 'tbd'){
+          if(booking.startDate.toString() !== 'tbd' && booking.status === 'booked'){
             tempArr.push(
               {
                 start: booking.startDate,

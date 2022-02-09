@@ -19,8 +19,8 @@
     [bookingDetails]='stripeBookingDetails'
    ></app-stripe-processor>
   
-   <div *ngIf="pageConfig.showUpdateDateButton" class="submission-button">
-        <button (click)="updateBookingDate()"> Select New Date</button>
+   <div *ngIf="pageConfig.showUpdateDateButton" class="button-container">
+        <button class="submit-btn" (click)="updateBookingDate()"> Request Selected Date</button>
    </div>
 </div>
 

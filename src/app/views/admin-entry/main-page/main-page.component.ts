@@ -3,12 +3,26 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, combineLatest, forkJoin, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { modalContent, inspectorModalConfig,inspectorActions, BookingTableInspectorComponent, ICalendarEvent, ICalendarOptions, BookingActionModalComponent, IActionModalConfig, actionsGroup, NotificationModalComponent, modalConfig, imageGroupSelect } from 'src/app/components';
+import { 
+  modalContent, 
+  inspectorModalConfig,
+  inspectorActions, 
+  BookingTableInspectorComponent, 
+  ICalendarEvent, 
+  ICalendarOptions, 
+  BookingActionModalComponent, 
+  IActionModalConfig, 
+  actionsGroup, 
+  NotificationModalComponent, 
+  modalConfig, 
+  imageGroupSelect, 
+  bookingTableActionButtonConf} from 'src/app/components';
 import { ImageSliderModalComponent } from 'src/app/components/image-slider-modal/image-slider-modal.component';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
+
 
 
 @Component({
@@ -45,7 +59,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   //=================//
 
   tableConfig = this.appConfig.getConfig().BOOKINGTABLE;
-  showTableButtons = true;
+  showTableButtons = bookingTableActionButtonConf.showAll;
   modalConfig = this.appConfig.getConfig().MODAL_CONFIGS;
   tableViewSelect: string = 'requested';
   tableNoResultsMessage = 'No Results';
@@ -206,32 +220,30 @@ export class MainPageComponent implements OnInit, OnDestroy {
       structuredTableRow['id'] = row.id;
        
       if(this.tableViewSelect === 'requested'){
-        this.showTableButtons = true;
+        this.showTableButtons = bookingTableActionButtonConf.showAll;
         this.tableNoResultsMessage = 'No Pending Requests To Review';
         if(row.status === 'requested'){
           this.tableData.push(structuredTableRow);
         } 
       }else if (this.tableViewSelect === 'upcoming'){
-        this.showTableButtons = false;
+        this.showTableButtons = bookingTableActionButtonConf.showNegative;
         this.tableNoResultsMessage = 'No Upcoming Bookings';
         if(row.endDate >= Date.parse(Date())){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'accepted'){
-        this.showTableButtons = false;
+        this.showTableButtons = bookingTableActionButtonConf.showNegative;
         this.tableNoResultsMessage = 'No Requests Pending Deposit';
         if(row.status === 'accepted'){
           this.tableData.push(structuredTableRow);
         }
       }else if (this.tableViewSelect === 'historic'){
-        this.showTableButtons = false;
+        this.showTableButtons = bookingTableActionButtonConf.showNone;
         this.tableNoResultsMessage = 'No Bookings in History';
-       
         if(row.endDate < Date.parse(Date())) {
           this.tableData.push(structuredTableRow);
         }
       }
-
     });
   }
 
@@ -266,8 +278,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
         modalActionsGroup: selectedBooking.status == 'requested' ? actionsGroup.bookingActions : actionsGroup.cancelable 
       }
       instance.configuration = modalData;
-      //instance.bodyImages = this.bookingInspectorImgs.body;
-      //instance.referenceImages = this.bookingInspectorImgs.reference;
 
       this.inspDialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
         if(action === inspectorActions.accept){

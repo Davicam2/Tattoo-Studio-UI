@@ -5,4 +5,23 @@
     .component-container{
         margin-bottom: 20px;
     }
+    .button-container{
+        display: flex;
+        justify-content: center;
+    }
+    .submit-btn{
+        width: 20%;
+        min-width: 112px;
+        border-radius: 10px;
+        height: 40px;
+        background-color: var(--joker-green);
+        color: white;
+        border: 4px solid black;
+        transition: box-shadow .5s;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--joker-purple);
+            box-shadow: 10px 5px 5px #888;
+        }
+    }
 }
