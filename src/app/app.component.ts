@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     this.isDev = this.appConfig.getEnvironment().dev;
     
-
     // this.userSvc.activeUser$.subscribe(
     //   profile => {
     //     this.dialogRef.closeAll();

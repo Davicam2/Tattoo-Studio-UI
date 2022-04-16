@@ -73,7 +73,7 @@ export class BookingTableService {
       submissionForm
       ).subscribe(
         res => {
-         
+          
           let response: apiResponse = {
             type: 'Post',
             origin: this.apiOrigins.requestBooking,
@@ -82,7 +82,7 @@ export class BookingTableService {
           } 
           this.bookingUpdateResponse$.next(response);
         }, err =>  {
-        
+          
           let response: apiResponse = {
             type: 'Post',
             origin: this.apiOrigins.requestBooking,

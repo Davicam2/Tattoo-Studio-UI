@@ -27,10 +27,10 @@ export class StripeProcessorComponent implements OnInit {
       iconColor: '#fa755a'
     }
   };
-
   
 
   stripe = Stripe(this.appConf.getStripeConfig().publishable_key);
+
 
   elements = this.stripe.elements();
 
@@ -39,9 +39,7 @@ export class StripeProcessorComponent implements OnInit {
   constructor(private appConf: RuntimeConfigService) { }
 
   ngOnInit(): void {
-    
 
-    
     // Add an instance of the card UI component into the `card-element`
     this.card.mount('#card-element');
 

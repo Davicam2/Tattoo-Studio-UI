@@ -93,5 +93,9 @@
         "showAdminEventVariable": "booked",
         "showPublicEventVariable": ""
 
+    },
+    "UTILITY_SETTINGS":{
+        "http_timeout": 15000
     }
+
 }

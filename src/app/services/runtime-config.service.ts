@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAppConfig, IUserProfile } from '../interfaces/global';
+import { IAppConfig, IAppVariables } from '../interfaces/global';
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -17,6 +17,7 @@ export class RuntimeConfigService {
     ) { }
 
   loadAppConfig() {
+   
     return this.http.get('/assets/app.config.json')
       .toPromise()
       .then(data => {
@@ -46,6 +47,10 @@ export class RuntimeConfigService {
  
   getStripeConfig(){
     return this.conf.STRIPE_SETTINGS;
+  }
+
+  getUtilitySettings(){
+    return this.conf.UTILITY_SETTINGS;
   }
   
 

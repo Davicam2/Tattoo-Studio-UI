@@ -28,8 +28,8 @@ export class BookingTableInspectorComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges){
     if(changes.bodyImages || changes.referenceImages){
-      console.log(this.bodyImages);
-      console.log(this.referenceImages);
+      // console.log(this.bodyImages);
+      // console.log(this.referenceImages);
     }
   }
 

@@ -83,11 +83,14 @@
         "prod": true
     },
     "STRIPE_SETTINGS":{
-        "publishable_key": "pk_test_51JJl3jLlJEov7K7AyyqlQbscQDv6zVkjqERECcZ5bmckAahdfxYCqLxQtQ5JTmn6uYLmuPftZEIdOeBAM2nzWKAW00sQxLYldQ"
+        "publishable_key": "pk_live_51JJl3jLlJEov7K7AdgOREQ4hwYWUwqzt89nFNRbHWQFNsDM0wbWdY00TsVNeWIBWdyH8raLGFHQ7DMbeSLBzMabZ00qVrETUR2"
     },
     "CALENDAR_SETTINGS":{
         "showAdminEventVariable": "booked",
         "showPublicEventVariable": ""
 
+    },
+    "UTILITY_SETTINGS":{
+        "http_timeout": 15000
     }
 }

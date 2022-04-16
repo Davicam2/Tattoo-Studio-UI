@@ -55,9 +55,8 @@ export class CalendarComponent implements OnInit, OnChanges {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    eventOverlap: false
-   
-    
+    eventOverlap: false,
+    longPressDelay: 300
   };
 
   constructor() { }

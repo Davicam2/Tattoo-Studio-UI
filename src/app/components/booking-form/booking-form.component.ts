@@ -76,12 +76,11 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
     // on init api calls
     
-    
+    //TODO: disable submit button on successful response
     this.subscriptions.add(
       this.bookingSvc.bookingUpdateResponse$.subscribe(
         res => {
           if(!res.isError){
-            
             let modalData: modalConfig = {
               title: this.modalConfig.BOOKING_FORM_SUCCESS.title,
               modalSetting: modalContent.bookingSuccess,
@@ -102,9 +101,8 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     )
     //booking form changes subscriptions
     this.onBookingFormChanges();
-    
   }
-
+  
   onSubmit(form){
     if(this.bookingForm.valid){
 

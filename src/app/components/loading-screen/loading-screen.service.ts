@@ -16,7 +16,7 @@ export class LoadingScreenService{
 
   show(){
     this.counter++;
-    //this.sleep(1000);
+    //this.sleep(2000);
     this.showLoader.next(true)
   }
 
@@ -30,6 +30,7 @@ export class LoadingScreenService{
     
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
+     
     })
   }
 

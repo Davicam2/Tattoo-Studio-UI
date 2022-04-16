@@ -1,4 +1,4 @@
-export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModalConfig, IStripeConfig{
+export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModalConfig, IStripeConfig, IAppVariables{
     URIS:{
         BASE:{
             express: string;
@@ -96,4 +96,10 @@ export interface IStripeConfig{
         publishable_key: string;
     }
     
+}
+
+export interface IAppVariables{
+    UTILITY_SETTINGS:{
+        http_timeout: number
+    }
 }
