@@ -39,7 +39,7 @@ export class StripeProcessorComponent implements OnInit {
   constructor(private appConf: RuntimeConfigService) { }
 
   ngOnInit(): void {
-
+    console.log(this.appConf.getStripeConfig().publishable_key);
     // Add an instance of the card UI component into the `card-element`
     this.card.mount('#card-element');
 

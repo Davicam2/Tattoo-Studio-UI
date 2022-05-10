@@ -83,7 +83,7 @@
         "prod": true
     },
     "STRIPE_SETTINGS":{
-        "publishable_key": "pk_live_51JJl3jLlJEov7K7AdgOREQ4hwYWUwqzt89nFNRbHWQFNsDM0wbWdY00TsVNeWIBWdyH8raLGFHQ7DMbeSLBzMabZ00qVrETUR2"
+        "publishable_key": "pk_live_51KR8p0FzMpdyIn76BpZfZlSOicMTibdK4Re03dDJ2vSPbqTnQ538R705Jc4IYGlFeagDqBFdVbKPxqmXtgdMCx6x00slo66iKK"
     },
     "CALENDAR_SETTINGS":{
         "showAdminEventVariable": "booked",

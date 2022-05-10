@@ -34,6 +34,7 @@ export class UserService {
         {userName: userName, pass:pass}
       ).subscribe(
         res => {
+      
           console.log(res);
           if(res){
             this.activeUser$.next({USER_PROFILE: {

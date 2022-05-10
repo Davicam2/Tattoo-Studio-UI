@@ -60,7 +60,8 @@ export const inspectorActions = {
 }
 export enum actionsGroup{
   bookingActions,
-  cancelable
+  cancelable,
+  none
 }
 
 export enum imageGroupSelect{

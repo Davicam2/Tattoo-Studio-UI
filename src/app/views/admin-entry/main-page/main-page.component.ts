@@ -269,17 +269,28 @@ export class MainPageComponent implements OnInit, OnDestroy {
           }
         }
       }
+  
+      //decide which button config for inspection modal (actions from modal)
+      let actGrp = 0;
+      if(selectedBooking.status == 'requested'){
+        actGrp = actionsGroup.bookingActions;
+      } else if (selectedBooking.endDate < new Date()){
+        actGrp = actionsGroup.none
+      } else if(selectedBooking.status == 'booked'){
+        actGrp = actionsGroup.cancelable
+      } 
      
       let modalData: inspectorModalConfig = {
         title: this.modalConfig.INSPECT_BOOKING.title,
         modalState: selectedBooking.status,
         modalMessage: this.modalConfig.INSPECT_BOOKING.message,
         modalTableArray: rowValues,
-        modalActionsGroup: selectedBooking.status == 'requested' ? actionsGroup.bookingActions : actionsGroup.cancelable 
+        modalActionsGroup: actGrp
       }
       instance.configuration = modalData;
 
       this.inspDialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
+        debugger;
         if(action === inspectorActions.accept){
           this.acceptBooking(evt.id);
           this.inspDialogRef.close();
@@ -326,10 +337,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   rejectBooking(id: string){
+    debugger;
     this.tblService.rejectBooking(id);
   }
 
   cancelBooking(id: string){
+    debugger;
     this.tblService.cancelBooking(id);
 
   }
