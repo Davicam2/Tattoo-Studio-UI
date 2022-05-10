@@ -67,7 +67,6 @@
         "BOOKING_FORM_SUCCESS":{
             "title":"<Booking Request Success Title>",
             "message": "<Overriden message maybe>"
-
         },
         "BOOKING_FORM_FAILURE":{
             "title":"<Booking Form Failure Title>",

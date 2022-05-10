@@ -65,9 +65,12 @@
     },
     "MODAL_CONFIGS":{
         "BOOKING_FORM_SUCCESS":{
-            "title":"<Booking Request Success Title>",
-            "message": "<injected message maybe>"
-
+            "title":"Request submitted!",
+            "message": "Your artist will review the booking request and respond ASAP"
+        },
+        "BOOKING_FORM_FAILURE":{
+            "title":"<Booking Form Failure Title>",
+            "message":"<Overridden Message Maybe"
         },
         "LOGIN":{
             "title":"<Admin Login Title>",
