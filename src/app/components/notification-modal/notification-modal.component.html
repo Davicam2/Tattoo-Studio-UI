@@ -21,6 +21,10 @@
             <ng-container *ngTemplateOutlet="timeslotSelect"></ng-container>
         </div>
 
+        <div *ngIf="configuration.modalSetting === 'confirmation'">
+            <ng-continer *ngTemplateOutlet="confirmation"></ng-continer>
+        </div>
+
     </div>
 </div>
 <!--------TEMPLATES------------->
@@ -107,6 +111,21 @@
                 </mat-select>
             </mat-form-field>
             <button mat-raised-button color="primary" (click)="close()">Select Slot</button>
+        </div>
+    </section>
+</ng-template>
+<!---------------------------------->
+<ng-template #confirmation>
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content">
+        {{configuration.modalMessage}}
+    </section>
+    <section>
+        <div class="modal-actions">
+            <button mat-raised-button color="primary" (click)="confirmButton('accept')">yes</button>
+            <button mat-raised-button color="secondary" (click)="confirmButton('cancel')">no</button>
         </div>
     </section>
 </ng-template>

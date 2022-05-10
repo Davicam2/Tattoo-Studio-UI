@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 export class NotificationModalComponent implements OnInit{
 
   @Input() configuration: modalConfig;
+  userActions = new EventEmitter();
 
   subscriptions = new Subscription();
 
@@ -45,7 +46,6 @@ export class NotificationModalComponent implements OnInit{
     }else{
       this.dialogRef.close();
     }
-    
   }
 
   navigateTo(url: string){
@@ -56,6 +56,9 @@ export class NotificationModalComponent implements OnInit{
   tryLogin(){
     this.userSvc.checkForUser(this.loginValues.userName, this.loginValues.pass)
     this.close();
+  }
+  confirmButton(selection: string){
+    this.userActions.emit(selection);
   }
 
   
@@ -75,6 +78,7 @@ export const modalContent = {
   inspectBooking: 'inspectBooking',
   errorMessage: 'errorMessage',
   paymentResponse: 'paymentResponse',
-  timeslotSelect: 'timeslotSelect'
+  timeslotSelect: 'timeslotSelect',
+  confirmation: 'confirmation'
 
 }

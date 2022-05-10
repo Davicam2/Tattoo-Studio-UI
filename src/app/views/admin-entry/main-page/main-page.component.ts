@@ -290,13 +290,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
       instance.configuration = modalData;
 
       this.inspDialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
-        debugger;
+      
         if(action === inspectorActions.accept){
           this.acceptBooking(evt.id);
           this.inspDialogRef.close();
         }else if( action === inspectorActions.reject){
           this.rejectBooking(evt.id);
-          this.inspDialogRef.close();
         }else if( action === inspectorActions.rfi){
           //TODO: initiate rfi email builder
         } else if( action === inspectorActions.cancel){
@@ -337,13 +336,54 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   rejectBooking(id: string){
-    debugger;
-    this.tblService.rejectBooking(id);
+   
+    let inspDialogRef = this.matDialog.open(NotificationModalComponent);
+    let instance = inspDialogRef.componentInstance;
+    let config: modalConfig = {
+      title: "Please Confirm",
+      modalMessage: "Are you sure you want to reject?",
+      modalSetting: "confirmation",
+    }
+    instance.configuration = config;
+    instance.userActions.subscribe((action: string) => {
+      if(action == 'accept'){
+        this.tblService.rejectBooking(id);
+        if(this.inspDialogRef){
+          this.inspDialogRef.close();
+        }
+        instance.close();
+      }
+      if(action == 'cancel'){
+        instance.close()
+      }
+    })
+
+    
   }
 
   cancelBooking(id: string){
-    debugger;
-    this.tblService.cancelBooking(id);
+    let inspDialogRef = this.matDialog.open(NotificationModalComponent);
+    let instance = inspDialogRef.componentInstance;
+    let config:modalConfig = {
+      title: 'Please Confirm',
+      modalMessage: 'Are you sure you want to cancel?',
+      modalSetting: 'confirmation',
+
+    }
+    instance.configuration = config;
+    instance.userActions.subscribe((action: string) => {
+      if(action == 'accept'){
+        this.tblService.cancelBooking(id);
+        if(this.inspDialogRef){
+          this.inspDialogRef.close();
+        }
+        instance.close();
+      }
+      if(action == 'cancel'){
+        instance.close()
+      }
+    })
+    
 
   }
 
