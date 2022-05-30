@@ -69,6 +69,7 @@ export class BookingConfirmPageComponent implements OnInit {
 
 
   ngOnInit(): void {
+    debugger
     this.subscriptions.add(
       combineLatest(
         this.bookingSvc.dataRestrictedBookings$,

@@ -276,7 +276,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         actGrp = actionsGroup.bookingActions;
       } else if (selectedBooking.endDate < new Date()){
         actGrp = actionsGroup.none
-      } else if(selectedBooking.status == 'booked'){
+      } else if(selectedBooking.status == 'booked' || selectedBooking.status == 'accepted'){
         actGrp = actionsGroup.cancelable
       } 
      

@@ -86,7 +86,7 @@
         "prod": false
     },
     "STRIPE_SETTINGS":{
-        "publishable_key": "pk_live_51JJl3jLlJEov7K7AdgOREQ4hwYWUwqzt89nFNRbHWQFNsDM0wbWdY00TsVNeWIBWdyH8raLGFHQ7DMbeSLBzMabZ00qVrETUR2"
+        "publishable_key": "pk_test_51JJl3jLlJEov7K7AyyqlQbscQDv6zVkjqERECcZ5bmckAahdfxYCqLxQtQ5JTmn6uYLmuPftZEIdOeBAM2nzWKAW00sQxLYldQ"
     },
     "CALENDAR_SETTINGS":{
         "showAdminEventVariable": "booked",
