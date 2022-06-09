@@ -42,6 +42,7 @@
                     type="tel"
                     formControlName="phoneNumber"
                     >
+                    <mat-error *ngIf="_errors.hasError && _errors.type == 'invalidPhone'">{{_errors.message}}</mat-error>
                 </mat-form-field>
             </section>
             <section>

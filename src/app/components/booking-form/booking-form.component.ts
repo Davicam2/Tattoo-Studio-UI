@@ -208,6 +208,19 @@ export class BookingFormComponent implements OnInit, OnDestroy {
             emConf.setErrors(null);
           }
         }
+      ).add(
+        this.bookingForm.get('guestInfo.phoneNumber').valueChanges.subscribe(
+          userInp => {
+            if( this.bookingForm.get('guestInfo.phoneNumber').hasError && this.bookingForm.get('guestInfo.phoneNumber').dirty){
+              console.log("phone number error");
+              this._errors = {
+                hasError: true,
+                type: 'invalidPhone',
+                message: 'incomplete phone'
+              }
+            }
+          }
+        )
       )
     )
     
