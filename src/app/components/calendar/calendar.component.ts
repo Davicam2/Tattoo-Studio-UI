@@ -65,8 +65,8 @@ export class CalendarComponent implements OnInit, OnChanges {
    
     
   }
+
   ngOnChanges(changes: SimpleChanges){
-    
     if(changes.events){
       this.synchCalendarEventUpdates();
       console.log(this.events)
@@ -104,6 +104,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       }
     }
   }
+  
   setHeaderButtons(){
 
     let dateGroup = '';

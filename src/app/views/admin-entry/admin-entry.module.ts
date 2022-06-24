@@ -8,6 +8,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {AdminRoutingModule} from './admin-entry-routing.module';
 import { MainPageComponent } from './main-page/main-page.component';
 import { AppComponentsModule } from '../../components/components.module';
+import { AngularMaterialModule } from 'src/app/material.module';
 
 
 
@@ -18,7 +19,8 @@ import { AppComponentsModule } from '../../components/components.module';
     AdminRoutingModule,
     AppComponentsModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    AngularMaterialModule
   ]
 })
 export class AdminEntryModule { }

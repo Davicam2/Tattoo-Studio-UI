@@ -35,6 +35,16 @@
             ></app-calendar>
         </div>
     </section>
-    
 </div>
+
+<mat-drawer-container [hasBackdrop]="'true'">
+    <mat-drawer #drawer [mode]="'over'">
+        <app-admin-settings>
+
+        </app-admin-settings>
+    </mat-drawer>
+    <button (click)="drawer.toggle()">Open Settings</button>
+</mat-drawer-container>
+
+
  <app-loading-screen></app-loading-screen>

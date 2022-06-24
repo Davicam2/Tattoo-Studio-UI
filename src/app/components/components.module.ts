@@ -22,6 +22,7 @@ import {
   NotificationModalComponent,
   BookingActionModalComponent,
   StripeProcessorComponent,
+  AdminSettingsComponent
 } from './index';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -30,6 +31,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { ImageSliderModalComponent } from './image-slider-modal/image-slider-modal.component';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -53,7 +55,8 @@ FullCalendarModule.registerPlugins([
     BookingActionModalComponent, 
     StripeProcessorComponent, 
     ImageSliderModalComponent, 
-    LoadingScreenComponent
+    LoadingScreenComponent, 
+    AdminSettingsComponent
       
 
   ],
@@ -81,7 +84,8 @@ FullCalendarModule.registerPlugins([
     BookingActionModalComponent,
     StripeProcessorComponent,
     ImageSliderModalComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    AdminSettingsComponent
     
   ]
 })
