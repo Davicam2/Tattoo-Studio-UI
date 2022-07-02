@@ -26,6 +26,8 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   @Output() eventSelect = new EventEmitter<{id:string, type:string}>();
   @Output() dateSelect = new EventEmitter<{allDay: boolean, start: Date, end: Date, view: any}>();
+  @Output() dateMove = new EventEmitter<{id:string, start:Date, end:Date}>();
+
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   
@@ -56,7 +58,8 @@ export class CalendarComponent implements OnInit, OnChanges {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     eventOverlap: false,
-    longPressDelay: 300
+    longPressDelay: 300,
+    eventDrop: this.handleEventDrop.bind(this)
   };
 
   constructor() { }
@@ -138,12 +141,16 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   
   handleEventClick(clickInfo: EventClickArg) {
-   
     this.eventSelect.emit({id:clickInfo.event.id,type: clickInfo.event._def.extendedProps.type });
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
+  }
+
+  handleEventDrop(event){
+    console.log(event);
+    console.log(event.event._def.publicId);
   }
 
   restrictDateSelections(selectedDate){
