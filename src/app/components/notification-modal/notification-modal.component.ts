@@ -60,8 +60,6 @@ export class NotificationModalComponent implements OnInit{
   confirmButton(selection: string){
     this.userActions.emit(selection);
   }
-
-  
 }
 
 export interface modalConfig{
@@ -79,6 +77,7 @@ export const modalContent = {
   errorMessage: 'errorMessage',
   paymentResponse: 'paymentResponse',
   timeslotSelect: 'timeslotSelect',
-  confirmation: 'confirmation'
+  confirmation: 'confirmation',
+  POS: 'POS'
 
 }

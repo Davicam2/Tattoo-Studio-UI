@@ -56,7 +56,9 @@ export const inspectorActions = {
   rfi: 'RFI',
   accept: 'accept',
   reject: 'reject',
-  cancel: 'cancel'
+  cancel: 'cancel',
+  makePayment: 'pay',
+  clearTab: 'clear'
 }
 export enum actionsGroup{
   bookingActions,

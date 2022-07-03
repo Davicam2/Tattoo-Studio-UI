@@ -84,5 +84,6 @@ export class StripeProcessorComponent implements OnInit {
 export interface stripePurchaseDetails {
   amount: (string | number),
   bookedDate: Date,
+  amountType: (string | number)
 
 }

@@ -16,9 +16,9 @@ export class StripeService {
     private rApi: RestService
   ) { }
 
-  requestPayment(paymentToken: any, bookingId: string){
+  requestPayment(paymentToken: any, bookingId: string, paymentType: string){
     this.rApi.makePostRequest( this.appConfig.getServerUrl() + this.appConfig.getEndpoints().STRIPE.requestPayment,
-    {paymentToken, bookingId}
+    {paymentToken, bookingId, paymentType}
     ).subscribe(
       res => {
         let response: apiResponse = {
@@ -26,6 +26,14 @@ export class StripeService {
           origin: this.appConfig.getEndpoints().STRIPE.requestPayment,
           isError: false,
           content: res
+        }
+        this.requestPaymentResponse$.next(response);
+      }, err => {
+        let response: apiResponse = {
+          type: 'post',
+          origin: this.appConfig.getEndpoints().STRIPE.requestPayment,
+          isError: true,
+          content: err
         }
         this.requestPaymentResponse$.next(response);
       }

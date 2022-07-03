@@ -39,7 +39,8 @@ export class BookingConfirmPageComponent implements OnInit {
 
   stripeBookingDetails: stripePurchaseDetails = {
     amount: null,
-    bookedDate: null
+    bookedDate: null,
+    amountType: null
   }
 
   _calendarOptions: ICalendarOptions = {
@@ -119,6 +120,7 @@ export class BookingConfirmPageComponent implements OnInit {
           console.log(res);
           this.userBooking = res.content;
           this.stripeBookingDetails.amount = this.userBooking.depositAmount;
+          this.stripeBookingDetails.amountType = "Deposit Amount";
 
           this.pageConfig.showPaymentProcessor = !this.userBooking.depositPaid;
           this.pageConfig.showUpdateDateButton = !this.pageConfig.showPaymentProcessor;
@@ -281,7 +283,7 @@ export class BookingConfirmPageComponent implements OnInit {
     // check for date selection
     
     if(this.userDateSelection){
-      this.stripeService.requestPayment(token, this.bookingConfirmationId);
+      this.stripeService.requestPayment(token, this.bookingConfirmationId, "deposit");
     }
     
   }

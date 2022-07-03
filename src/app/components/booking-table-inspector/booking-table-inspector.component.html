@@ -52,6 +52,8 @@
                 </div>
                 <div class="modal-actions" *ngIf="configuration?.modalActionsGroup === _actionGroupSetting.cancelable">
                     <button (click)="buttonClickAction(_inspectorActions.cancel)">Reschedule</button>
+                    <button (click)="buttonClickAction(_inspectorActions.makePayment)">Make Payment</button>
+                    <button (click)="buttonClickAction(_inspectorActions.clearTab)">Clear Payment</button>
                 </div>
             </div>
         </section>

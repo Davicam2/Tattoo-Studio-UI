@@ -16,12 +16,17 @@ import {
   NotificationModalComponent, 
   modalConfig, 
   imageGroupSelect, 
-  bookingTableActionButtonConf} from 'src/app/components';
+  bookingTableActionButtonConf,
+  StripeProcessorComponent,
+  stripePurchaseDetails
+} from 'src/app/components';
 import { ImageSliderModalComponent } from 'src/app/components/image-slider-modal/image-slider-modal.component';
 import { bookingPMap, Ibooking, IReservation } from 'src/app/interfaces';
 import { BookingTableService } from 'src/app/services/booking-table.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { RuntimeConfigService } from 'src/app/services/runtime-config.service';
+import { StripeService } from 'src/app/services/stripe.service';
+
 
 
 
@@ -74,7 +79,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private tblService: BookingTableService,
     private appConfig: RuntimeConfigService,
     private matDialog: MatDialog,
-    private resSvc: ReservationService
+    private resSvc: ReservationService,
+    private stripeService: StripeService
     ) { }
 
   ngOnInit(): void {
@@ -162,7 +168,50 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this._calendarEvents = this._calendarEvents.filter( item => item.id !== res.content.id);
         }
       )
+    ).add(
+
+      this.stripeService.requestPaymentResponse$.subscribe(
+        res => {
+          console.log(res);
+          //alert('payment request Recieved');
+          let dialogRef = this.matDialog.open(NotificationModalComponent);
+          let instance = dialogRef.componentInstance;
+          let modalData: modalConfig 
+
+          //TODO: abstract to notification modal function
+          if(res.content.service){
+            modalData = {
+              title: 'Point of Sale Transaction Confirmation',
+              modalSetting: modalContent.POS,
+              modalMessage: 'Payment Recieved',
+              contentBody: res
+            } 
+          } else if(res.isError){
+            modalData = {
+              title: 'Transaction Error',
+              modalSetting: modalContent.errorMessage,
+              modalMessage: 'Payment alread recieved in full',
+              contentBody: res
+            } 
+          } else{
+            modalData = {
+              title: 'Payment Confirmation',
+              modalSetting: modalContent.paymentResponse,
+              modalMessage: 'Payment Recieved',
+              contentBody: res
+            } 
+          }
+          
+          
+          instance.configuration = modalData;
+          dialogRef.afterClosed().subscribe(() => {
+            this.matDialog.closeAll()
+          })
+          
+        }
+      )
     )
+
   }
 
   tableViewChange(){
@@ -291,15 +340,23 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
       this.inspDialogRef.componentInstance.onButtonAction.subscribe((action: string) => {
       
+        console.log(action)
         if(action === inspectorActions.accept){
-          this.acceptBooking(evt.id);
+          this.acceptBooking(selectedBooking.id);
           this.inspDialogRef.close();
         }else if( action === inspectorActions.reject){
-          this.rejectBooking(evt.id);
+          this.rejectBooking(selectedBooking.id);
         }else if( action === inspectorActions.rfi){
           //TODO: initiate rfi email builder
         } else if( action === inspectorActions.cancel){
-          this.cancelBooking(evt.id);
+          this.cancelBooking(selectedBooking.id);
+        } else if( action === inspectorActions.makePayment){
+          //TODO: ask for final total and update booking, then open stripe processor.
+          this.stripeInstance(selectedBooking.id,selectedBooking.cost, selectedBooking.startDate);
+        } else if(action === inspectorActions.clearTab){
+          //TODO: update booking to 0 cost
+          this.clearPayment(selectedBooking.id)
+          
         }
       })
 
@@ -335,6 +392,23 @@ export class MainPageComponent implements OnInit, OnDestroy {
     })
   }
 
+  stripeInstance(id, cost, date){
+    let dialogRef = this.matDialog.open(StripeProcessorComponent);
+    let instance = dialogRef.componentInstance;
+    let config:stripePurchaseDetails = {
+      amount: cost,
+      bookedDate: date,
+      amountType: "Tattoo Cost"
+    }
+    instance.bookingDetails = config;
+
+    dialogRef.componentInstance.tokenGenerated.subscribe((token) => {
+      this.stripeService.requestPayment(token, id, "bill");
+      
+    })
+
+  }
+
   rejectBooking(id: string){
    
     let inspDialogRef = this.matDialog.open(NotificationModalComponent);
@@ -361,6 +435,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     
   }
 
+  //TODO: abstract (cancelBooking, clearPayment)
   cancelBooking(id: string){
     let inspDialogRef = this.matDialog.open(NotificationModalComponent);
     let instance = inspDialogRef.componentInstance;
@@ -383,8 +458,31 @@ export class MainPageComponent implements OnInit, OnDestroy {
         instance.close()
       }
     })
-    
+  }
 
+  
+  clearPayment(id: string){
+    let inspDialogRef = this.matDialog.open(NotificationModalComponent);
+    let instance = inspDialogRef.componentInstance;
+    let config:modalConfig = {
+      title: 'Please Confirm',
+      modalMessage: 'In person transaction',
+      modalSetting: 'confirmation',
+
+    }
+    instance.configuration = config;
+    instance.userActions.subscribe((action: string) => {
+      if(action == 'accept'){
+        this.stripeService.requestPayment(null , id, inspectorActions.clearTab);
+        if(this.inspDialogRef){
+          this.inspDialogRef.close();
+        }
+        instance.close();
+      }
+      if(action == 'cancel'){
+        instance.close()
+      }
+    })
   }
 
   private createCalendarEvts( bookings?: Array<Ibooking>, reservations?: Array<IReservation>){
@@ -402,7 +500,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 title: `${booking.nameFirst} ${booking.nameLast}`,
                 id: booking.id,
                 type: 'booking',
-                color: 'blue'
+                color: '#007c1c'
               }
             )
           }
@@ -445,6 +543,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   calendarEventSelect(event){
+    console.log("button click")
     if(event.type === 'booking'){
       this.bookingAction({action:'selected', id:event.id})
     }else if (event.type === 'reservation'){

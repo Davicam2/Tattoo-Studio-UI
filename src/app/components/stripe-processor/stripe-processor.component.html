@@ -4,7 +4,7 @@
             <div class="payment-details">
                 <div >
                     <label>
-                        Deposit Amount:
+                        {{bookingDetails.amountType}}
                     </label>
                     <div *ngIf="bookingDetails.amount">
                         {{bookingDetails.amount/100 | currency}}

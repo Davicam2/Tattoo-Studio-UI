@@ -24,6 +24,9 @@
         <div *ngIf="configuration.modalSetting === 'confirmation'">
             <ng-continer *ngTemplateOutlet="confirmation"></ng-continer>
         </div>
+        <div *ngIf="configuration.modalSetting === 'POS'">
+            <ng-container *ngTemplateOutlet="POS"></ng-container>
+        </div>
 
     </div>
 </div>
@@ -84,7 +87,7 @@
             <ul>
                 <li>Charge Applied to Card Ending in: {{configuration.contentBody.content.cardLastFour}}</li>
                 <li>Amount: {{configuration.contentBody.content.amount/100 | currency}} </li>
-                <li>Receipt: <a href="{{configuration.contentBody.content.receipt}}" target="_blank">Payment Receipt</a></li>
+                <li>Receipt: <a href="{{configuration.contentBody.content.receipt_url}}" target="_blank">Payment Receipt</a></li>
             </ul>
             <p>A confirmation email has been generated and will be delivered shortly</p>
         </div>
@@ -127,5 +130,14 @@
             <button mat-raised-button color="primary" (click)="confirmButton('accept')">yes</button>
             <button mat-raised-button color="secondary" (click)="confirmButton('cancel')">no</button>
         </div>
+    </section>
+</ng-template>
+<!---------------------------------->
+<ng-template #POS>
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content">
+        {{configuration.modalMessage}}
     </section>
 </ng-template>
