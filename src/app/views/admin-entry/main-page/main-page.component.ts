@@ -76,7 +76,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private tblService: BookingTableService,
+    private bookingService: BookingTableService,
     private appConfig: RuntimeConfigService,
     private matDialog: MatDialog,
     private resSvc: ReservationService,
@@ -84,14 +84,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit(): void {
-    this.tableHeaders = this.tblService.getTableHeaders();
-    this.tblService.getBookings();
+    this.tableHeaders = this.bookingService.getTableHeaders();
+    this.bookingService.getBookings();
     this.resSvc.getReservationList();
 
    
     
     this.subscriptions.add(
-      this.tblService.bookings$.subscribe(
+      this.bookingService.bookings$.subscribe(
         data => {
           if(!data) return;
           this.bookings = data.content;
@@ -99,9 +99,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
         }
       )
     ).add(
-      this.tblService.bookingUpdateResponse$.subscribe(
+      this.bookingService.bookingUpdateResponse$.subscribe(
         data => { 
-          this.tblService.getBookings();
+          this.bookingService.getBookings();
           //this.eventControl(data);
           // if( data.origin === this.tblService.apiOrigins.acceptBooking){
           //   this.tblService.getBookings();
@@ -130,7 +130,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     ).add(
       combineLatest(
         this.resSvc.reservedDateList$,
-        this.tblService.bookings$
+        this.bookingService.bookings$
       ).subscribe(
         ([resvs, books]) => {
           if(resvs && books){
@@ -140,7 +140,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         }
       )
     ).add(
-      this.tblService.bookingImageLinks$.subscribe(
+      this.bookingService.bookingImageLinks$.subscribe(
         res => {
           this.bookingInspectorImgs = {
             body: res.content.bodyUrls,
@@ -153,7 +153,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         }
       )
     ).add(
-      this.tblService.cancelBookingResponse$.subscribe(
+      this.bookingService.cancelBookingResponse$.subscribe(
         res => {
           
           let dialogRef = this.matDialog.open(NotificationModalComponent);
@@ -208,6 +208,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
             this.matDialog.closeAll()
           })
           
+        }
+      )
+    ).add(
+      this.bookingService.updateBooking$.subscribe(
+        res => {
+          if(!res.isError){
+            this.stripeInstance(res.content.id, res.content.cost, res.content.date);
+          }
         }
       )
     )
@@ -304,7 +312,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     } else if(evt.action === 'selected'){
       
       //TODO: complete this line of logic once security is fixed
-      this.tblService.getBookingImageLinks(evt.id);
+      this.bookingService.getBookingImageLinks(evt.id);
 
       this.inspDialogRef = this.matDialog.open(BookingTableInspectorComponent);
       let instance = this.inspDialogRef.componentInstance;
@@ -351,12 +359,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
         } else if( action === inspectorActions.cancel){
           this.cancelBooking(selectedBooking.id);
         } else if( action === inspectorActions.makePayment){
-          //TODO: ask for final total and update booking, then open stripe processor.
-          this.stripeInstance(selectedBooking.id,selectedBooking.cost, selectedBooking.startDate);
+          this.confirmTotalDialog(selectedBooking.id,selectedBooking.cost,selectedBooking.startDate);
         } else if(action === inspectorActions.clearTab){
-          //TODO: update booking to 0 cost
           this.clearPayment(selectedBooking.id)
-          
         }
       })
 
@@ -386,7 +391,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.onButtonAction.subscribe((submission) => {
       if(submission.action === 'accept'){
-        this.tblService.acceptBooking(id,submission.data)
+        this.bookingService.acceptBooking(id,submission.data)
         dialogRef.close();
       }
     })
@@ -404,9 +409,34 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.tokenGenerated.subscribe((token) => {
       this.stripeService.requestPayment(token, id, "bill");
-      
     })
+  }
 
+  confirmTotalDialog(id, cost, date){
+    let dialogRef = this.matDialog.open(NotificationModalComponent);
+    let instance = dialogRef.componentInstance;
+    let config: modalConfig = {
+      title: "Please Confirm or update",
+      modalMessage: "Please update or confirm current total cost",
+      modalSetting: modalContent.adjustTotal,
+      contentBody: {cost: cost}
+    }
+    instance.configuration = config;
+
+    instance.userActions.subscribe((action: any) => {
+      console.log('update cost', action)
+      if(action == 'keep'){
+        
+        
+        this.stripeInstance(id, cost, date);
+        instance.close();
+      }else {
+        //TODO: call update cost api
+        this.bookingService.updateBookingProperty(id,'cost',action.newTotal * 100);
+        instance.close()
+      }
+    })
+    
   }
 
   rejectBooking(id: string){
@@ -416,12 +446,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
     let config: modalConfig = {
       title: "Please Confirm",
       modalMessage: "Are you sure you want to reject?",
-      modalSetting: "confirmation",
+      modalSetting: modalContent.confirmation,
     }
     instance.configuration = config;
     instance.userActions.subscribe((action: string) => {
       if(action == 'accept'){
-        this.tblService.rejectBooking(id);
+        this.bookingService.rejectBooking(id);
         if(this.inspDialogRef){
           this.inspDialogRef.close();
         }
@@ -448,7 +478,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     instance.configuration = config;
     instance.userActions.subscribe((action: string) => {
       if(action == 'accept'){
-        this.tblService.cancelBooking(id);
+        this.bookingService.cancelBooking(id);
         if(this.inspDialogRef){
           this.inspDialogRef.close();
         }

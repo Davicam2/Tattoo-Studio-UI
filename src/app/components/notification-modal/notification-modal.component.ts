@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import {  Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { skip } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -17,6 +17,8 @@ export class NotificationModalComponent implements OnInit{
 
   subscriptions = new Subscription();
 
+  updateCost: FormGroup;
+
   loginValues = {
     userName:'',
     pass: ''
@@ -30,13 +32,19 @@ export class NotificationModalComponent implements OnInit{
   constructor( 
     public dialogRef:MatDialogRef<NotificationModalComponent>,
     private _router: Router,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private fb: FormBuilder
     
     ) { }
 
   ngOnInit(): void {
     
-    console.log(this.configuration.contentBody)
+    this.updateCost = this.fb.group({
+      oldTotal: [this.configuration.contentBody.cost / 100],//booking cost inject
+      newTotal: [0]
+    })
+
+    console.log(this.configuration)
   }
 
   close(){
@@ -58,7 +66,11 @@ export class NotificationModalComponent implements OnInit{
     this.close();
   }
   confirmButton(selection: string){
-    this.userActions.emit(selection);
+    if(selection === 'updateCost'){
+      this.userActions.emit(this.updateCost.value);
+    } else{
+      this.userActions.emit(selection);
+    }
   }
 }
 
@@ -78,6 +90,7 @@ export const modalContent = {
   paymentResponse: 'paymentResponse',
   timeslotSelect: 'timeslotSelect',
   confirmation: 'confirmation',
-  POS: 'POS'
+  POS: 'POS',
+  adjustTotal: 'adjustTotal'
 
 }

@@ -27,6 +27,9 @@
         <div *ngIf="configuration.modalSetting === 'POS'">
             <ng-container *ngTemplateOutlet="POS"></ng-container>
         </div>
+        <div *ngIf="configuration.modalSetting === 'adjustTotal'">
+            <ng-container *ngTemplateOutlet="adjTotal"></ng-container>
+        </div>
 
     </div>
 </div>
@@ -140,4 +143,32 @@
     <section class="modal-content">
         {{configuration.modalMessage}}
     </section>
+</ng-template>
+<!---------------------------------->
+<ng-template #adjTotal> 
+    <section class="modal-title">
+        {{configuration.title}}
+    </section>
+    <section class="modal-content">
+        {{configuration.modalMessage}}
+    </section>
+    <section>
+        <form [formGroup]="updateCost">
+            <section>
+                <mat-form-field apperance="fill">
+                    <mat-label>Current Total</mat-label>
+                    <input matInput type="number" formControlName="oldTotal">
+                </mat-form-field>
+                <mat-form-field apperance="fill">
+                    <mat-label>Desired Total</mat-label>
+                    <input matInput type="number" formControlName="newTotal">
+                </mat-form-field>
+            </section>
+            <div class="modal-actions">
+                <button mat-raised-button type="submit" color="primary" (click)="confirmButton('updateCost')">Update Cost</button>
+                <button mat-raised-button type="reset" color="secondary" (click)="confirmButton('keep')">Keep Total</button>
+            </div>
+        </form>
+    </section>
+   
 </ng-template>

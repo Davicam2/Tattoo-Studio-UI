@@ -16,7 +16,8 @@
                 "getBooking": "/booking/booking",
                 "getSecureBookings": "/booking/secure-bookings",
                 "getBookingImages": "/booking/image-links",
-                "cancelBooking": "/booking/cancel"
+                "cancelBooking": "/booking/cancel",
+                "updateProperty": "/booking/update"
             },
             "USER":{
                 "checkUserLogin": "/user/verify"

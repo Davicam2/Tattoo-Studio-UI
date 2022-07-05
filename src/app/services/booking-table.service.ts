@@ -18,6 +18,7 @@ export class BookingTableService {
   bookingUpdateResponse$: Subject<apiResponse> = new Subject();
   cancelBookingResponse$: Subject<apiResponse> = new Subject();
   updateBookingDateResponse$: Subject<apiResponse> = new Subject();
+  updateBooking$: Subject<apiResponse> = new Subject();
 
   bookedDates$: BehaviorSubject<apiResponse> = new BehaviorSubject(null)
   bookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
@@ -25,7 +26,7 @@ export class BookingTableService {
   publicUserBooking$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
   dataRestrictedBookings$: BehaviorSubject<apiResponse> = new BehaviorSubject(null);
 
-  bookingImageLinks$: Subject<apiResponse> = new Subject()
+  bookingImageLinks$: Subject<apiResponse> = new Subject();
 
   constructor(
     private appConfig: RuntimeConfigService,
@@ -290,6 +291,22 @@ export class BookingTableService {
     )
   }
 
+  updateBookingProperty(id:string, key: any, value: any){
+    this.rApi.makeUpdatePutRequest(this.serverUrl + this.uris.BOOKING.updateProperty, {id,key,value}).subscribe(
+      res => {
+        let response: apiResponse ={
+          type: 'PUT',
+          origin: this.apiOrigins.updateBooking,
+          isError: false,
+          content: res
+        }
+        console.log('update booking response', response);
+        this.updateBooking$.next(response);
+      }
+    )
+
+  }
+
 
 
   private apiOrigins = {
@@ -302,7 +319,8 @@ export class BookingTableService {
     updateBookingDate: 'updateBookingDate',
     secureBookings: 'secureBookings',
     imageLinks: 'imageLinks',
-    cancelBooking: 'cancelBooking'
+    cancelBooking: 'cancelBooking',
+    updateBooking: 'updateBooking'
   
   }
 }

@@ -17,6 +17,7 @@ export interface IAppConfig extends IUserProfile, ITooltips, IEnvironment, IModa
                 getSecureBookings: string,
                 getBookingImages: string,
                 cancelBooking: string,
+                updateProperty: string
             },
             USER:{
                 checkUserLogin: string,

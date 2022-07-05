@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class BookingActionModalComponent implements OnInit {
 
-  adminActionsFm: FormGroup
+  adminActionsFm: FormGroup;
   subscriptions = new Subscription();
 
   @Input() configuration: IActionModalConfig;
