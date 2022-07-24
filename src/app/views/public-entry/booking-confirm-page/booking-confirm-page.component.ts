@@ -70,7 +70,6 @@ export class BookingConfirmPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    debugger
     this.subscriptions.add(
       combineLatest(
         this.bookingSvc.dataRestrictedBookings$,
@@ -121,7 +120,6 @@ export class BookingConfirmPageComponent implements OnInit {
           this.userBooking = res.content;
           this.stripeBookingDetails.amount = this.userBooking.depositAmount;
           this.stripeBookingDetails.amountType = "Deposit Amount";
-
           this.pageConfig.showPaymentProcessor = !this.userBooking.depositPaid;
           this.pageConfig.showUpdateDateButton = !this.pageConfig.showPaymentProcessor;
           //if(this.userBooking.depositPaid && this.userBooking.status == 'accepted')
@@ -224,16 +222,16 @@ export class BookingConfirmPageComponent implements OnInit {
       return;
     } else if(count == 1 && !this.userBooking.allDay){
       if(new Date(halfDayEvt.start).getHours() < 12){
-        this.generateCalendarEvent(evt,'PM Booking', 'blue','pm');
+        this.generateCalendarEvent(evt,'PM Booking', '#007c1c','pm');
       } else{
-        this.generateCalendarEvent(evt, 'AM Booking', 'blue','am');
+        this.generateCalendarEvent(evt, 'AM Booking', '#007c1c','am');
       }
       return;
     }
    
     let userTimeSelect = '';
     if(this.userBooking.allDay){
-      this.generateCalendarEvent(evt, 'All Day Booking', 'blue', 'allDay');
+      this.generateCalendarEvent(evt, 'All Day Booking', '#007c1c', 'allDay');
     }else{
       let dialogRef = this.matDialog.open(NotificationModalComponent);
       let modalData: modalConfig = {
@@ -248,7 +246,7 @@ export class BookingConfirmPageComponent implements OnInit {
         timeSlot => {
           if(!timeSlot) return;
           userTimeSelect = timeSlot;
-          this.generateCalendarEvent(evt, 'user booking', 'blue', userTimeSelect);
+          this.generateCalendarEvent(evt, 'user booking', '#007c1c', userTimeSelect);
         }
       )
     }

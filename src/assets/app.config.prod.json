@@ -67,7 +67,7 @@
     "MODAL_CONFIGS":{
         "BOOKING_FORM_SUCCESS":{
             "title":"Request submitted!",
-            "message": "Your artist will review the booking request and respond ASAP"
+            "message": "The artist will review your request within 5 days."
         },
         "BOOKING_FORM_FAILURE":{
             "title":"<Booking Form Failure Title>",
