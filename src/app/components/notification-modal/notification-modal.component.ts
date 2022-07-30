@@ -39,11 +39,14 @@ export class NotificationModalComponent implements OnInit{
 
   ngOnInit(): void {
     
-    this.updateCost = this.fb.group({
-      oldTotal: [this.configuration.contentBody.cost / 100],//booking cost inject
-      newTotal: [0]
-    })
-
+    if(this.configuration.contentBody.cost){
+      this.updateCost = this.fb.group({
+        oldTotal: [this.configuration.contentBody.cost / 100],//booking cost inject
+        newTotal: [0]
+      })
+    }
+    
+    
     console.log(this.configuration)
   }
 

@@ -329,9 +329,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
   
       //decide which button config for inspection modal (actions from modal)
       let actGrp = 0;
+      let yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1)
+
       if(selectedBooking.status == 'requested'){
         actGrp = actionsGroup.bookingActions;
-      } else if (selectedBooking.endDate < new Date()){
+      } else if (selectedBooking.endDate < yesterday){
         actGrp = actionsGroup.none
       } else if(selectedBooking.status == 'booked' || selectedBooking.status == 'accepted'){
         actGrp = actionsGroup.cancelable

@@ -88,7 +88,7 @@
     <section class="modal-content">
         <div class="payment-info">
             <ul>
-                <li>Charge Applied to Card Ending in: {{configuration.contentBody.content.cardLastFour}}</li>
+                <li>Charge Applied to Card Ending in: {{configuration.contentBody.content.source.last4}}</li>
                 <li>Amount: {{configuration.contentBody.content.amount/100 | currency}} </li>
                 <li>Receipt: <a href="{{configuration.contentBody.content.receipt_url}}" target="_blank">Payment Receipt</a></li>
             </ul>
