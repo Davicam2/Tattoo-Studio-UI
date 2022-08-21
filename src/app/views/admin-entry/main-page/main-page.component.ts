@@ -428,14 +428,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     instance.userActions.subscribe((action: any) => {
       console.log('update cost', action)
-      if(action == 'keep'){
-        
+ 
+      if(action.cost == (cost / 100)){
         
         this.stripeInstance(id, cost, date);
         instance.close();
       }else {
-        //TODO: call update cost api
-        this.bookingService.updateBookingProperty(id,'cost',action.newTotal * 100);
+        this.bookingService.updateBookingProperty(id,'cost',action.cost * 100);
         instance.close()
       }
     })

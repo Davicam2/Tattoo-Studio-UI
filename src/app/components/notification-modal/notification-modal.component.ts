@@ -41,12 +41,10 @@ export class NotificationModalComponent implements OnInit{
     
     if(this.configuration.contentBody.cost){
       this.updateCost = this.fb.group({
-        oldTotal: [this.configuration.contentBody.cost / 100],//booking cost inject
-        newTotal: [0]
+        cost: [this.configuration.contentBody.cost / 100]//booking cost inject
+        
       })
     }
-    
-    
     console.log(this.configuration)
   }
 
@@ -68,12 +66,8 @@ export class NotificationModalComponent implements OnInit{
     this.userSvc.checkForUser(this.loginValues.userName, this.loginValues.pass)
     this.close();
   }
-  confirmButton(selection: string){
-    if(selection === 'updateCost'){
+  confirmButton(){
       this.userActions.emit(this.updateCost.value);
-    } else{
-      this.userActions.emit(selection);
-    }
   }
 }
 
