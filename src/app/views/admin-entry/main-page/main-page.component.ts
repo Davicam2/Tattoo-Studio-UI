@@ -362,8 +362,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
         } else if( action === inspectorActions.cancel){
           this.cancelBooking(selectedBooking.id);
         } else if( action === inspectorActions.makePayment){
+          
           this.confirmTotalDialog(selectedBooking.id,selectedBooking.cost,selectedBooking.startDate);
         } else if(action === inspectorActions.clearTab){
+          
           this.clearPayment(selectedBooking.id)
         }
       })
@@ -467,7 +469,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     
   }
 
-  //TODO: abstract (cancelBooking, clearPayment)
+
   cancelBooking(id: string){
     let inspDialogRef = this.matDialog.open(NotificationModalComponent);
     let instance = inspDialogRef.componentInstance;
@@ -494,6 +496,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   
   clearPayment(id: string){
+   
     let inspDialogRef = this.matDialog.open(NotificationModalComponent);
     let instance = inspDialogRef.componentInstance;
     let config:modalConfig = {
@@ -505,6 +508,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     instance.configuration = config;
     instance.userActions.subscribe((action: string) => {
       if(action == 'accept'){
+        //this.bookingService.updateBookingProperty(id,'cost',0);
         this.stripeService.requestPayment(null , id, inspectorActions.clearTab);
         if(this.inspDialogRef){
           this.inspDialogRef.close();
@@ -519,7 +523,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   private createCalendarEvts( bookings?: Array<Ibooking>, reservations?: Array<IReservation>){
     let tempArr: Array<ICalendarEvent> = [];
-
     if(bookings){
       bookings.map(
         booking => {
@@ -532,7 +535,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 title: `${booking.nameFirst} ${booking.nameLast}`,
                 id: booking.id,
                 type: 'booking',
-                color: '#007c1c'
+                color: booking.finalPaid ? '#000' : '#007c1c' 
               }
             )
           }

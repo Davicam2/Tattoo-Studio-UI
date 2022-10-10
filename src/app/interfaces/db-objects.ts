@@ -18,6 +18,7 @@ export interface Ibooking{
     allDay: boolean
     depositAmount: number,
     depositPaid?: boolean,
+    finalPaid?: boolean,
     cost?: number
 }
 

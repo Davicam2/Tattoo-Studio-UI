@@ -37,15 +37,18 @@ export class NotificationModalComponent implements OnInit{
     
     ) { }
 
-  ngOnInit(): void {
-    
-    if(this.configuration.contentBody.cost){
-      this.updateCost = this.fb.group({
-        cost: [this.configuration.contentBody.cost / 100]//booking cost inject
+  ngOnInit(): void {    
+      if(this.configuration.contentBody){
+        if(this.configuration.contentBody.cost){
+          this.updateCost = this.fb.group({
+            cost: [this.configuration.contentBody.cost / 100]//booking cost inject
+          })
+        }
         
-      })
-    }
-    console.log(this.configuration)
+      }
+      console.log(this.configuration)
+    
+    
   }
 
   close(){
@@ -61,13 +64,25 @@ export class NotificationModalComponent implements OnInit{
     this._router.navigate([url]);
     this.close();
   }
+ 
 
   tryLogin(){
     this.userSvc.checkForUser(this.loginValues.userName, this.loginValues.pass)
     this.close();
   }
-  confirmButton(){
-      this.userActions.emit(this.updateCost.value);
+  confirmButton(action: string){
+    if(action == 'accept'){
+      if(this.updateCost){
+        this.userActions.emit(this.updateCost.value);
+      } else{
+        this.userActions.emit(action);
+      }
+    }
+    if(action == 'cancel'){
+      this.close();
+    }
+    
+    
   }
 }
 

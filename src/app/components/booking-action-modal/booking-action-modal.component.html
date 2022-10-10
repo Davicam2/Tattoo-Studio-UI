@@ -38,7 +38,7 @@
                         <textarea matInput formControlName="adminComments"></textarea>
                     </mat-form-field>
                     <section class="center-items">
-                        <button mat-button type="submit" >Accept Booking</button>
+                        <button mat-button type="submit" [disabled]="!adminActionsFm.valid" >Accept Booking</button>
                     </section>
                 </form>
                 
